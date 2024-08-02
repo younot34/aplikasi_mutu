@@ -1,0 +1,104 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>Tambah farmasi</h1>
+        </div>
+
+        <div class="section-body">
+
+            <div class="card">
+                <div class="card-header">
+                    <h4><i class="fas fa-exam"></i> Tambah farmasi</h4>
+                </div>
+
+                <div class="card-body">
+                    <form action="{{ route('farmasis.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+
+                        <div class="form-group">
+                            <label>Tanggal</label>
+                            <input type="datetime-local" name="waktu" value="<?= date('Y-m-d', time()); ?>" class="form-control @error('start') is-invalid @enderror">
+
+                            @error('waktu')
+                            <div class="invalid-feedback" style="display: block">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nama PX</label>
+                            <input type="text" name="nama_px" value="{{ old('nama_px') }}" class="form-control" >
+                            @error('nama_px')
+                            <div class="invalid-feedback" style="display: block">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>R/</label>
+                            <input type="number" name="r" value="{{ old('r') }}" class="form-control" >
+
+                            @error('r')
+                            <div class="invalid-feedback" style="display: block">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nama Obat</label>
+                            <input type="text" name="nama_obat" value="{{ old('nama_obat') }}" class="form-control" >
+                            @error('nama_obat')
+                            <div class="invalid-feedback" style="display: block">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Total Obat Fornas</label>
+                            <input type="number" name="total_obat_fornas" value="{{ old('total_obat_fornas') }}" class="form-control" >
+
+                            @error('total_obat_fornas')
+                            <div class="invalid-feedback" style="display: block">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Total Item</label>
+                            <input type="number" name="total_item" value="{{ old('total_item') }}" class="form-control" >
+
+                            @error('total_item')
+                            <div class="invalid-feedback" style="display: block">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        {{-- <livewire:question-checklist /> --}}
+
+
+                        <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i>
+                            SIMPAN</button>
+                        <button class="btn btn-light" type="button" wire:click="addFarmasiInput" wire:loading.attr="disabled">
+                            Tambah Input
+                        </button>
+                        <button class="btn btn-light" type="button" wire:click="addObatInput" wire:loading.attr="disabled">
+                            Tambah Obat
+                        </button>
+                        <button class="btn btn-warning btn-reset" type="reset"><i class="fa fa-redo"></i> RESET</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@stop
