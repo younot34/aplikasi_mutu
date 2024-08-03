@@ -223,7 +223,7 @@ class ImprsController extends Controller
     public function export(Request $request)
     {
         $bulan = $request->input('bulan');
-        return Excel::download(new ImprsExport($bulan), 'export.xlsx');
+        return Excel::download(new ImprsExport($bulan), 'export.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
 

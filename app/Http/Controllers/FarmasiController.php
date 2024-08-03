@@ -27,7 +27,7 @@ class FarmasiController extends Controller
 
    public function export(Request $request)
     {
-        return Excel::download(new FarmasiExport($request->input('bulan')), 'laporan-bulanan.xlsx');
+        return Excel::download(new FarmasiExport($request->input('bulan')), 'laporan-bulanan.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
     /**
