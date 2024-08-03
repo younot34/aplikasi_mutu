@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FarmasiController;
+use App\Http\Controllers\ImprsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
@@ -51,12 +52,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     //farmasi
     Route::resource('farmasis', FarmasiController::class);
+    //farmasi imprs
+    Route::resource('imprs', ImprsController::class);
 
-    //mutu
-    Route::resource('mutus', MutuController::class);
-    Route::get('/mutus/result/{score}/{user_id}/{mutu_id}', [MutuController::class, 'result'])->name('mutus.result');
-    Route::get('/mutus/start/{id}', [MutuController::class, 'start'])->name('mutus.start');
-    Route::get('mutus/karyawan/{id}', [MutuController::class, 'karyawan'])->name('mutus.karyawan');
-    Route::put('mutus/assign/{id}', [MutuController::class, 'assign'])->name('mutus.assign');
-    Route::get('/mutus/review/{user_id}/{mutu_id}', [MutuController::class, 'review'])->name('mutus.review');
 });

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFarmasisTable extends Migration
+class CreateImprsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateFarmasisTable extends Migration
      */
     public function up()
     {
-        Schema::create('farmasis', function (Blueprint $table) {
+        Schema::create('imprs', function (Blueprint $table) {
             $table->id();
             $table->date('waktu');
-            $table->string('nama_px');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateFarmasisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('farmasis');
+        Schema::dropIfExists('imprs');
     }
 }

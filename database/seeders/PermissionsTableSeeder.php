@@ -26,11 +26,11 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'farmasis.edit']);
         Permission::create(['name' => 'farmasis.delete']);
 
-        //permission for questions
-        // Permission::create(['name' => 'questions.index']);
-        // Permission::create(['name' => 'questions.create']);
-        // Permission::create(['name' => 'questions.edit']);
-        // Permission::create(['name' => 'questions.delete']);
+        //permission for imprs
+        Permission::create(['name' => 'imprs.index']);
+        Permission::create(['name' => 'imprs.create']);
+        Permission::create(['name' => 'imprs.edit']);
+        Permission::create(['name' => 'imprs.delete']);
 
          //permission for images
         //  Permission::create(['name' => 'images.index']);

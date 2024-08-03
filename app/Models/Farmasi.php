@@ -15,11 +15,11 @@ class Farmasi extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'waktu',
-        'nama_px',
-        'r',
-        'nama_obat',
-        'total_obat_fornas',
-        'total_item'
+        'waktu', 'nama_px'
     ];
+
+    public function obats()
+    {
+        return $this->hasMany(Obat::class);
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Farmasi;
 use App\Models\User;
+use App\Models\Obat;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -70,32 +71,41 @@ class FarmasiController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'waktu'             => 'required',
-            'nama_px'           => 'required',
-            'r'                 => 'required',
-            'nama_obat'         => 'required',
-            'total_obat_fornas' => 'required',
-            'total_item'        => 'required'
+        // Validasi input
+        $request->validate([
+            'waktu' => 'required|date',
+            'nama_px' => 'required|string',
+            'r' => 'array',
+            'nama_obat' => 'array',
+            'total_obat_fornas' => 'array',
+            'total_item' => 'array',
         ]);
 
-        $farmasi = Farmasi::create([
-            'waktu'                 => $request->input('waktu'),
-            'nama_px'               => $request->input('nama_px'),
-            'r'                     => $request->input('r'),
-            'nama_obat'             => $request->input('nama_obat'),
-            'total_obat_fornas'     => $request->input('total_obat_fornas'),
-            'total_item'            => $request->input('total_item'),
-            'created_by'            => Auth()->id()
-        ]);
+        try {
+            // Simpan data ke tabel farmasis
+            $farmasi = Farmasi::create([
+                'waktu' => $request->waktu,
+                'nama_px' => $request->nama_px,
+            ]);
 
-     //    $farmasi->questions()->sync($request->input('questions'));
+            // Loop melalui input array dan simpan ke tabel obats
+            foreach ($request->r as $index => $r) {
+                $data = [
+                    'farmasi_id' => $farmasi->id,
+                    'r' => $r,
+                    'nama_obat' => $request->nama_obat[$index],
+                    'total_obat_fornas' => $request->total_obat_fornas[$index],
+                    'total_item' => $request->total_item[$index],
+                ];
 
-        if($farmasi){
-            //redirect dengan pesan sukses
+                // Simpan data ke tabel obats
+                Obat::create($data);
+            }
+
+            // Redirect dengan pesan sukses
             return redirect()->route('farmasis.index')->with(['success' => 'Data Berhasil Disimpan!']);
-        }else{
-            //redirect dengan pesan error
+        } catch (\Exception $e) {
+            // Redirect dengan pesan error
             return redirect()->route('farmasis.index')->with(['error' => 'Data Gagal Disimpan!']);
         }
     }
@@ -107,9 +117,9 @@ class FarmasiController extends Controller
      * @return \Illuminate\Http\Response
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit(Farmasi $farmasi)
+    public function edit($id)
     {
-        $farmasi->waktu = \Carbon\Carbon::parse($farmasi->waktu)->format('Y-m-d\TH:i');
+        $farmasi = Farmasi::with('obats')->findOrFail($id);
         return view('farmasis.edit', compact('farmasi'));
     }
 
@@ -123,31 +133,45 @@ class FarmasiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'waktu'            ,
-            'nama_px'          ,
-            'r'                ,
-            'nama_obat'        ,
-            'total_obat_fornas',
-            'total_item'       
+        // Validasi input
+        $request->validate([
+            'waktu' => 'required|date',
+            'nama_px' => 'required|string',
+            'r' => 'array',
+            'nama_obat' => 'array',
+            'total_obat_fornas' => 'array',
+            'total_item' => 'array',
         ]);
 
-        $farmasi = Farmasi::find($id);
-
-        if ($farmasi) {
+        try {
+            // Update data farmasi
+            $farmasi = Farmasi::findOrFail($id);
             $farmasi->update([
-                'waktu'                 => $request->input('waktu'),
-                'nama_px'               => $request->input('nama_px'),
-                'r'                     => $request->input('r'),
-                'nama_obat'             => $request->input('nama_obat'),
-                'total_obat_fornas'     => $request->input('total_obat_fornas'),
-                'total_item'            => $request->input('total_item'),
-                'created_by'            => Auth()->id()
+                'waktu' => $request->waktu,
+                'nama_px' => $request->nama_px,
             ]);
 
-            return redirect()->route('farmasis.index')->with(['success' => 'Data Berhasil DiUpdate!']);
-        } else {
-            return redirect()->route('farmasis.index')->with(['error' => 'Data Tidak Ditemukan!']);
+            // Hapus data obats lama
+            $farmasi->obats()->delete();
+
+            // Simpan data obats baru
+            foreach ($request->r as $index => $r) {
+                $data = [
+                    'farmasi_id' => $farmasi->id,
+                    'r' => $r,
+                    'nama_obat' => $request->nama_obat[$index],
+                    'total_obat_fornas' => $request->total_obat_fornas[$index],
+                    'total_item' => $request->total_item[$index],
+                ];
+
+                Obat::create($data);
+            }
+
+            // Redirect dengan pesan sukses
+            return redirect()->route('farmasis.index')->with(['success' => 'Data Berhasil Diperbarui!']);
+        } catch (\Exception $e) {
+            // Redirect dengan pesan error
+            return redirect()->route('farmasis.index')->with(['success' => 'Data Berhasil Diperbarui!']);
         }
     }
 

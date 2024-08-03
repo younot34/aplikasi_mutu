@@ -4,28 +4,28 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Farmasi</h1>
+            <h1>IMPRS</h1>
         </div>
 
         <div class="section-body">
 
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-exam"></i> Farmasi Nasional</h4>
+                    <h4><i class="fas fa-exam"></i> IMPRS</h4>
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('farmasis.index') }}" method="GET">
+                    <form action="{{ route('imprs.index') }}" method="GET">
                     @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin')
                         <div class="form-group">
                             <div class="input-group mb-3">
-                                @can('farmasis.create')
+                                @can('imprs.create')
                                     <div class="input-group-prepend">
-                                        <a href="{{ route('farmasis.create') }}" class="btn btn-primary" style="padding-top: 10px;"><i class="fa fa-plus-circle"></i> TAMBAH</a>
+                                        <a href="{{ route('imprs.create') }}" class="btn btn-primary" style="padding-top: 10px;"><i class="fa fa-plus-circle"></i> TAMBAH</a>
                                     </div>
                                 @endcan
                                 <input type="text" class="form-control" name="q"
-                                       placeholder="cari berdasarkan nama farmasi">
+                                       placeholder="cari berdasarkan nama imprs">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> CARI
                                     </button>
@@ -40,49 +40,35 @@
                             <tr>
                                 <th scope="col" style="text-align: center;width: 6%">NO.</th>
                                 <th scope="col">Tanggal</th>
-                                <th scope="col">Nama PX</th>
-                                <th scope="col">R/</th>
-                                <th scope="col">Nama Obat</th>
-                                <th scope="col">Total Obat Fornas</th>
-                                <th scope="col">Total Item</th>
+                                <th scope="col">Resep Terverifikasi Double Check</th>
+                                <th scope="col">Resep High Alert</th>
                                 <th scope="col" style="width: 15%;text-align: center">AKSI</th>
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach ($farmasis as $no => $farmasi)
+                                @foreach ($imprs as $no => $imprss)
                                 <tr>
-                                    <th scope="row" style="text-align: center">{{ ++$no + ($farmasis->currentPage()-1) * $farmasis->perPage() }}</th>
-                                    <td>{{ $farmasi->waktu }}</td>
-                                    <td>{{ $farmasi->nama_px }}</td>
+                                    <th scope="row" style="text-align: center">{{ ++$no + ($imprs->currentPage()-1) * $imprs->perPage() }}</th>
+                                    <td>{{ $imprss->waktu }}</td>
                                     <td>
-                                        @foreach ($farmasi->obats as $obat)
-                                            <div>{{ $obat->r }}</div>
+                                        @foreach ($imprss->reseps as $resep)
+                                            <div>{{ $resep->resep_terverifikasi }}</div>
                                         @endforeach
                                     </td>
                                     <td>
-                                        @foreach ($farmasi->obats as $obat)
-                                            <div>{{ $obat->nama_obat }}</div>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach ($farmasi->obats as $obat)
-                                            <div>{{ $obat->total_obat_fornas }}</div>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach ($farmasi->obats as $obat)
-                                            <div>{{ $obat->total_item }}</div>
+                                        @foreach ($imprss->reseps as $resep)
+                                            <div>{{ $resep->resep_high_alert }}</div>
                                         @endforeach
                                     </td>
                                     <td class="text-center">
-                                        @can('farmasis.edit')
-                                            <a href="{{ route('farmasis.edit', $farmasi->id) }}" class="btn btn-sm btn-primary">
+                                        @can('imprs.edit')
+                                            <a href="{{ route('imprs.edit', $imprss->id) }}" class="btn btn-sm btn-primary">
                                                 <i class="fa fa-pencil-alt"></i>
                                             </a>
                                         @endcan
 
-                                        @can('farmasis.delete')
-                                            <button onClick="Delete(this.id)" class="btn btn-sm btn-danger" id="{{ $farmasi->id }}">
+                                        @can('imprs.delete')
+                                            <button onClick="Delete(this.id)" class="btn btn-sm btn-danger" id="{{ $imprss->id }}">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         @endcan
@@ -92,7 +78,7 @@
                             </tbody>
                         </table>
                         <div style="text-align: center">
-                            {{$farmasis->links("vendor.pagination.bootstrap-4")}}
+                            {{$imprs->links("vendor.pagination.bootstrap-4")}}
                         </div>
                     </div>
                 </div>
@@ -123,7 +109,7 @@
 
                     //ajax delete
                     jQuery.ajax({
-                        url: "{{ route("farmasis.index") }}/"+id,
+                        url: "{{ route("imprs.index") }}/"+id,
                         data:   {
                             "id": id,
                             "_token": token

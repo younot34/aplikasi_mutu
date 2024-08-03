@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFarmasisTable extends Migration
+class CreateResepsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateFarmasisTable extends Migration
      */
     public function up()
     {
-        Schema::create('farmasis', function (Blueprint $table) {
+        Schema::create('reseps', function (Blueprint $table) {
             $table->id();
-            $table->date('waktu');
-            $table->string('nama_px');
+            $table->unsignedBigInteger('imprs_id');
+            $table->integer('resep_terverifikasi');
+            $table->integer('resep_high_alert');
             $table->timestamps();
+
+            $table->foreign('imprs_id')->references('id')->on('imprs')->onDelete('cascade');
         });
     }
 
@@ -28,6 +31,6 @@ class CreateFarmasisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('farmasis');
+        Schema::dropIfExists('reseps');
     }
 }

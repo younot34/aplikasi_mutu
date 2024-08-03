@@ -96,6 +96,11 @@
                                         href="{{  route('farmasis.index') }}"><i class="fas fa-book-open"></i>farmasi nasional</a>
                                     </li>
                                 @endcan
+                                @can('imprs.index')
+                                <li class="{{ setActive('/imprs') }}"><a class="nav-link"
+                                        href="{{  route('imprs.index') }}"><i class="fas fa-book-open"></i>imprs</a>
+                                    </li>
+                                @endcan
                             </ul>
                         </li>
 
