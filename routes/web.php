@@ -9,6 +9,10 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\MutuController;
+use Illuminate\Http\Request;
+use App\Exports\FarmasiExport;
+use App\Exports\ImprsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +56,16 @@ Route::group(['middleware' => 'auth'], function(){
 
     //farmasi
     Route::resource('farmasis', FarmasiController::class);
+    Route::get('/laporan-bulanan', [FarmasiController::class, 'laporanBulanan'])->name('farmasis.laporan-bulanan');
+
+    Route::get('/laporan-bulanan/export', [FarmasiController::class, 'export'])->name('farmasis.laporan-bulanan.export');
+
     //farmasi imprs
     Route::resource('imprs', ImprsController::class);
+
+    Route::get('/export', [ImprsController::class, 'laporanBulanan'])->name('imprs.export');
+    Route::get('/export/export', [ImprsController::class, 'export'])->name('imprs.export.export');
+
+
 
 });

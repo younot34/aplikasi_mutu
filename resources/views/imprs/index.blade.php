@@ -31,6 +31,11 @@
                                     </button>
                                 </div>
                             </div>
+                            @can('imprs.export')
+                                <a href="{{ route('imprs.export') }}" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-door-open"></i>
+                                </a>
+                            @endcan
                         </div>
                         @endhasanyrole
                     </form>
@@ -61,6 +66,7 @@
                                         @endforeach
                                     </td>
                                     <td class="text-center">
+
                                         @can('imprs.edit')
                                             <a href="{{ route('imprs.edit', $imprss->id) }}" class="btn btn-sm btn-primary">
                                                 <i class="fa fa-pencil-alt"></i>

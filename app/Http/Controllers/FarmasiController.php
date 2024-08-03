@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Obat;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use App\Exports\FarmasiExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FarmasiController extends Controller
 {
@@ -20,8 +22,13 @@ class FarmasiController extends Controller
     */
    public function __construct()
    {
-       $this->middleware(['permission:farmasis.index|farmasis.create|farmasis.edit|farmasis.delete']);
+       $this->middleware(['permission:farmasis.index|farmasis.create|farmasis.edit|farmasis.delete|farmasis.laporan-bulanan-far']);
    }
+
+   public function export(Request $request)
+    {
+        return Excel::download(new FarmasiExport($request->input('bulan')), 'laporan-bulanan.xlsx');
+    }
 
     /**
      * Display a listing of the resource.
@@ -220,4 +227,24 @@ class FarmasiController extends Controller
         unset($this->farmasi[$index]);
         $this->farmasi = array_values($this->farmasi);
     }
+
+    public function laporanBulanan(Request $request)
+    {
+        $bulan = $request->input('bulan', date('Y-m')); // Default ke bulan ini
+        $farmasis = Farmasi::with('obats')
+            ->whereMonth('waktu', date('m', strtotime($bulan)))
+            ->whereYear('waktu', date('Y', strtotime($bulan)))
+            ->get();
+
+        $totalObatFornas = $farmasis->sum(function($farmasi) {
+            return $farmasi->obats->sum('total_obat_fornas');
+        });
+
+        $totalItem = $farmasis->sum(function($farmasi) {
+            return $farmasi->obats->sum('total_item');
+        });
+
+        return view('farmasis.laporan-bulanan-far', compact('farmasis', 'bulan', 'totalObatFornas', 'totalItem'));
+    }
+
 }

@@ -31,6 +31,11 @@
                                     </button>
                                 </div>
                             </div>
+                            @can('farmasis.laporan-bulanan')
+                                <a href="{{ route('farmasis.laporan-bulanan') }}" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-door-open"></i>
+                                </a>
+                            @endcan
                         </div>
                         @endhasanyrole
                     </form>
@@ -75,6 +80,7 @@
                                         @endforeach
                                     </td>
                                     <td class="text-center">
+
                                         @can('farmasis.edit')
                                             <a href="{{ route('farmasis.edit', $farmasi->id) }}" class="btn btn-sm btn-primary">
                                                 <i class="fa fa-pencil-alt"></i>

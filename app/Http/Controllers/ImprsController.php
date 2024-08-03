@@ -7,6 +7,8 @@ use App\Models\Resep;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use App\Exports\ImprsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ImprsController extends Controller
 {
@@ -129,12 +131,12 @@ class ImprsController extends Controller
         // Validasi input
         $request->validate([
             'waktu' => 'required|date',
-            'resep_terverifikasi' => 'integer',
-            'resep_high_alert' => 'integer',
+            'resep_terverifikasi' => 'required|array',
+            'resep_high_alert' => 'required|array',
         ]);
 
         try {
-            // Update data Imprs
+            // Update data imprs
             $imprs = Imprs::findOrFail($id);
             $imprs->update([
                 'waktu' => $request->waktu,
@@ -146,12 +148,11 @@ class ImprsController extends Controller
             // Simpan data reseps baru
             foreach ($request->resep_terverifikasi as $index => $resep_terverifikasi) {
                 $data = [
-                    'Imprs_id' => $imprs->id,
-                    'resep_terverifikasi'   => $resep_terverifikasi,
-                    'resep_high_alert'      => $request->resep_high_alert[$index],
+                    'imprs_id' => $imprs->id,
+                    'resep_terverifikasi' => $resep_terverifikasi,
+                    'resep_high_alert' => $request->resep_high_alert[$index],
                 ];
 
-                // Simpan data ke tabel reseps
                 Resep::create($data);
             }
 
@@ -208,4 +209,22 @@ class ImprsController extends Controller
         unset($this->Imprs[$index]);
         $this->Imprs = array_values($this->Imprs);
     }
+    public function laporanBulanan(Request $request)
+    {
+        $bulan = $request->input('bulan');
+        if ($bulan) {
+            $imprs = Imprs::whereMonth('waktu', date('m', strtotime($bulan)))->with('reseps')->paginate(10);
+        } else {
+            $imprs = Imprs::with('reseps')->paginate(10);
+        }
+        return view('imprs.export', compact('imprs', 'bulan'));
+    }
+
+    public function export(Request $request)
+    {
+        $bulan = $request->input('bulan');
+        return Excel::download(new ImprsExport($bulan), 'export.xlsx');
+    }
+
+
 }
