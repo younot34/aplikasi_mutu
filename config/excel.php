@@ -51,6 +51,9 @@ return [
             'output_encoding'        => '',
             'test_auto_detect'       => true,
         ],
+        'excel' => [
+            'driver' => Excel::XLSX,
+        ],
 
         /*
         |--------------------------------------------------------------------------
@@ -177,22 +180,22 @@ return [
     |
     */
     'extension_detector' => [
-        'xlsx'     => Excel::XLSX,
-        'excel'     => Excel::XLSX,
-        'xlsm'     => Excel::XLSX,
-        'xltx'     => Excel::XLSX,
-        'xltm'     => Excel::XLSX,
-        'xls'      => Excel::XLS,
-        'xlt'      => Excel::XLS,
-        'ods'      => Excel::ODS,
-        'ots'      => Excel::ODS,
-        'slk'      => Excel::SLK,
-        'xml'      => Excel::XML,
-        'gnumeric' => Excel::GNUMERIC,
-        'htm'      => Excel::HTML,
-        'html'     => Excel::HTML,
-        'csv'      => Excel::CSV,
-        'tsv'      => Excel::TSV,
+        'xlsx'     => \Maatwebsite\Excel\Excel::XLSX,
+        'excel'    => \Maatwebsite\Excel\Excel::XLSX,
+        'xlsm'     => \Maatwebsite\Excel\Excel::XLSX,
+        'xltx'     => \Maatwebsite\Excel\Excel::XLSX,
+        'xltm'     => \Maatwebsite\Excel\Excel::XLSX,
+        'xls'      => \Maatwebsite\Excel\Excel::XLS,
+        'xlt'      => \Maatwebsite\Excel\Excel::XLS,
+        'ods'      => \Maatwebsite\Excel\Excel::ODS,
+        'ots'      => \Maatwebsite\Excel\Excel::ODS,
+        'slk'      => \Maatwebsite\Excel\Excel::SLK,
+        'xml'      => \Maatwebsite\Excel\Excel::XML,
+        'gnumeric' => \Maatwebsite\Excel\Excel::GNUMERIC,
+        'htm'      => \Maatwebsite\Excel\Excel::HTML,
+        'html'     => \Maatwebsite\Excel\Excel::HTML,
+        'csv'      => \Maatwebsite\Excel\Excel::CSV,
+        'tsv'      => \Maatwebsite\Excel\Excel::TSV,
 
         /*
         |--------------------------------------------------------------------------
