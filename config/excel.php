@@ -181,7 +181,7 @@ return [
     */
     'extension_detector' => [
         'xlsx'     => \Maatwebsite\Excel\Excel::XLSX,
-        'excel'    => \Maatwebsite\Excel\Excel::XLSX,
+        // 'excel'    => \Maatwebsite\Excel\Excel::XLSX,
         'xlsm'     => \Maatwebsite\Excel\Excel::XLSX,
         'xltx'     => \Maatwebsite\Excel\Excel::XLSX,
         'xltm'     => \Maatwebsite\Excel\Excel::XLSX,
@@ -207,6 +207,7 @@ return [
         |
         */
         'pdf'      => Excel::DOMPDF,
+        'excel'    => Excel::XLSX,
     ],
 
     /*

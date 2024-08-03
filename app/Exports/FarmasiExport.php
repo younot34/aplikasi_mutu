@@ -48,6 +48,7 @@ class FarmasiExport implements FromCollection, WithHeadings, WithMapping, WithEv
                 $index == 0 ? date('d/m/Y', strtotime($farmasi->waktu)) : '',
                 $index == 0 ? $farmasi->id : '',
                 $index == 0 ? $farmasi->nama_px : '',
+                $index == 0 ? $farmasi->no_rm : '',
                 $obat->r,
                 $obat->nama_obat,
                 (int)$obat->total_obat_fornas, // Pastikan ini numerik
@@ -66,25 +67,25 @@ class FarmasiExport implements FromCollection, WithHeadings, WithMapping, WithEv
 
                 // Pastikan kolom F dan G berisi data numerik
                 for ($row = 2; $row <= $lastRow; $row++) {
-                    $valueF = $sheet->getCell('F' . $row)->getValue();
                     $valueG = $sheet->getCell('G' . $row)->getValue();
+                    $valueH = $sheet->getCell('H' . $row)->getValue();
 
                     // Konversi nilai ke numerik jika diperlukan
-                    if (!is_numeric($valueF)) {
-                        $valueF = (int)$valueF;
-                        $sheet->setCellValueExplicit('F' . $row, $valueF, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
-                    }
                     if (!is_numeric($valueG)) {
                         $valueG = (int)$valueG;
                         $sheet->setCellValueExplicit('G' . $row, $valueG, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+                    }
+                    if (!is_numeric($valueH)) {
+                        $valueH = (int)$valueH;
+                        $sheet->setCellValueExplicit('H' . $row, $valueH, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
                     }
                 }
 
                 // Tambahkan baris jumlah
                 $sheet->fromArray([
-                    ['', '', '', '', 'JUMLAH',
-                    '=SUM(F2:F' . $lastRow . ')',
-                    '=SUM(G2:G' . $lastRow . ')']
+                    ['', '', '', '', '', 'JUMLAH',
+                    '=SUM(G2:G' . $lastRow . ')',
+                    '=SUM(H2:H' . $lastRow . ')']
                 ], NULL, 'A' . ($lastRow + 1));
             },
         ];

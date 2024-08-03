@@ -35,7 +35,7 @@ class ImprsController extends Controller
         $currentUser = User::findOrFail(Auth()->id());
        if($currentUser->hasRole('admin')){
            $imprs = Imprs::latest()->when(request()->q, function($imprs) {
-               $imprs = $imprs->where('name', 'like', '%'. request()->q . '%');
+               $imprs = $imprs->where('waktu', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }elseif($currentUser->hasRole('karyawan')){
            $imprs = Imprs::whereHas('users', function (Builder $query) {

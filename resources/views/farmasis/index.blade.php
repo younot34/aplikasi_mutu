@@ -46,6 +46,7 @@
                                 <th scope="col" style="text-align: center;width: 6%">NO.</th>
                                 <th scope="col">Tanggal</th>
                                 <th scope="col">Nama PX</th>
+                                <th scope="col">No RM</th>
                                 <th scope="col">R/</th>
                                 <th scope="col">Nama Obat</th>
                                 <th scope="col">Total Obat Fornas</th>
@@ -59,6 +60,7 @@
                                     <th scope="row" style="text-align: center">{{ ++$no + ($farmasis->currentPage()-1) * $farmasis->perPage() }}</th>
                                     <td>{{ $farmasi->waktu }}</td>
                                     <td>{{ $farmasi->nama_px }}</td>
+                                    <td>{{ $farmasi->no_rm }}</td>
                                     <td>
                                         @foreach ($farmasi->obats as $obat)
                                             <div>{{ $obat->r }}</div>

@@ -39,6 +39,16 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <label>No RM</label>
+                            <input type="text" name="no_rm" value="{{ $farmasi->no_rm ?? old('no_rm') }}" class="form-control">
+                            @error('no_rm')
+                            <div class="invalid-feedback" style="display: block">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
                         <div id="obat-container">
                             @foreach ($farmasi->obats as $index => $obat)
                                 <div class="form-row" id="obat-row-{{ $index }}">

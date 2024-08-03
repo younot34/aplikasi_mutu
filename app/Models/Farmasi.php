@@ -15,7 +15,7 @@ class Farmasi extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'waktu', 'nama_px'
+        'waktu', 'nama_px','no_rm'
     ];
 
     public function obats()

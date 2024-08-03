@@ -48,6 +48,7 @@
                                             <td rowspan="{{ $farmasi->obats->count() }}">{{ date('d/m/Y', strtotime($farmasi->waktu)) }}</td>
                                             <td rowspan="{{ $farmasi->obats->count() }}">{{ $no + 1 }}</td>
                                             <td rowspan="{{ $farmasi->obats->count() }}">{{ $farmasi->nama_px }}</td>
+                                            <td rowspan="{{ $farmasi->obats->count() }}">{{ $farmasi->no_rm }}</td>
                                         @endif
                                         <td>{{ $obat->r }}</td>
                                         <td>{{ $obat->nama_obat }}</td>

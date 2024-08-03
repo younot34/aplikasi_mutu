@@ -82,6 +82,7 @@ class FarmasiController extends Controller
         $request->validate([
             'waktu' => 'required|date',
             'nama_px' => 'required|string',
+            'no_rm' => 'required|integer',
             'r' => 'array',
             'nama_obat' => 'array',
             'total_obat_fornas' => 'array',
@@ -93,6 +94,7 @@ class FarmasiController extends Controller
             $farmasi = Farmasi::create([
                 'waktu' => $request->waktu,
                 'nama_px' => $request->nama_px,
+                'no_rm' => $request->no_rm,
             ]);
 
             // Loop melalui input array dan simpan ke tabel obats
@@ -144,6 +146,7 @@ class FarmasiController extends Controller
         $request->validate([
             'waktu' => 'required|date',
             'nama_px' => 'required|string',
+            'no_rm' => 'required|integer',
             'r' => 'array',
             'nama_obat' => 'array',
             'total_obat_fornas' => 'array',
@@ -156,6 +159,7 @@ class FarmasiController extends Controller
             $farmasi->update([
                 'waktu' => $request->waktu,
                 'nama_px' => $request->nama_px,
+                'no_rm' => $request->no_rm,
             ]);
 
             // Hapus data obats lama
@@ -209,6 +213,7 @@ class FarmasiController extends Controller
     {
         $this->farmasi[] = ['waktu' =>'',
         'nama_px'=>'',
+        'no_rm' => '',
         'r'=>'',
         'nama_obat'=>'',
         'total_obat_fornas'=>'',

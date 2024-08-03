@@ -34,6 +34,15 @@
                             </div>
                             @enderror
                         </div>
+                        <div class="form-group">
+                            <label>No_RM</label>
+                            <input type="text" name="no_rm" value="{{ old('no_rm') }}" class="form-control">
+                            @error('no_rm')
+                            <div class="invalid-feedback" style="display: block">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
                         <div id="obat-container">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
