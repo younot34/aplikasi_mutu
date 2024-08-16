@@ -33,7 +33,8 @@
                             <tr>
                                 <th>Tanggal</th>
                                 <th>No</th>
-                                <th>Nama PX</th>
+                                <th>Nama Pasien</th>
+                                <th>No RM</th>
                                 <th>R/</th>
                                 <th>Nama Obat</th>
                                 <th>Total Obat Fornas</th>
@@ -50,15 +51,19 @@
                                             <td rowspan="{{ $farmasi->obats->count() }}">{{ $farmasi->nama_px }}</td>
                                             <td rowspan="{{ $farmasi->obats->count() }}">{{ $farmasi->no_rm }}</td>
                                         @endif
-                                        <td>{{ $obat->r }}</td>
-                                        <td>{{ $obat->nama_obat }}</td>
+                                        <td>
+                                            @foreach ($farmasi->nama_obats as $index => $nama_obatss)
+                                            <div>{{ $obat->r }}</div>
+                                            <div>{{ $nama_obatss->nama_obat }}</div>
+                                            @endforeach
+                                        </td>
                                         <td>{{ $obat->total_obat_fornas }}</td>
                                         <td>{{ $obat->total_item }}</td>
                                     </tr>
                                 @endforeach
                             @endforeach
                             <tr>
-                                <td colspan="5" class="text-right"><strong>JUMLAH</strong></td>
+                                <td colspan="6" class="text-right"><center><strong>JUMLAH</strong></center></td>
                                 <td><strong>{{ $totalObatFornas }}</strong></td>
                                 <td><strong>{{ $totalItem }}</strong></td>
                             </tr>

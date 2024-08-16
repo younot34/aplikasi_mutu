@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                             @can('imprs.export')
-                                <a href="{{ route('imprs.export') }}" class="btn btn-sm btn-primary">
+                                <a href="{{ route('imprs.export') }}" class="btn btn-sm btn-primary">Laporan Bulanan
                                     <i class="fa fa-door-open"></i>
                                 </a>
                             @endcan
@@ -47,6 +47,7 @@
                                 <th scope="col">Tanggal</th>
                                 <th scope="col">Resep Terverifikasi Double Check</th>
                                 <th scope="col">Resep High Alert</th>
+                                <th scope="col">Hasil</th>
                                 <th scope="col" style="width: 15%;text-align: center">AKSI</th>
                             </tr>
                             </thead>
@@ -63,6 +64,11 @@
                                     <td>
                                         @foreach ($imprss->reseps as $resep)
                                             <div>{{ $resep->resep_high_alert }}</div>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($imprss->reseps as $resep)
+                                        <div>{{ number_format(($resep->resep_terverifikasi / $resep->resep_high_alert) * 100, 2) }}%</div>
                                         @endforeach
                                     </td>
                                     <td class="text-center">

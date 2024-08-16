@@ -41,9 +41,37 @@ class ImprsController extends Controller
            $imprs = Imprs::whereHas('users', function (Builder $query) {
                $query->where('user_id', Auth()->id());
            })->paginate(10);
-       }elseif($currentUser->hasRole('petugas')){
-           $imprs = Imprs::where('created_by', Auth()->id())->latest()->when(request()->q, function($imprs) {
-               $imprs = $imprs->where('created_by', Auth()->id())->where('name', 'like', '%'. request()->q . '%');
+       }elseif($currentUser->hasRole('petugas1')){
+           $imprs = Imprs::latest()->when(request()->q, function($imprs) {
+               $imprs = $imprs->where('waktu', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas2')){
+           $imprs = Imprs::latest()->when(request()->q, function($imprs) {
+               $imprs = $imprs->where('waktu', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas3')){
+           $imprs = Imprs::latest()->when(request()->q, function($imprs) {
+               $imprs = $imprs->where('waktu', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas4')){
+           $imprs = Imprs::latest()->when(request()->q, function($imprs) {
+               $imprs = $imprs->where('waktu', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas5')){
+           $imprs = Imprs::latest()->when(request()->q, function($imprs) {
+               $imprs = $imprs->where('waktu', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas6')){
+           $imprs = Imprs::latest()->when(request()->q, function($imprs) {
+               $imprs = $imprs->where('waktu', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas7')){
+           $imprs = Imprs::latest()->when(request()->q, function($imprs) {
+               $imprs = $imprs->where('waktu', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('direktur')){
+           $imprs = Imprs::latest()->when(request()->q, function($imprs) {
+               $imprs = $imprs->where('waktu', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }
 

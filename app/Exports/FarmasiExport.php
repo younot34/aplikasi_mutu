@@ -21,7 +21,7 @@ class FarmasiExport implements FromCollection, WithHeadings, WithMapping, WithEv
     {
         $bulan = date('m', strtotime($this->bulan));
         $tahun = date('Y', strtotime($this->bulan));
-        return Farmasi::with('obats')
+        return Farmasi::with('obats','nama_obats')
                       ->whereYear('waktu', $tahun)
                       ->whereMonth('waktu', $bulan)
                       ->get();
@@ -32,7 +32,8 @@ class FarmasiExport implements FromCollection, WithHeadings, WithMapping, WithEv
         return [
             'Tanggal',
             'No',
-            'Nama PX',
+            'Nama Pasien',
+            'No RM',
             'R/',
             'Nama Obat',
             'Total Obat Fornas',
@@ -44,17 +45,22 @@ class FarmasiExport implements FromCollection, WithHeadings, WithMapping, WithEv
     {
         $rows = [];
         foreach ($farmasi->obats as $index => $obat) {
+            // Menggabungkan nama obat dengan ID yang sama
+            $namaObat = $farmasi->nama_obats->pluck('nama_obat')->implode(",");
+            $rObat = $farmasi->nama_obats->pluck('r')->implode(",");
+
             $rows[] = [
                 $index == 0 ? date('d/m/Y', strtotime($farmasi->waktu)) : '',
                 $index == 0 ? $farmasi->id : '',
                 $index == 0 ? $farmasi->nama_px : '',
                 $index == 0 ? $farmasi->no_rm : '',
-                $obat->r,
-                $obat->nama_obat,
-                (int)$obat->total_obat_fornas, // Pastikan ini numerik
-                (int)$obat->total_item, // Pastikan ini numerik
+                $rObat,
+                $namaObat,
+                (int)$obat->total_obat_fornas,
+                (int)$obat->total_item,
             ];
         }
+
         return $rows;
     }
 

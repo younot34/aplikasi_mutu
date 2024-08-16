@@ -22,4 +22,8 @@ class Farmasi extends Model
     {
         return $this->hasMany(Obat::class);
     }
+    public function nama_obats()
+    {
+        return $this->hasMany(nama_obat::class);
+    }
 }

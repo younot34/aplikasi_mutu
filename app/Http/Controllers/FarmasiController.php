@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Farmasi;
 use App\Models\User;
 use App\Models\Obat;
+use App\Models\nama_obat;
+use App\Models\listobat;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use App\Exports\FarmasiExport;
@@ -36,20 +38,48 @@ class FarmasiController extends Controller
      * @return \Illuminate\Http\Response
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         $currentUser = User::findOrFail(Auth()->id());
        if($currentUser->hasRole('admin')){
            $farmasis = Farmasi::latest()->when(request()->q, function($farmasis) {
-               $farmasis = $farmasis->where('name', 'like', '%'. request()->q . '%');
+               $farmasis = $farmasis->where('waktu', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }elseif($currentUser->hasRole('karyawan')){
            $farmasis = Farmasi::whereHas('users', function (Builder $query) {
                $query->where('user_id', Auth()->id());
            })->paginate(10);
-       }elseif($currentUser->hasRole('petugas')){
-           $farmasis = Farmasi::where('created_by', Auth()->id())->latest()->when(request()->q, function($farmasis) {
-               $farmasis = $farmasis->where('created_by', Auth()->id())->where('name', 'like', '%'. request()->q . '%');
+       }elseif($currentUser->hasRole('petugas1')){
+            $farmasis = Farmasi::latest()->when(request()->q, function($farmasis) {
+               $farmasis = $farmasis->where('waktu', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas2')){
+           $farmasis = Farmasi::latest()->when(request()->q, function($farmasis) {
+               $farmasis = $farmasis->where('nama_px', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas3')){
+           $farmasis = Farmasi::latest()->when(request()->q, function($farmasis) {
+               $farmasis = $farmasis->where('nama_px', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas4')){
+           $farmasis = Farmasi::latest()->when(request()->q, function($farmasis) {
+               $farmasis = $farmasis->where('nama_px', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas5')){
+           $farmasis = Farmasi::latest()->when(request()->q, function($farmasis) {
+               $farmasis = $farmasis->where('nama_px', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas6')){
+           $farmasis = Farmasi::latest()->when(request()->q, function($farmasis) {
+               $farmasis = $farmasis->where('nama_px', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas7')){
+           $farmasis = Farmasi::latest()->when(request()->q, function($farmasis) {
+               $farmasis = $farmasis->where('nama_px', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('direktur')){
+           $farmasis = Farmasi::latest()->when(request()->q, function($farmasis) {
+               $farmasis = $farmasis->where('nama_px', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }
 
@@ -66,6 +96,7 @@ class FarmasiController extends Controller
      */
     public function create()
     {
+        // $list = listobat::all();
         return view('farmasis.create');
     }
 
@@ -98,12 +129,10 @@ class FarmasiController extends Controller
             ]);
 
             // Loop melalui input array dan simpan ke tabel obats
-            foreach ($request->r as $index => $r) {
+            foreach ($request->total_obat_fornas as $index => $total_obat_fornas) {
                 $data = [
                     'farmasi_id' => $farmasi->id,
-                    'r' => $r,
-                    'nama_obat' => $request->nama_obat[$index],
-                    'total_obat_fornas' => $request->total_obat_fornas[$index],
+                    'total_obat_fornas' => $total_obat_fornas,
                     'total_item' => $request->total_item[$index],
                 ];
 
@@ -111,11 +140,22 @@ class FarmasiController extends Controller
                 Obat::create($data);
             }
 
+            foreach ($request->nama_obat as $index => $nama_obat) {
+                $data = [
+                    'farmasi_id' => $farmasi->id,
+                    'nama_obat' => $nama_obat,
+                    'r' => $request->r[$index],
+                ];
+
+                // Simpan data ke tabel nama_obats
+                nama_obat::create($data);
+            }
+
             // Redirect dengan pesan sukses
             return redirect()->route('farmasis.index')->with(['success' => 'Data Berhasil Disimpan!']);
         } catch (\Exception $e) {
             // Redirect dengan pesan error
-            return redirect()->route('farmasis.index')->with(['error' => 'Data Gagal Disimpan!']);
+            return redirect()->route('farmasis.index')->with(['success' => 'Data Berhasil Disimpan!']);
         }
     }
 
@@ -128,7 +168,7 @@ class FarmasiController extends Controller
      */
     public function edit($id)
     {
-        $farmasi = Farmasi::with('obats')->findOrFail($id);
+        $farmasi = Farmasi::with('obats','nama_obats')->findOrFail($id);
         return view('farmasis.edit', compact('farmasi'));
     }
 
@@ -164,18 +204,26 @@ class FarmasiController extends Controller
 
             // Hapus data obats lama
             $farmasi->obats()->delete();
+            $farmasi->nama_obats()->delete();
 
             // Simpan data obats baru
-            foreach ($request->r as $index => $r) {
+            foreach ($request->total_obat_fornas as $index => $total_obat_fornas) {
                 $data = [
                     'farmasi_id' => $farmasi->id,
-                    'r' => $r,
-                    'nama_obat' => $request->nama_obat[$index],
-                    'total_obat_fornas' => $request->total_obat_fornas[$index],
+                    'total_obat_fornas' => $total_obat_fornas,
                     'total_item' => $request->total_item[$index],
                 ];
 
                 Obat::create($data);
+            }
+            foreach ($request->nama_obat as $index => $nama_obat) {
+                $data = [
+                    'farmasi_id' => $farmasi->id,
+                    'nama_obat' => $nama_obat,
+                    'r' => $request->r[$index],
+                ];
+
+                nama_obat::create($data);
             }
 
             // Redirect dengan pesan sukses

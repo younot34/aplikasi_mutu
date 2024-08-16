@@ -16,12 +16,10 @@ class CreateObatsTable extends Migration
         Schema::create('obats', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('farmasi_id');
-            $table->integer('r');
-            $table->string('nama_obat');
             $table->integer('total_obat_fornas');
             $table->integer('total_item');
             $table->timestamps();
-            
+
             $table->foreign('farmasi_id')->references('id')->on('farmasis')->onDelete('cascade');
         });
 

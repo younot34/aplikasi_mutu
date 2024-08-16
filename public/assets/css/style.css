@@ -597,6 +597,10 @@ select.form-control:not([size]):not([multiple]) {
   .alert.alert-dark {
     background-color: #191d21; }
 
+    #nama_obat {
+        background-color: #f9f9f9;
+    }
+
 /* 3.5 Card */
 .card {
   /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03); */

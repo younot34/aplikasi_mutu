@@ -82,7 +82,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
         $roles = Role::latest()->get();
         return view('users.edit', compact('user', 'roles'));

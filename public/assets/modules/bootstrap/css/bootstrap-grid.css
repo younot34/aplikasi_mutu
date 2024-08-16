@@ -534,6 +534,9 @@ html {
     flex: 0 0 83.333333%;
     max-width: 83.333333%;
   }
+  .nama_obat {
+    background-color: #f9f9f9;
+  }
   .col-md-11 {
     -ms-flex: 0 0 91.666667%;
     flex: 0 0 91.666667%;

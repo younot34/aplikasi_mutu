@@ -14,11 +14,6 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        // permission for mutus
-        Permission::create(['name' => 'mutus.index']);
-        Permission::create(['name' => 'mutus.create']);
-        Permission::create(['name' => 'mutus.edit']);
-        Permission::create(['name' => 'mutus.delete']);
 
         // permission for farmasis
         Permission::create(['name' => 'farmasis.index']);
@@ -27,6 +22,12 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'farmasis.delete']);
         Permission::create(['name' => 'farmasis.laporan-bulanan']);
 
+        // permission for list obat
+        Permission::create(['name' => 'list.index']);
+        Permission::create(['name' => 'list.create']);
+        Permission::create(['name' => 'list.edit']);
+        Permission::create(['name' => 'list.delete']);
+
         //permission for imprs
         Permission::create(['name' => 'imprs.index']);
         Permission::create(['name' => 'imprs.create']);
@@ -34,28 +35,49 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'imprs.delete']);
         Permission::create(['name' => 'imprs.export']);
 
-         //permission for images
-        //  Permission::create(['name' => 'images.index']);
-        //  Permission::create(['name' => 'images.create']);
-        //  Permission::create(['name' => 'images.delete']);
+        //permission for oks
+        Permission::create(['name' => 'oks.index']);
+        Permission::create(['name' => 'oks.create']);
+        Permission::create(['name' => 'oks.edit']);
+        Permission::create(['name' => 'oks.delete']);
+        Permission::create(['name' => 'oks.review']);
+        Permission::create(['name' => 'oks.review_bulanan_ok']);
 
-         //permission for videos
-        //  Permission::create(['name' => 'videos.index']);
-        //  Permission::create(['name' => 'videos.create']);
-        //  Permission::create(['name' => 'videos.edit']);
-        //  Permission::create(['name' => 'videos.delete']);
+        //permission for ppi
+        Permission::create(['name' => 'ppis.index']);
+        Permission::create(['name' => 'ppis.create']);
+        Permission::create(['name' => 'ppis.edit']);
+        Permission::create(['name' => 'ppis.delete']);
 
-         //permission for audios
-        //  Permission::create(['name' => 'audios.index']);
-        //  Permission::create(['name' => 'audios.create']);
-        //  Permission::create(['name' => 'audios.edit']);
-        //  Permission::create(['name' => 'audios.delete']);
+         //permission for ris
+         Permission::create(['name' => 'ris.index']);
+         Permission::create(['name' => 'ris.create']);
+         Permission::create(['name' => 'ris.edit']);
+         Permission::create(['name' => 'ris.delete']);
 
-         //permission for documents
-        //  Permission::create(['name' => 'documents.index']);
-        //  Permission::create(['name' => 'documents.create']);
-        //  Permission::create(['name' => 'documents.edit']);
-        //  Permission::create(['name' => 'documents.delete']);
+         //permission for visites
+         Permission::create(['name' => 'visites.index']);
+         Permission::create(['name' => 'visites.create']);
+         Permission::create(['name' => 'visites.edit']);
+         Permission::create(['name' => 'visites.delete']);
+
+         //permission for clinicals
+         Permission::create(['name' => 'clinicals.index']);
+         Permission::create(['name' => 'clinicals.create']);
+         Permission::create(['name' => 'clinicals.edit']);
+         Permission::create(['name' => 'clinicals.delete']);
+
+         //permission for jatuhs
+         Permission::create(['name' => 'jatuhs.index']);
+         Permission::create(['name' => 'jatuhs.create']);
+         Permission::create(['name' => 'jatuhs.edit']);
+         Permission::create(['name' => 'jatuhs.delete']);
+
+         //permission for apds
+         Permission::create(['name' => 'apds.index']);
+         Permission::create(['name' => 'apds.create']);
+         Permission::create(['name' => 'apds.edit']);
+         Permission::create(['name' => 'apds.delete']);
 
         //permission for roles
         Permission::create(['name' => 'roles.index']);

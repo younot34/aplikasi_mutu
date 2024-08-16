@@ -25,14 +25,14 @@
                                     </div>
                                 @endcan
                                 <input type="text" class="form-control" name="q"
-                                       placeholder="cari berdasarkan nama farmasi">
+                                       placeholder="cari berdasarkan tanggal farmasi">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> CARI
                                     </button>
                                 </div>
                             </div>
                             @can('farmasis.laporan-bulanan')
-                                <a href="{{ route('farmasis.laporan-bulanan') }}" class="btn btn-sm btn-primary">
+                                <a href="{{ route('farmasis.laporan-bulanan') }}" class="btn btn-sm btn-primary"> Laporan Bulanan
                                     <i class="fa fa-door-open"></i>
                                 </a>
                             @endcan
@@ -55,6 +55,11 @@
                             </tr>
                             </thead>
                             <tbody>
+                                @php
+                                    $totalObatFornas = 0;
+                                    $totalItem = 0;
+                                    $tanggal = null;
+                                @endphp
                                 @foreach ($farmasis as $no => $farmasi)
                                 <tr>
                                     <th scope="row" style="text-align: center">{{ ++$no + ($farmasis->currentPage()-1) * $farmasis->perPage() }}</th>
@@ -62,23 +67,29 @@
                                     <td>{{ $farmasi->nama_px }}</td>
                                     <td>{{ $farmasi->no_rm }}</td>
                                     <td>
-                                        @foreach ($farmasi->obats as $obat)
-                                            <div>{{ $obat->r }}</div>
+                                        @foreach ($farmasi->nama_obats as $nama_obatss)
+                                            <div>{{ $nama_obatss->r }}</div>
                                         @endforeach
                                     </td>
                                     <td>
-                                        @foreach ($farmasi->obats as $obat)
-                                            <div>{{ $obat->nama_obat }}</div>
+                                        @foreach ($farmasi->nama_obats as $nama_obatss)
+                                            <div>{{ $nama_obatss->nama_obat }}</div>
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($farmasi->obats as $obat)
                                             <div>{{ $obat->total_obat_fornas }}</div>
+                                            @php
+                                                $totalObatFornas += $obat->total_obat_fornas;
+                                            @endphp
                                         @endforeach
                                     </td>
                                     <td>
                                         @foreach ($farmasi->obats as $obat)
                                             <div>{{ $obat->total_item }}</div>
+                                            @php
+                                                $totalItem += $obat->total_item;
+                                            @endphp
                                         @endforeach
                                     </td>
                                     <td class="text-center">
@@ -96,7 +107,23 @@
                                         @endcan
                                     </td>
                                 </tr>
+                                @if ($tanggal !== $farmasi->waktu)
+                                    @php
+                                        $tanggal = $farmasi->waktu;
+                                    @endphp
+                                    <tr>
+                                        <td colspan="6" style="text-align: right;"><strong>JUMLAH</strong></td>
+                                        <td>{{ $totalObatFornas }}</td>
+                                        <td>{{ $totalItem }}</td>
+                                        <td></td>
+                                    </tr>
+                                    @php
+                                        $totalObatFornas = 0;
+                                        $totalItem = 0;
+                                    @endphp
+                                @endif
                             @endforeach
+
                             </tbody>
                         </table>
                         <div style="text-align: center">

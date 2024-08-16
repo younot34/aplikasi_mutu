@@ -10,7 +10,7 @@ class Obat extends Model
     use HasFactory;
 
     protected $fillable = [
-        'farmasi_id', 'r', 'nama_obat', 'total_obat_fornas', 'total_item'
+        'farmasi_id', 'total_obat_fornas', 'total_item'
     ];
 
     public function farmasi()

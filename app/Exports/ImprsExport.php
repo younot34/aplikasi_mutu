@@ -58,7 +58,7 @@ class ImprsExport implements FromCollection, WithHeadings, WithMapping, WithEven
 
                 // Tambahkan baris hasil akhir
                 $sheet->fromArray([
-                    ['', 'HASIL AKHIR', '=((SUM(C2:C' . $lastRow . ') - SUM(B2:B' . $lastRow . ')) / SUM(C2:C' . $lastRow . ')) * 100']
+                    ['', 'HASIL AKHIR', '=((SUM(B2:C' . $lastRow . ') - SUM(C2:B' . $lastRow . ')) * 100']
                 ], NULL, 'A' . ($lastRow + 1));
             },
         ];
