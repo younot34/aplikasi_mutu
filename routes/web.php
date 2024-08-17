@@ -101,6 +101,8 @@ Route::group(['middleware' => 'auth'], function(){
 
     //ppi
     Route::resource('ppis', PpiController::class);
+    Route::get('/export', [PpiController::class, 'laporanBulanan'])->name('ppis.export');
+    Route::get('/export/export', [PpiController::class, 'export'])->name('ppis.export.export');
     //ri
     Route::resource('ris', RiController::class);
     //visites

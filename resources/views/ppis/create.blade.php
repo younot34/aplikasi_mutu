@@ -16,32 +16,46 @@
                 <div class="card-body">
                     <form action="{{ route('ppis.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group col-md-3">
-                            <label>unit</label>
-                            <input type="text" name="unit" class="form-control" placeholder="unit (Optional)">
-                            @error('unit')
-                            <div class="invalid-feedback" style="display: block">
-                                {{ $message }}
+                        <div>
+                            <div class="form-group col-md-8">
+                                <label>Indikasi Cuci Tangan = 5 Momen</label>
+                                <ol>
+                                    <li>Sebelum Kontak Dengan Pasien</li>
+                                    <li>Sebelum prosedur Bersih / Aseptik</li>
+                                    <li>Setelah Prosedur / Risiko Terpapar Cairan Tubuh</li>
+                                    <li>Setelah Kontak Dengan Pasien</li>
+                                    <li>Setelah Kontak Dengan Area Sekitar Pasien</li>
+                                </ol>
                             </div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label>Tanggal</label>
-                            <input type="datetime-local" name="tanggal" value="<?= date('Y-m-d', time()); ?>" class="form-control @error('tanggal') is-invalid @enderror">
-                            @error('tanggal')
-                            <div class="invalid-feedback" style="display: block">
-                                {{ $message }}
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label>unit</label>
+                                    <input type="text" name="unit" class="form-control" placeholder="unit (Optional)">
+                                    @error('unit')
+                                    <div class="invalid-feedback" style="display: block">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Tanggal</label>
+                                    <input type="datetime-local" name="tanggal" value="<?= date('Y-m-d', time()); ?>" class="form-control @error('tanggal') is-invalid @enderror">
+                                    @error('tanggal')
+                                    <div class="invalid-feedback" style="display: block">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Observer</label>
+                                    <input type="text" name="observer" class="form-control" placeholder="observer (Optional)">
+                                    @error('observer')
+                                    <div class="invalid-feedback" style="display: block">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
                             </div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label>Observer</label>
-                            <input type="text" name="observer" class="form-control" placeholder="observer (Optional)">
-                            @error('observer')
-                            <div class="invalid-feedback" style="display: block">
-                                {{ $message }}
-                            </div>
-                            @enderror
                         </div>
                         <div>
                             <div class="form-row">

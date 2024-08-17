@@ -48,6 +48,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'ppis.create']);
         Permission::create(['name' => 'ppis.edit']);
         Permission::create(['name' => 'ppis.delete']);
+        Permission::create(['name' => 'ppis.export']);
 
          //permission for ris
          Permission::create(['name' => 'ris.index']);

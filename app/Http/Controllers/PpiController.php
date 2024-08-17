@@ -8,6 +8,8 @@ use App\Models\Ppi;
 use App\Models\Profesi;
 use App\Models\Indikasi;
 use Illuminate\Database\Eloquent\Builder;
+use App\Exports\PpiExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PpiController extends Controller
 {
@@ -241,4 +243,21 @@ class PpiController extends Controller
             ]);
         }
     }
+
+    public function laporanBulanan(Request $request)
+    {
+        $bulan = $request->input('bulan', date('Y-m')); // Default ke bulan ini
+        $ppis = Ppi::with('profesis,indikasis')
+            ->whereMonth('tanggal', date('m', strtotime($bulan)))
+            ->whereYear('tanggal', date('Y', strtotime($bulan)))
+            ->get();
+        return view('ppis.export', compact('ppis', 'bulan'));
+    }
+
+    public function export(Request $request)
+    {
+        $bulan = $request->input('bulan');
+        return Excel::download(new PpiExport($bulan), 'export.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+    }
+
 }
