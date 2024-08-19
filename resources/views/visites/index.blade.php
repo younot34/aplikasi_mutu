@@ -31,8 +31,8 @@
                                     </button>
                                 </div>
                             </div>
-                            @can('visites.export')
-                                <a href="{{ route('visites.export') }}" class="btn btn-sm btn-primary">
+                            @can('visites.export_v')
+                                <a href="{{ route('visites.export_v') }}" class="btn btn-sm btn-primary"> Laporan Bulanan
                                     <i class="fa fa-door-open"></i>
                                 </a>
                             @endcan

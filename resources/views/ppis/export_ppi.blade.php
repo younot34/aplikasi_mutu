@@ -15,19 +15,19 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('ppis.export') }}" method="GET" class="d-inline-block">
+                    <form action="{{ route('ppis.export_ppi') }}" method="GET" class="d-inline-block">
                         <div class="form-group">
                             <label for="bulan">Pilih Bulan:</label>
                             <input type="month" id="bulan" name="bulan" value="{{ $bulan }}" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-primary">Tampilkan</button>
                     </form>
-                    <form action="{{ route('ppis.export.export') }}" method="GET" class="d-inline-block ml-2">
+                    {{-- <form action="{{ route('ppis.export_ppi.export') }}" method="GET" class="d-inline-block ml-2">
                         <div class="form-group">
                             <input type="hidden" id="bulan" name="bulan" value="{{ $bulan }}" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-success">Export to Excel</button>
-                    </form>
+                    </form> --}}
                     <table class="table table-bordered mt-4">
                         <thead>
                             <tr>

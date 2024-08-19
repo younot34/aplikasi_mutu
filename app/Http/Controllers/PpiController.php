@@ -10,6 +10,8 @@ use App\Models\Indikasi;
 use Illuminate\Database\Eloquent\Builder;
 use App\Exports\PpiExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 class PpiController extends Controller
 {
@@ -36,7 +38,7 @@ class PpiController extends Controller
                $ppis = $ppis->where('unit', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }elseif($currentUser->hasRole('karyawan')){
-           $ppis = Ppi::whereHas('users', function (Builder $query) {
+           $ppis = ppi::whereHas('users', function (Builder $query) {
                $query->where('user_id', Auth()->id());
            })->paginate(10);
        }elseif($currentUser->hasRole('petugas1')){
@@ -244,20 +246,58 @@ class PpiController extends Controller
         }
     }
 
+    // public function laporanBulanan(Request $request)
+    // {
+    //     $bulan = $request->input('bulan', date('Y-m')); // Default ke bulan ini
+    //     $ppis = ppi::with(['profesis,indikasis'])
+    //         ->whereMonth('tanggal','=', date('m', strtotime($bulan)))
+    //         ->whereYear('tanggal','=', date('Y', strtotime($bulan)))
+    //         ->get();
+    //     return view('ppis.export', compact('ppis', 'bulan'));
+    // }
+
     public function laporanBulanan(Request $request)
     {
         $bulan = $request->input('bulan', date('Y-m')); // Default ke bulan ini
-        $ppis = Ppi::with('profesis,indikasis')
-            ->whereMonth('tanggal', date('m', strtotime($bulan)))
-            ->whereYear('tanggal', date('Y', strtotime($bulan)))
+        $ppis = Ppi::with(['profesis', 'indikasis'])
+            ->whereMonth('tanggal', '=', date('m', strtotime($bulan)))
+            ->whereYear('tanggal', '=', date('Y', strtotime($bulan)))
             ->get();
-        return view('ppis.export', compact('ppis', 'bulan'));
+
+        // Hitung total data dan atur jumlah data per halaman
+        $totalData = count($ppis);
+        $perPage = 10;
+        $currentPage = Paginator::resolveCurrentPage('page');
+
+        // Buat objek LengthAwarePaginator
+        $ppis = new LengthAwarePaginator(
+            $ppis->forPage($currentPage, $perPage),
+            $totalData,
+            $perPage,
+            $currentPage,
+            [
+                'path' => Paginator::resolveCurrentPath(),
+                'pageName' => 'page',
+            ]
+        );
+
+        return view('ppis.export_ppi', compact('ppis', 'bulan'));
     }
+
+    // public function laporanBulanan(Request $request)
+    // {
+    //     $bulan = $request->input('bulan' );
+    //     if ($bulan) {
+    //         $ppis = ppi::whereMonth('tanggal', date('m', strtotime($bulan)))->with('profesis','indikasis')->paginate(10);
+    //     } else {
+    //         $ppis = ppi::with('profesis','indikasis')->paginate(10);
+    //     }
+    //     return view('ppis.export', compact('ppis', 'bulan'));
+    // }
 
     public function export(Request $request)
     {
-        $bulan = $request->input('bulan');
-        return Excel::download(new PpiExport($bulan), 'export.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        return Excel::download(new PpiExport($request->input('bulan')), 'export.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
 }

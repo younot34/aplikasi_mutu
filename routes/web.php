@@ -98,19 +98,30 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/oks/review/{date}', [OkController::class, 'reviewByDate']);
     Route::get('/review_bulanan_ok', [OkController::class, 'reviewBulananOk'])->name('oks.review_bulanan_ok');
     Route::get('/export/export', [OkController::class, 'export'])->name('imprs.export.export');
+    Route::get('/oks/check-data/{date}', [OkController::class, 'checkData']);
 
     //ppi
     Route::resource('ppis', PpiController::class);
-    Route::get('/export', [PpiController::class, 'laporanBulanan'])->name('ppis.export');
-    Route::get('/export/export', [PpiController::class, 'export'])->name('ppis.export.export');
+    Route::get('/export_ppi', [PpiController::class, 'laporanBulanan'])->name('ppis.export_ppi');
+    Route::get('/export_ppi/export', [PpiController::class, 'export'])->name('ppis.export_ppi.export');
     //ri
     Route::resource('ris', RiController::class);
+    Route::get('/export_ri', [RiController::class, 'laporanBulanan'])->name('ris.export_ri');
+    Route::get('/export_ri/export', [RiController::class, 'export'])->name('ris.export_ri.export');
     //visites
     Route::resource('visites', VisiteController::class);
-    //visites
+    Route::get('/export_v', [VisiteController::class, 'laporanBulanan'])->name('visites.export_v');
+    Route::get('/export_v/export', [VisiteController::class, 'export'])->name('visites.export_v.export');
+    //clinicals
     Route::resource('clinicals', ClinicalController::class);
+    Route::get('/export_c', [ClinicalController::class, 'laporanBulanan'])->name('clinicals.export_c');
+    Route::get('/export_c/export', [ClinicalController::class, 'export'])->name('clinicals.export_c.export');
     //jatuhs
     Route::resource('jatuhs', JatuhController::class);
+    Route::get('/export_j', [JatuhController::class, 'laporanBulanan'])->name('jatuhs.export_j');
+    Route::get('/export_j/export', [JatuhController::class, 'export'])->name('jatuhs.export_j.export');
     //apds
     Route::resource('apds', ApdController::class);
+    Route::get('/export_apd', [ApdController::class, 'laporanBulanan'])->name('apds.export_apd');
+    Route::get('/export_apd/export', [ApdController::class, 'export'])->name('apds.export_apd.export');
 });

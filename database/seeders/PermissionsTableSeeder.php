@@ -48,37 +48,42 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'ppis.create']);
         Permission::create(['name' => 'ppis.edit']);
         Permission::create(['name' => 'ppis.delete']);
-        Permission::create(['name' => 'ppis.export']);
+        Permission::create(['name' => 'ppis.export_ppi']);
 
          //permission for ris
          Permission::create(['name' => 'ris.index']);
          Permission::create(['name' => 'ris.create']);
          Permission::create(['name' => 'ris.edit']);
          Permission::create(['name' => 'ris.delete']);
+         Permission::create(['name' => 'ris.export_ri']);
 
          //permission for visites
          Permission::create(['name' => 'visites.index']);
          Permission::create(['name' => 'visites.create']);
          Permission::create(['name' => 'visites.edit']);
          Permission::create(['name' => 'visites.delete']);
+         Permission::create(['name' => 'visites.export_v']);
 
          //permission for clinicals
          Permission::create(['name' => 'clinicals.index']);
          Permission::create(['name' => 'clinicals.create']);
          Permission::create(['name' => 'clinicals.edit']);
          Permission::create(['name' => 'clinicals.delete']);
+         Permission::create(['name' => 'clinicals.export_c']);
 
          //permission for jatuhs
          Permission::create(['name' => 'jatuhs.index']);
          Permission::create(['name' => 'jatuhs.create']);
          Permission::create(['name' => 'jatuhs.edit']);
          Permission::create(['name' => 'jatuhs.delete']);
+         Permission::create(['name' => 'jatuhs.export_j']);
 
          //permission for apds
          Permission::create(['name' => 'apds.index']);
          Permission::create(['name' => 'apds.create']);
          Permission::create(['name' => 'apds.edit']);
          Permission::create(['name' => 'apds.delete']);
+         Permission::create(['name' => 'apds.export_apd']);
 
         //permission for roles
         Permission::create(['name' => 'roles.index']);

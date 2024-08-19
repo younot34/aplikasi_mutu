@@ -9,6 +9,7 @@ use App\Models\Ptindakan;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Ri;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 
 class RiController extends Controller
@@ -303,5 +304,16 @@ class RiController extends Controller
                 'status' => 'error'
             ]);
         }
+    }
+
+    public function laporanBulanan(Request $request)
+    {
+        $bulan = $request->input('bulan' );
+        if ($bulan) {
+            $ri = Ri::whereMonth('tanggal', date('m', strtotime($bulan)))->with(['pobats','pdarahs','psamples','ptindakans'])->paginate(10);
+        } else {
+            $ri = Ri::with(['pobats','pdarahs','psamples','ptindakans'])->paginate(10);
+        }
+        return view('ris.export_ri', compact('ri', 'bulan'));
     }
 }

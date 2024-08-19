@@ -16,14 +16,25 @@ class CreateOksTable extends Migration
         Schema::create('oks', function (Blueprint $table) {
             $table->id();
             $table->datetime('tanggal')->nullable();
-            $table->datetime('waktu_masuk');
-            $table->datetime('waktu_pelaksanaan');
-            $table->string('waktu_pending')->nullable();
-            $table->string('alasan')->nullable();
-            $table->string('nama_dokter');
-            $table->string('nama_pasien');
             $table->integer('no_rm');
+            $table->string('nama_pasien');
+            $table->integer('umur');
             $table->string('diagnosa');
+            $table->string('tindakan_operasi');
+            $table->string('dokter_op');
+            $table->string('dokter_anest');
+            $table->string('jenis_op');
+            $table->string('asuransi');
+            $table->datetime('rencana_tindakan');
+            $table->datetime('signin');
+            $table->datetime('time_out');
+            $table->datetime('sign_out');
+            $table->string('penandaan_lokasi_op');
+            $table->string('kelengkapan_ssc');
+            $table->string('penundaan_op_elektif');
+            $table->string('sc_emergensi');
+            $table->string('keterangan')->nullable();
+            $table->string('kendala')->nullable();
             $table->timestamps();
         });
     }

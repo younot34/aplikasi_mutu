@@ -31,9 +31,9 @@
                                     </button>
                                 </div>
                             </div>
-                            @can('ppis.export')
-                                <a href="{{ route('ppis.export') }}" class="btn btn-sm btn-primary">
-                                    <i class="fa fa-door-open"></i>Laporan Bulanan
+                            @can('ppis.export_ppi')
+                                <a href="{{ route('ppis.export_ppi') }}" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-door-open"></i> Laporan Bulanan
                                 </a>
                             @endcan
                         </div>

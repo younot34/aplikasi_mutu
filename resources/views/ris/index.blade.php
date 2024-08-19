@@ -31,8 +31,8 @@
                                     </button>
                                 </div>
                             </div>
-                            @can('ris.export')
-                                <a href="{{ route('ris.export') }}" class="btn btn-sm btn-primary">
+                            @can('ris.export_ri')
+                                <a href="{{ route('ris.export_ri') }}" class="btn btn-sm btn-primary"> Laporan Bulanan
                                     <i class="fa fa-door-open"></i>
                                 </a>
                             @endcan

@@ -205,4 +205,15 @@ class ClinicalController extends Controller
             ]);
         }
     }
+
+    public function laporanBulanan(Request $request)
+    {
+        $bulan = $request->input('bulan' );
+        if ($bulan) {
+            $clinical = Clinical::whereMonth('masuk', date('m', strtotime($bulan)))->paginate(10);
+        } else {
+            $clinical = Clinical::paginate(10);
+        }
+        return view('clinicals.export_c', compact('clinical', 'bulan'));
+    }
 }

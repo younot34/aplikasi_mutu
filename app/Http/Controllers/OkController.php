@@ -26,7 +26,7 @@ class OkController extends Controller
         $currentUser = User::findOrFail(Auth()->id());
        if($currentUser->hasRole('admin')){
            $oks = Oks::latest()->when(request()->q, function($oks) {
-               $oks = $oks->where('waktu', 'like', '%'. request()->q . '%');
+               $oks = $oks->where('tanggal', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }elseif($currentUser->hasRole('karyawan')){
            $oks = Oks::whereHas('users', function (Builder $query) {
@@ -34,35 +34,35 @@ class OkController extends Controller
            })->paginate(10);
        }elseif($currentUser->hasRole('petugas1')){
            $oks = Oks::latest()->when(request()->q, function($oks) {
-               $oks = $oks->where('waktu', 'like', '%'. request()->q . '%');
+               $oks = $oks->where('tanggal', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }elseif($currentUser->hasRole('petugas2')){
            $oks = Oks::latest()->when(request()->q, function($oks) {
-               $oks = $oks->where('waktu', 'like', '%'. request()->q . '%');
+               $oks = $oks->where('tanggal', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }elseif($currentUser->hasRole('petugas3')){
            $oks = Oks::latest()->when(request()->q, function($oks) {
-               $oks = $oks->where('waktu', 'like', '%'. request()->q . '%');
+               $oks = $oks->where('tanggal', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }elseif($currentUser->hasRole('petugas4')){
            $oks = Oks::latest()->when(request()->q, function($oks) {
-               $oks = $oks->where('waktu', 'like', '%'. request()->q . '%');
+               $oks = $oks->where('tanggal', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }elseif($currentUser->hasRole('petugas5')){
            $oks = Oks::latest()->when(request()->q, function($oks) {
-               $oks = $oks->where('waktu', 'like', '%'. request()->q . '%');
+               $oks = $oks->where('tanggal', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }elseif($currentUser->hasRole('petugas6')){
            $oks = Oks::latest()->when(request()->q, function($oks) {
-               $oks = $oks->where('waktu', 'like', '%'. request()->q . '%');
+               $oks = $oks->where('tanggal', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }elseif($currentUser->hasRole('petugas7')){
            $oks = Oks::latest()->when(request()->q, function($oks) {
-               $oks = $oks->where('waktu', 'like', '%'. request()->q . '%');
+               $oks = $oks->where('tanggal', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }elseif($currentUser->hasRole('direktur')){
            $oks = Oks::latest()->when(request()->q, function($oks) {
-               $oks = $oks->where('waktu', 'like', '%'. request()->q . '%');
+               $oks = $oks->where('tanggal', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }
 
@@ -98,29 +98,51 @@ class OkController extends Controller
     {
         // Validasi input
         $request->validate([
-            'nama_pasien' => 'required|string',
+            'tanggal' => 'nullable|date',
             'no_rm' => 'required|integer',
+            'nama_pasien' => 'required|string',
+            'umur' => 'required|integer',
             'diagnosa' => 'required|string',
-            'nama_dokter' => 'required|string',
-            'tanggal' => 'date',
-            'waktu_masuk' => 'required|date',
-            'waktu_pelaksanaan' => 'required|date',
-            'waktu_pending' => 'nullable|string',
-            'alasan' => 'nullable|string',
+            'tindakan_operasi' => 'required|string',
+            'dokter_op' => 'required|string',
+            'dokter_anest' => 'required|string',
+            'jenis_op' => 'required|string',
+            'asuransi' => 'required|string',
+            'rencana_tindakan' => 'required|date',
+            'signin' => 'required|date',
+            'time_out' => 'required|date',
+            'sign_out' => 'required|date',
+            'penandaan_lokasi_op' => 'required|string',
+            'kelengkapan_ssc' => 'required|string',
+            'penundaan_op_elektif' => 'required|string',
+            'sc_emergensi' => 'required|string',
+            'keterangan' => 'nullable|string',
+            'kendala' => 'nullable|string',
         ]);
 
         try {
             // Simpan data ke tabel oks
             Oks::create([
-                'tanggal' => $request->tanggal,
-                'waktu_masuk' => $request->waktu_masuk,
-                'waktu_pelaksanaan' => $request->waktu_pelaksanaan,
-                'waktu_pending' => $request->waktu_pending,
-                'alasan' => $request->alasan,
-                'no_rm' => $request->no_rm,
-                'nama_pasien' => $request->nama_pasien,
-                'diagnosa' => $request->diagnosa,
-                'nama_dokter' => $request->nama_dokter,
+                'tanggal' =>$request->tanggal,
+                'no_rm' =>$request->no_rm,
+                'nama_pasien' =>$request->nama_pasien,
+                'umur' =>$request->umur,
+                'diagnosa' =>$request->diagnosa,
+                'tindakan_operasi' =>$request->tindakan_operasi,
+                'dokter_op' =>$request->dokter_op,
+                'dokter_anest' =>$request->dokter_anest,
+                'jenis_op' =>$request->jenis_op,
+                'asuransi' =>$request->asuransi,
+                'rencana_tindakan' =>$request->rencana_tindakan,
+                'signin' =>$request->signin,
+                'time_out'=>$request->time_out,
+                'sign_out' =>$request->sign_out,
+                'penandaan_lokasi_op' =>$request->penandaan_lokasi_op,
+                'kelengkapan_ssc' =>$request->kelengkapan_ssc,
+                'penundaan_op_elektif' =>$request->penundaan_op_elektif,
+                'sc_emergensi' =>$request->sc_emergensi,
+                'keterangan' =>$request->keterangan,
+                'kendala' =>$request->kendala,
             ]);
 
 
@@ -142,12 +164,12 @@ class OkController extends Controller
      */
     public function edit($ok)
     {
-        $oks = Oks::where('tanggal', $ok)->firstOrFail();
-        if (!$oks) {
+        $oks = Oks::where('tanggal', $ok)->get(); // Mengambil semua data pada tanggal tersebut
+        if ($oks->isEmpty()) {
             return response()->json(['message' => 'Data tidak ditemukan'], 404);
         }
-        $tanggal = $oks->tanggal;
-        return view('oks.edit', compact('oks','tanggal'));
+        $tanggal = $ok;
+        return view('oks.edit', compact('oks', 'tanggal'));
     }
 
 
@@ -162,38 +184,36 @@ class OkController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama_pasien' => 'required|string',
-            'no_rm' => 'required|integer',
-            'diagnosa' => 'required|string',
-            'nama_dokter' => 'required|string',
-            'tanggal' => 'required|date',
-            'waktu_masuk' => 'required|date',
-            'waktu_pelaksanaan' => 'required|date',
-            'waktu_pending' => 'nullable|date',
-            'alasan' => 'nullable|string',
+            'oks.*.tanggal' => 'date',
+            'oks.*.no_rm' => 'required|integer',
+            'oks.*.nama_pasien' => 'required|string',
+            'oks.*.umur' => 'required|integer',
+            'oks.*.diagnosa' => 'required|string',
+            'oks.*.tindakan_operasi' => 'required|string',
+            'oks.*.dokter_op' => 'required|string',
+            'oks.*.dokter_anest' => 'required|string',
+            'oks.*.jenis_op' => 'required|string',
+            'oks.*.asuransi' => 'required|string',
+            'oks.*.rencana_tindakan' => 'required|date',
+            'oks.*.signin' => 'required|date',
+            'oks.*.time_out' => 'required|date',
+            'oks.*.sign_out' => 'required|date',
+            'oks.*.penandaan_lokasi_op' => 'required|string',
+            'oks.*.kelengkapan_ssc' => 'required|string',
+            'oks.*.penundaan_op_elektif' => 'required|string',
+            'oks.*.sc_emergensi' => 'required|string',
+            'oks.*.keterangan' => 'nullable|string',
+            'oks.*.kendala' => 'nullable|string',
         ]);
+
         try {
+            foreach ($request->oks as $id => $data) {
+                $oks = Oks::findOrFail($id);
+                $oks->update($data);
+            }
 
-            $oks = Oks::findOrFail($id);
-            $oks->update([
-                'tanggal' => $request->tanggal,
-                'waktu_masuk' => $request->waktu_masuk,
-                'waktu_pelaksanaan' => $request->waktu_pelaksanaan,
-                'waktu_pending' => $request->waktu_pending,
-                'alasan' => $request->alasan,
-                'no_rm' => $request->no_rm,
-                'nama_pasien' => $request->nama_pasien,
-                'nama_dokter' => $request->nama_dokter,
-                'diagnosa' => $request->diagnosa,
-            ]);
-
-            // Hapus data relasi yang ada
-            // $oks->delete();
-
-            // Redirect dengan pesan sukses
             return redirect()->route('oks.index')->with(['success' => 'Data Berhasil Diperbarui!']);
         } catch (\Exception $e) {
-            DB::rollBack();
             // Redirect dengan pesan error
             return redirect()->route('oks.index')->with(['error' => 'Data Gagal Diperbarui!']);
         }
@@ -242,9 +262,7 @@ class OkController extends Controller
 
     public function reviewByDate($date)
     {
-        Log::info('Tanggal yang diterima: ' . $date);
         $oks = Oks::where('tanggal', $date)->get();
-        Log::info('Data yang ditemukan: ' . $oks->toJson());
 
         if ($oks->isEmpty()) {
             return response()->json(['message' => 'Data tidak ditemukan'], 404);
@@ -286,6 +304,12 @@ class OkController extends Controller
         return Excel::download(new OksExport($bulan), 'review_bulanan_ok.xlsx');
     }
 
+    public function checkData($date)
+    {
+        $hasData = Oks::whereDate('your_date_column', $date)->exists();
+
+        return response()->json(['hasData' => $hasData]);
+    }
 
 
 

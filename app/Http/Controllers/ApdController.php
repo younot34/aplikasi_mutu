@@ -227,4 +227,16 @@ class ApdController extends Controller
             ]);
         }
     }
+
+
+    public function laporanBulanan(Request $request)
+    {
+        $bulan = $request->input('bulan' );
+        if ($bulan) {
+            $apd = Apd::whereMonth('tanggal', date('m', strtotime($bulan)))->paginate(10);
+        } else {
+            $apd = Apd::paginate(10);
+        }
+        return view('apds.export_apd', compact('apd', 'bulan'));
+    }
 }

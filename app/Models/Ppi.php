@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Ppi extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable =
     [
         'unit',
@@ -19,6 +25,7 @@ class Ppi extends Model
     {
         return $this->hasMany(Profesi::class);
     }
+
     public function indikasis()
     {
         return $this->hasMany(Indikasi::class);

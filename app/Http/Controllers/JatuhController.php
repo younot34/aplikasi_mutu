@@ -201,4 +201,15 @@ class JatuhController extends Controller
             ]);
         }
     }
+
+    public function laporanBulanan(Request $request)
+    {
+        $bulan = $request->input('bulan' );
+        if ($bulan) {
+            $jatuh = Jatuh::whereMonth('tanggal', date('m', strtotime($bulan)))->paginate(10);
+        } else {
+            $jatuh = Jatuh::paginate(10);
+        }
+        return view('jatuhs.export_j', compact('jatuh', 'bulan'));
+    }
 }

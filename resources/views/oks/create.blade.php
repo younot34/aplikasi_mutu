@@ -16,74 +16,93 @@
                         @csrf
                         <input type="hidden" name="tanggal" value="{{ $tanggal }}">
                         <div id="resep-container">
-                            <div class="form-group">
-                                <label>Waktu Masuk</label>
-                                <input type="datetime-local" name="waktu_masuk" id="waktu_masuk" class="form-control @error('waktu_masuk') is-invalid @enderror">
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label>No.RM</label>
+                                    <input type="number" name="no_rm" class="form-control">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Nama Pasien</label>
+                                    <input type="text" name="nama_pasien" class="form-control">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Umur</label>
+                                    <input type="number" name="umur" class="form-control">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Diagnosa</label>
+                                    <input type="text" name="diagnosa" class="form-control">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Tindakan Operasi</label>
+                                    <input type="text" name="tindakan_operasi" class="form-control">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Dokter OP</label>
+                                    <input type="text" name="dokter_op" class="form-control">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Dokter Anest</label>
+                                    <input type="text" name="dokter_anest" class="form-control">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Jenis OP</label>
+                                    <input type="text" name="jenis_op" class="form-control">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Asuransi</label>
+                                    <input type="text" name="asuransi" class="form-control">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Rencana Tindakan</label>
+                                    <input type="datetime-local" name="rencana_tindakan" class="form-control">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Sign In</label>
+                                    <input type="datetime-local" name="signin" class="form-control">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Time Out</label>
+                                    <input type="datetime-local" name="time_out" class="form-control">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Sign Out</label>
+                                    <input type="datetime-local" name="sign_out" class="form-control">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>Waktu Pelaksanaan</label>
-                                <input type="datetime-local" name="waktu_pelaksanaan" id="waktu_pelaksanaan" class="form-control @error('waktu_pelaksanaan') is-invalid @enderror">
-                            </div>
-                            <div class="form-group">
-                                <label>Waktu Pending</label>
-                                <input type="text" name="waktu_pending" id="waktu_pending" class="form-control" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label>Alasan</label>
-                                <input type="text" name="alasan" class="form-control" placeholder="Alasan (Optional)">
-                            </div>
-                            <div id="obat-container">
+                            <div>
                                 <div class="form-row">
                                     <div class="form-group col-md-3">
-                                        <label>Nama Pasien</label>
-                                        <input type="text" name="nama_pasien" class="form-control">
+                                        <label>Penandaan Lokasi OP</label>
+                                        <input type="text" name="penandaan_lokasi_op" class="form-control">
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <label>No RM</label>
-                                        <input type="text" name="no_rm" class="form-control">
+                                        <label>Kelengkapan SSC</label>
+                                        <input type="text" name="kelengkapan_ssc" class="form-control">
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <label>Diagnosa</label>
-                                        <input type="text" name="diagnosa" class="form-control">
+                                        <label>Penundaan OP Elektif >2 Jam</label>
+                                        <input type="text" name="penundaan_op_elektif" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>SC Emergensi Kategori 1 >30mnt</label>
+                                        <input type="text" name="sc_emergensi" class="form-control">
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-3">
-                                        <label>Nama Dokter</label>
-                                        <input type="text" name="nama_dokter" class="form-control">
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Keterangan</label>
+                                <input type="text" name="keterangan" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Kendala</label>
+                                <input type="text" name="kendala" class="form-control">
                             </div>
                         </div>
                         <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>
                         <button class="btn btn-warning btn-reset" type="reset"><i class="fa fa-redo"></i> RESET</button>
                     </form>
                 </div>
-                        <script>
-                            const waktuMasukInput = document.querySelector('#waktu_masuk');
-                            const waktuPelaksanaanInput = document.querySelector('#waktu_pelaksanaan');
-                            const waktuPendingInput = document.querySelector('#waktu_pending');
-
-                            // Tambahkan event listener untuk menghitung selisih waktu
-                            waktuMasukInput.addEventListener('change', hitungSelisihWaktu);
-                            waktuPelaksanaanInput.addEventListener('change', hitungSelisihWaktu);
-
-                            function hitungSelisihWaktu() {
-                                const waktuMasuk = new Date(waktuMasukInput.value);
-                                const waktuPelaksanaan = new Date(waktuPelaksanaanInput.value);
-
-                                // Hitung selisih waktu dalam milidetik
-                                const selisihWaktu = waktuPelaksanaan - waktuMasuk;
-
-                                // Konversi selisih waktu ke menit dan jam
-                                const selisihMenit = Math.floor(selisihWaktu / (1000 * 60));
-                                const selisihJam = Math.floor(selisihMenit / 60);
-
-                                // Isi nilai selisih waktu ke dalam input "Waktu Pending"
-                                waktuPendingInput.value = `${selisihJam} jam ${selisihMenit % 60} menit`;
-                            }
-                        </script>
-                <script src="{{ asset('js/resep.js') }}"></script>
             </div>
         </div>
     </section>

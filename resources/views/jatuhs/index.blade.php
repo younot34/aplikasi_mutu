@@ -31,8 +31,8 @@
                                     </button>
                                 </div>
                             </div>
-                            @can('jatuhs.export')
-                                <a href="{{ route('jatuhs.export') }}" class="btn btn-sm btn-primary">
+                            @can('jatuhs.export_j')
+                                <a href="{{ route('jatuhs.export_j') }}" class="btn btn-sm btn-primary"> Laporan Bulanan
                                     <i class="fa fa-door-open"></i>
                                 </a>
                             @endcan

@@ -127,7 +127,7 @@
                             <ul class="dropdown-menu">
                                 @can('oks.index')
                                 <li class="{{ setActive('/ok') }}"><a class="nav-link"
-                                        href="{{  route('oks.index') }}"><i class="fas fa-book-open"></i>Penundaan op elektif</a>
+                                        href="{{  route('oks.index') }}"><i class="fas fa-book-open"></i>Operasi</a>
                                     </li>
                                 @endcan
                             </ul>

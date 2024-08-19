@@ -194,4 +194,15 @@ class VisiteController extends Controller
             ]);
         }
     }
+
+    public function laporanBulanan(Request $request)
+    {
+        $bulan = $request->input('bulan' );
+        if ($bulan) {
+            $visite = Visite::whereMonth('tanggal', date('m', strtotime($bulan)))->paginate(10);
+        } else {
+            $visite = Visite::paginate(10);
+        }
+        return view('visites.export_v', compact('visite', 'bulan'));
+    }
 }

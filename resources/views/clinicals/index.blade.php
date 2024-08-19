@@ -31,8 +31,8 @@
                                     </button>
                                 </div>
                             </div>
-                            @can('clinicals.export')
-                                <a href="{{ route('clinicals.export') }}" class="btn btn-sm btn-primary">
+                            @can('clinicals.export_c')
+                                <a href="{{ route('clinicals.export_c') }}" class="btn btn-sm btn-primary"> Laporan Bulanan
                                     <i class="fa fa-door-open"></i>
                                 </a>
                             @endcan

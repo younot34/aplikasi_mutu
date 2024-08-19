@@ -11,15 +11,26 @@ class Oks extends Model
 
     protected $fillable =
     [
-        'nama_pasien',
-        'no_rm',
-        'diagnosa',
-        'nama_dokter',
         'tanggal',
-        'waktu_masuk',
-        'waktu_pelaksanaan',
-        'waktu_pending',
-        'alasan',
+        'no_rm',
+        'nama_pasien',
+        'umur',
+        'diagnosa',
+        'tindakan_operasi',
+        'dokter_op',
+        'dokter_anest',
+        'jenis_op',
+        'asuransi',
+        'rencana_tindakan',
+        'signin',
+        'time_out',
+        'sign_out',
+        'penandaan_lokasi_op',
+        'kelengkapan_ssc',
+        'penundaan_op_elektif',
+        'sc_emergensi',
+        'keterangan',
+        'kendala'
     ];
 
 }

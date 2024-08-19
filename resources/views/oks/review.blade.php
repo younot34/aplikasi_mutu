@@ -19,23 +19,37 @@
                             </button>
                         @endforeach
                     </div>
-                    <table class="table table-bordered mt-4">
-                        <thead>
-                            <tr>
-                                <th>nama_pasien</th>
-                                <th>no_rm</th>
-                                <th>diagnosa</th>
-                                <th>nama_dokter</th>
-                                <th>tanggal</th>
-                                <th>waktu_pelaksanaan</th>
-                                <th>waktu_pending</th>
-                                <th>alasan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Data akan diisi di sini -->
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No.RM</th>
+                                    <th>Tanggal</th>
+                                    <th>Nama Pasien</th>
+                                    <th>Umur</th>
+                                    <th>Diagnosa</th>
+                                    <th>Tindakan Operasi</th>
+                                    <th>Dokter OP</th>
+                                    <th>Dokter Anest</th>
+                                    <th>Jenis OP</th>
+                                    <th>Asuransi</th>
+                                    <th>Rencana Tindakan</th>
+                                    <th>Sign In</th>
+                                    <th>Time Out</th>
+                                    <th>Sign Out</th>
+                                    <th>Penandaan Lokasi OP</th>
+                                    <th>Kelengkapan SSC</th>
+                                    <th>Penundaan OP Elektif</th>
+                                    <th>SC Emergensi</th>
+                                    <th>Keterangan</th>
+                                    <th>Kendala</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data akan diisi di sini -->
+                            </tbody>
+                        </table>
+                    </div>
                     <script>
                         document.addEventListener('DOMContentLoaded', function() {
                             const buttons = document.querySelectorAll('.date-btn');
@@ -69,14 +83,26 @@
                                     tbody.innerHTML = ''; // Kosongkan tabel
                                     data.forEach(item => {
                                         const row = `<tr>
-                                            <td>${item.nama_pasien}</td>
-                                            <td>${item.no_rm}</td>
-                                            <td>${item.diagnosa}</td>
-                                            <td>${item.nama_dokter}</td>
-                                            <td>${item.tanggal}</td>
-                                            <td>${item.waktu_pelaksanaan}</td>
-                                            <td>${item.waktu_pending}</td>
-                                            <td>${item.alasan}</td>
+                                            <th> ${item.tanggal}</th>
+                                            <th> ${item.no_rm}</th>
+                                            <th> ${item.nama_pasien}</th>
+                                            <th> ${item.umur}</th>
+                                            <th> ${item.diagnosa}</th>
+                                            <th> ${item.tindakan_operasi}</th>
+                                            <th> ${item.dokter_op}</th>
+                                            <th> ${item.dokter_anest}</th>
+                                            <th> ${item.jenis_op}</th>
+                                            <th> ${item.asuransi}</th>
+                                            <th> ${item.rencana_tindakan}</th>
+                                            <th> ${item.signin}</th>
+                                            <th> ${item.time_out}</th>
+                                            <th> ${item.sign_out}</th>
+                                            <th> ${item.penandaan_lokasi_op}</th>
+                                            <th> ${item.kelengkapan_ssc}</th>
+                                            <th> ${item.penundaan_op_elektif}</th>
+                                            <th> ${item.sc_emergensi}</th>
+                                            <th> ${item.keterangan}</th>
+                                            <th> ${item.kendala}</th>
                                         </tr>`;
                                         tbody.innerHTML += row;
                                     });

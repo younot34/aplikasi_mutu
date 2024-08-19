@@ -8,7 +8,7 @@
         <div class="section-body">
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-exam"></i> Penundaan OP Elektif</h4>
+                    <h4><i class="fas fa-exam"></i> OK</h4>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('oks.index') }}" method="GET" class="d-inline-block">
@@ -22,7 +22,6 @@
                         </form>
                         @can('oks.review_bulanan_ok')
                             <form action="{{ route('oks.review_bulanan_ok') }}" method="GET" class="d-inline-block">
-                                <input type="month" name="bulan" value="{{ $bulan }}" class="form-control" required>
                                 <button type="submit" class="btn btn-sm btn-primary review-bulanan-btn">
                                     <i class="fa fa-door-open"></i> Laporan Bulanan
                                 </button>
@@ -40,8 +39,12 @@
                             </thead>
                             <tbody>
                                 @for ($date = $tanggal; $date <= $akhirBulan; $date->addDay())
+                                    @php
+                                        $hasData = \App\Models\Oks::whereDate('tanggal', $date->format('Y-m-d'))->exists();
+                                        $bgColor = $hasData ? 'bg-success text-white' : '';
+                                    @endphp
                                     <tr>
-                                        <td>{{ $date->format('Y-m-d') }}</td>
+                                        <td class="{{ $bgColor }}">{{ $date->format('Y-m-d') }}</td>
                                         <td>
                                             <a href="{{ route('oks.create', ['date' => $date->format('Y-m-d')]) }}" class="btn btn-success">Create</a>
                                             <a href="#" class="btn btn-warning edit-btn" data-date="{{ $date->format('Y-m-d') }}">Edit</a>
@@ -56,6 +59,7 @@
                                     const editButtons = document.querySelectorAll('.edit-btn');
                                     const deleteButtons = document.querySelectorAll('.delete-btn');
                                     const reviewButtons = document.querySelectorAll('.review-btn');
+                                    const rows = document.querySelectorAll('tbody tr');
                                     editButtons.forEach(button => {
                                         button.addEventListener('click', function (event) {
                                             event.preventDefault();
@@ -115,6 +119,20 @@
                                                 });
                                         });
                                     });
+                                    rows.forEach(row => {
+                                        const date = row.querySelector('td:first-child').innerText;
+
+                                        fetch(`/oks/check-data/${date}`)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.hasData) {
+                                                    row.classList.add('bg-success', 'text-white');
+                                                }
+                                            })
+                                            .catch(error => {
+                                                console.error('Error:', error);
+                                            });
+                                    });
                                 });
                             </script>
                         </table>
@@ -124,67 +142,4 @@
         </div>
     </section>
 </div>
-
-<script>
-    //ajax delete
-    function Delete(id)
-        {
-            var id = id;
-            var token = $("meta[name='csrf-token']").attr("content");
-
-            swal({
-                title: "APAKAH KAMU YAKIN ?",
-                text: "INGIN MENGHAPUS DATA INI!",
-                icon: "warning",
-                buttons: [
-                    'TIDAK',
-                    'YA'
-                ],
-                dangerMode: true,
-            }).then(function(isConfirm) {
-                if (isConfirm) {
-
-                    //ajax delete
-                    jQuery.ajax({
-                        url: "{{ route("imprs.index") }}/"+id,
-                        data:   {
-                            "id": id,
-                            "_token": token
-                        },
-                        type: 'DELETE',
-                        success: function (response) {
-                            if (response.status == "success") {
-                                swal({
-                                    title: 'BERHASIL!',
-                                    text: 'DATA BERHASIL DIHAPUS!',
-                                    icon: 'success',
-                                    timer: 1000,
-                                    showConfirmButton: false,
-                                    showCancelButton: false,
-                                    buttons: false,
-                                }).then(function() {
-                                    location.reload();
-                                });
-                            }else{
-                                swal({
-                                    title: 'GAGAL!',
-                                    text: 'DATA GAGAL DIHAPUS!',
-                                    icon: 'error',
-                                    timer: 1000,
-                                    showConfirmButton: false,
-                                    showCancelButton: false,
-                                    buttons: false,
-                                }).then(function() {
-                                    location.reload();
-                                });
-                            }
-                        }
-                    });
-
-                } else {
-                    return true;
-                }
-            })
-        }
-</script>
 @stop

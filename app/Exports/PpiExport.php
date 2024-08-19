@@ -38,28 +38,4 @@ class PpiExport implements FromCollection, WithHeadings
             'cuci_tangan',
         ];
     }
-
-    public function map($ppis): array
-    {
-        $rows = [];
-        foreach ($ppis->profesis as $profesiss) {
-            $opp = $ppis->indikasis->pluck('opp')->implode(",");
-            $indiKasi = $ppis->indikasis->pluck('indikasi')->implode(",");
-            $cuciTangan = $ppis->indikasis->pluck('cuci_tangan')->implode(",");
-
-            $rows[] = [
-                $ppis->id,
-                $ppis->unit,
-                date('d/m/Y', strtotime($ppis->tanggal)),
-                $ppis->observer,
-                $profesiss->profesi,
-                $profesiss->jumlah,
-                $opp,
-                $indiKasi,
-                $cuciTangan,
-            ];
-        }
-
-        return $rows;
-    }
 }
