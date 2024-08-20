@@ -4,35 +4,35 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Farmasi</h1>
+            <h1>RAWAT INAP</h1>
         </div>
 
         <div class="section-body">
 
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-exam"></i> Farmasi Nasional</h4>
+                    <h4><i class="fas fa-exam"></i>Kepatuhan Verifikasi DPJP terhadap Catatan Komunikasi</h4>
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('farmasis.index') }}" method="GET">
+                    <form action="{{ route('dpjps.index') }}" method="GET">
                     @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin')
                         <div class="form-group">
                             <div class="input-group mb-3">
-                                @can('farmasis.create')
+                                @can('dpjps.create')
                                     <div class="input-group-prepend">
-                                        <a href="{{ route('farmasis.create') }}" class="btn btn-primary" style="padding-top: 10px;"><i class="fa fa-plus-circle"></i> TAMBAH</a>
+                                        <a href="{{ route('dpjps.create') }}" class="btn btn-primary" style="padding-top: 10px;"><i class="fa fa-plus-circle"></i> TAMBAH</a>
                                     </div>
                                 @endcan
                                 <input type="text" class="form-control" name="q"
-                                       placeholder="cari berdasarkan tanggal farmasi">
+                                       placeholder="cari berdasarkan tanggal dpjps">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> CARI
                                     </button>
                                 </div>
                             </div>
-                            @can('farmasis.laporan-bulanan')
-                                <a href="{{ route('farmasis.laporan-bulanan') }}" class="btn btn-sm btn-primary"> Laporan Bulanan
+                            @can('dpjps.export_dp')
+                                <a href="{{ route('dpjps.export_dp') }}" class="btn btn-sm btn-primary"> Laporan Bulanan
                                     <i class="fa fa-door-open"></i>
                                 </a>
                             @endcan
@@ -45,89 +45,53 @@
                             <tr>
                                 <th scope="col" style="text-align: center;width: 6%">NO.</th>
                                 <th scope="col">Tanggal</th>
+                                <th scope="col">No.RM</th>
                                 <th scope="col">Nama Pasien</th>
-                                <th scope="col">No RM</th>
-                                <th scope="col">R/</th>
-                                <th scope="col">Nama Obat</th>
-                                <th scope="col">Total Obat Fornas</th>
-                                <th scope="col">Total Item</th>
+                                <th scope="col" colspan="2"><center>Catatan Komunikasi (TbAk)</center></th>
+                                <th scope="col">DPJP</th>
                                 <th scope="col" style="width: 15%;text-align: center">AKSI</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th style="width: 15%;text-align: center">Terverifikasi</th>
+                                <th style="width: 15%;text-align: center">Tidak Terverifikasi</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                                @php
-                                    $totalObatFornas = 0;
-                                    $totalItem = 0;
-                                    $tanggal = null;
-                                @endphp
-                                @foreach ($farmasis as $no => $farmasi)
+                                @foreach ($dpjp as $no => $dpjps)
                                 <tr>
-                                    <th scope="row" style="text-align: center">{{ ++$no + ($farmasis->currentPage()-1) * $farmasis->perPage() }}</th>
-                                    <td>{{ $farmasi->waktu }}</td>
-                                    <td>{{ $farmasi->nama_px }}</td>
-                                    <td>{{ $farmasi->no_rm }}</td>
-                                    <td>
-                                        @foreach ($farmasi->nama_obats as $nama_obatss)
-                                            <div>{{ $nama_obatss->r }}</div>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach ($farmasi->nama_obats as $nama_obatss)
-                                            <div>{{ $nama_obatss->nama_obat }}</div>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach ($farmasi->obats as $obat)
-                                            <div>{{ $obat->total_obat_fornas }}</div>
-                                            @php
-                                                $totalObatFornas += $obat->total_obat_fornas;
-                                            @endphp
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach ($farmasi->obats as $obat)
-                                            <div>{{ $obat->total_item }}</div>
-                                            @php
-                                                $totalItem += $obat->total_item;
-                                            @endphp
-                                        @endforeach
-                                    </td>
+                                    <th scope="row" style="text-align: center">{{ ++$no + ($dpjp->currentPage()-1) * $dpjp->perPage() }}</th>
+                                    <td>{{ $dpjps->tanggal }}</td>
+                                    <td>{{ $dpjps->no_rm }}</td>
+                                    <td>{{ $dpjps->nama_pasien }}</td>
+                                    <td>{{ $dpjps->terverifikasi }}</td>
+                                    <td>{{ $dpjps->tidak_terverifikasi }}</td>
+                                    <td>{{ $dpjps->dpjp }}</td>
                                     <td class="text-center">
 
-                                        @can('farmasis.edit')
-                                            <a href="{{ route('farmasis.edit', $farmasi->id) }}" class="btn btn-sm btn-primary">
+                                        @can('dpjps.edit')
+                                            <a href="{{ route('dpjps.edit', $dpjps->id) }}" class="btn btn-sm btn-primary">
                                                 <i class="fa fa-pencil-alt"></i>
                                             </a>
                                         @endcan
 
-                                        @can('farmasis.delete')
-                                            <button onClick="Delete(this.id)" class="btn btn-sm btn-danger" id="{{ $farmasi->id }}">
+                                        @can('dpjps.delete')
+                                            <button onClick="Delete(this.id)" class="btn btn-sm btn-danger" id="{{ $dpjps->id }}">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         @endcan
                                     </td>
                                 </tr>
-                                @if ($tanggal !== $farmasi->waktu)
-                                    @php
-                                        $tanggal = $farmasi->waktu;
-                                    @endphp
-                                    <tr>
-                                        <td colspan="6" style="text-align: right;"><strong>JUMLAH</strong></td>
-                                        <td>{{ $totalObatFornas }}</td>
-                                        <td>{{ $totalItem }}</td>
-                                        <td></td>
-                                    </tr>
-                                    @php
-                                        $totalObatFornas = 0;
-                                        $totalItem = 0;
-                                    @endphp
-                                @endif
                             @endforeach
-
                             </tbody>
                         </table>
                         <div style="text-align: center">
-                            {{$farmasis->links("vendor.pagination.bootstrap-4")}}
+                            {{$dpjp->links("vendor.pagination.bootstrap-4")}}
                         </div>
                     </div>
                 </div>
@@ -158,7 +122,7 @@
 
                     //ajax delete
                     jQuery.ajax({
-                        url: "{{ route("farmasis.index") }}/"+id,
+                        url: "{{ route("dpjps.index") }}/"+id,
                         data:   {
                             "id": id,
                             "_token": token

@@ -37,7 +37,7 @@
                             <input type="number" name="no_rm" value="{{$ri->no_rm ?? old('no_rm')}}" class="form-control" placeholder="no rm">
                         </div>
                         <div class="form-group col-md-3">
-                            <label>Nama PX</label>
+                            <label>Nama Pasien</label>
                             <input type="text" name="nama_px" value="{{$ri->nama_px ?? old('nama_px')}}" class="form-control" placeholder="nama pasien">
                         </div>
                         <div class="form-group col-md-3">

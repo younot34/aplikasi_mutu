@@ -37,6 +37,7 @@
                                 <th scope="col">Nama Pasien</th>
                                 <th scope="col" colspan="2"><center>Resiko Jatuh</center></th>
                                 <th scope="col" colspan="3"><center>Upaya Pencegahan Resiko Jatuh</center></th>
+                                <th scope="col">Jumlah</th>
                             </tr>
                             <tr>
                                 <th></th>
@@ -48,6 +49,7 @@
                                 <th>Kancing Kuning</th>
                                 <th>Segitiga Resiko Jatuh</th>
                                 <th>Pemasangan Handreal</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,6 +64,26 @@
                                 <td>{{ $jatuhs->kancing }}</td>
                                 <td>{{ $jatuhs->segitiga }}</td>
                                 <td>{{ $jatuhs->handreal }}</td>
+                                <td>
+                                    <strong>
+                                        @php
+                                            $totalRendah = 0;
+                                            $totalTinggi = 0;
+                                            $totalKancing = 0;
+                                            $totalSegitiga = 0;
+                                            $totalHandreal = 0;
+                                            foreach ($jatuh as $jatuhs) {
+                                                $totalRendah += $jatuhs->rendah === '✔️' ? 1 : 0;
+                                                $totalTinggi += $jatuhs->tinggi === '✔️' ? 1 : 0;
+                                                $totalKancing += $jatuhs->kancing === '✔️' ? 1 : 0;
+                                                $totalSegitiga += $jatuhs->segitiga === '✔️' ? 1 : 0;
+                                                $totalHandreal += $jatuhs->handreal === '✔️' ? 1 : 0;
+                                            }
+                                            $result = $totalRendah + $totalTinggi + $totalKancing + $totalSegitiga + $totalHandreal;
+                                        @endphp
+                                            <center>{{$result}}</center>
+                                    </strong>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>

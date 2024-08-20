@@ -19,7 +19,7 @@
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="tanggal" value="{{ $tanggal }}">
-                
+
                         @foreach ($oks as $ok)
                         <div id="resep-container" style="margin-bottom: 10px;">
                             <div class="form-row">
@@ -45,7 +45,11 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Dokter OP</label>
-                                    <input type="text" name="oks[{{ $ok->id }}][dokter_op]" value="{{ $ok->dokter_op }}" class="form-control">
+                                    <input type="text" name="oks[{{ $ok->id }}][dokter_op]" value="{{ $ok->dokter_op }}" class="form-control" list="data_list_dok">
+                                    <datalist id="data_list_dok">
+                                        <option value="dr.Albert Novriadi,Sp.OG"></option>
+                                        <option value="dr.Muharrom Hijrie Nurpatikana,Sp.B"></option>
+                                    </datalist>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Dokter Anest</label>
@@ -105,10 +109,10 @@
                         </div>
                         <hr>
                         @endforeach
-                
+
                         <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>
                     </form>
-                </div>                
+                </div>
             </div>
         </div>
     </section>

@@ -85,6 +85,27 @@ class PermissionsTableSeeder extends Seeder
          Permission::create(['name' => 'apds.delete']);
          Permission::create(['name' => 'apds.export_apd']);
 
+         //permission for ewss
+         Permission::create(['name' => 'ewss.index']);
+         Permission::create(['name' => 'ewss.create']);
+         Permission::create(['name' => 'ewss.edit']);
+         Permission::create(['name' => 'ewss.delete']);
+         Permission::create(['name' => 'ewss.export_e']);
+
+         //permission for inters
+         Permission::create(['name' => 'inters.index']);
+         Permission::create(['name' => 'inters.create']);
+         Permission::create(['name' => 'inters.edit']);
+         Permission::create(['name' => 'inters.delete']);
+         Permission::create(['name' => 'inters.export_in']);
+
+         //permission for dpjps
+         Permission::create(['name' => 'dpjps.index']);
+         Permission::create(['name' => 'dpjps.create']);
+         Permission::create(['name' => 'dpjps.edit']);
+         Permission::create(['name' => 'dpjps.delete']);
+         Permission::create(['name' => 'dpjps.export_dp']);
+
         //permission for roles
         Permission::create(['name' => 'roles.index']);
         Permission::create(['name' => 'roles.create']);

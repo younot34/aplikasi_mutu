@@ -15,6 +15,9 @@ use App\Exports\FarmasiExport;
 use App\Exports\ImprsExport;
 use App\Http\Controllers\ApdController;
 use App\Http\Controllers\ClinicalController;
+use App\Http\Controllers\DpjpController;
+use App\Http\Controllers\EwsController;
+use App\Http\Controllers\InterController;
 use App\Http\Controllers\JatuhController;
 use App\Http\Controllers\ListobatController;
 use App\Http\Controllers\OkController;
@@ -97,7 +100,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/oks/calendar', [OkController::class, 'calendar'])->name('oks.calendar');
     Route::get('/oks/review/{date}', [OkController::class, 'reviewByDate']);
     Route::get('/review_bulanan_ok', [OkController::class, 'reviewBulananOk'])->name('oks.review_bulanan_ok');
-    Route::get('/export/export', [OkController::class, 'export'])->name('imprs.export.export');
+    Route::get('/review_bulanan_ok/export', [OkController::class, 'exportBulanan'])->name('oks.review_bulanan_ok.export');
     Route::get('/oks/check-data/{date}', [OkController::class, 'checkData']);
 
     //ppi
@@ -124,4 +127,16 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('apds', ApdController::class);
     Route::get('/export_apd', [ApdController::class, 'laporanBulanan'])->name('apds.export_apd');
     Route::get('/export_apd/export', [ApdController::class, 'export'])->name('apds.export_apd.export');
+    //ewss
+    Route::resource('ewss', EwsController::class);
+    Route::get('/export_e', [EwsController::class, 'laporanBulanan'])->name('ewss.export_e');
+    Route::get('/export_e/export', [EwsController::class, 'export'])->name('ewss.export_e.export');
+    //inters
+    Route::resource('inters', InterController::class);
+    Route::get('/export_in', [InterController::class, 'laporanBulanan'])->name('inters.export_in');
+    Route::get('/export_in/export', [InterController::class, 'export'])->name('inters.export_in.export');
+    //dpjps
+    Route::resource('dpjps', DpjpController::class);
+    Route::get('/export_dp', [DpjpController::class, 'laporanBulanan'])->name('dpjps.export_dp');
+    Route::get('/export_dp/export', [DpjpController::class, 'export'])->name('dpjps.export_dp.export');
 });

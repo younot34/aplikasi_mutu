@@ -39,7 +39,11 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Dokter OP</label>
-                                    <input type="text" name="dokter_op" class="form-control">
+                                    <input type="text" name="dokter_op" class="form-control" list="data_list_dok">
+                                    <datalist id="data_list_dok">
+                                        <option value="dr.Albert Novriadi,Sp.OG"></option>
+                                        <option value="dr.Muharrom Hijrie Nurpatikana,Sp.B"></option>
+                                    </datalist>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Dokter Anest</label>

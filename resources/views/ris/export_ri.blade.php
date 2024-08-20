@@ -35,7 +35,7 @@
                                 <th scope="col">Tanggal</th>
                                 <th scope="col">Sift</th>
                                 <th scope="col">No.RM</th>
-                                <th scope="col">Nama PX</th>
+                                <th scope="col">Nama Pasien</th>
                                 <th scope="col">Alamat</th>
                                 <th scope="col" colspan="2"><center>Pemberian Obat</center></th>
                                 <th scope="col" colspan="2"><center>Pemberian Darah</center></th>

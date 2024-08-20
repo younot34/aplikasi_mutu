@@ -34,7 +34,7 @@
                             <input type="number" name="no_rm" class="form-control" placeholder="no rm">
                         </div>
                         <div class="form-group col-md-3">
-                            <label>Nama PX</label>
+                            <label>Nama Pasien</label>
                             <input type="text" name="nama_px" class="form-control" placeholder="nama pasien">
                         </div>
                         <div class="form-group col-md-3">
@@ -59,27 +59,51 @@
                                     <tr>
                                         <td>
                                             <label>benar nama</label>
-                                            <input type="text" name="benar_namao[]" class="form-control">
+                                            <input type="text" name="benar_namao[]" class="form-control" list="data_list_benar">
+                                            <datalist id="data_list_benar">
+                                                <option value="✔️"></option>
+                                            </datalist>
                                             <label>benar alamat</label>
-                                            <input type="text" name="benar_alamato[]" class="form-control">
+                                            <input type="text" name="benar_alamato[]" class="form-control" list="data_list_benar">
+                                            <datalist id="data_list_benar">
+                                                <option value="✔️"></option>
+                                            </datalist>
                                         </td>
                                         <td>
                                             <label>benar nama</label>
-                                            <input type="text" name="benar_namad[]" class="form-control">
+                                            <input type="text" name="benar_namad[]" class="form-control" list="data_list_benar">
+                                            <datalist id="data_list_benar">
+                                                <option value="✔️"></option>
+                                            </datalist>
                                             <label>benar alamat</label>
-                                            <input type="text" name="benar_alamatd[]" class="form-control">
+                                            <input type="text" name="benar_alamatd[]" class="form-control" list="data_list_benar">
+                                            <datalist id="data_list_benar">
+                                                <option value="✔️"></option>
+                                            </datalist>
                                         </td>
                                         <td>
                                             <label>benar nama</label>
-                                            <input type="text" name="benar_namas[]" class="form-control">
+                                            <input type="text" name="benar_namas[]" class="form-control" list="data_list_benar">
+                                            <datalist id="data_list_benar">
+                                                <option value="✔️"></option>
+                                            </datalist>
                                             <label>benar alamat</label>
-                                            <input type="text" name="benar_alamats[]" class="form-control">
+                                            <input type="text" name="benar_alamats[]" class="form-control" list="data_list_benar">
+                                            <datalist id="data_list_benar">
+                                                <option value="✔️"></option>
+                                            </datalist>
                                         </td>
                                         <td>
                                             <label>benar nama</label>
-                                            <input type="text" name="benar_namat[]" class="form-control">
+                                            <input type="text" name="benar_namat[]" class="form-control" list="data_list_benar">
+                                            <datalist id="data_list_benar">
+                                                <option value="✔️"></option>
+                                            </datalist>
                                             <label>benar alamat</label>
-                                            <input type="text" name="benar_alamatt[]" class="form-control">
+                                            <input type="text" name="benar_alamatt[]" class="form-control" list="data_list_benar">
+                                            <datalist id="data_list_benar">
+                                                <option value="✔️"></option>
+                                            </datalist>
                                         </td>
                                     </tr>
                                 </tbody>

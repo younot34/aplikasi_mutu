@@ -210,6 +210,44 @@
                                 @endcan
                             </ul>
                         </li>
+                        @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                        <li class="menu-header">RI RS</li>
+                        @endif
+
+                        @can('sliders.index')
+                        <li class="{{ setActive('admin/slider') }}"><a class="nav-link"
+                                href="#"><i class="fas fa-laptop"></i>
+                                <span>Sliders</span></a></li>
+                        @endcan
+                        <li
+                            class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
+                            @if(auth()->user()->can('ewss.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>RI RS
+                                Management</span></a>
+                            @endif
+
+                            <ul class="dropdown-menu">
+                                @can('ewss.index')
+                                <li class="{{ setActive('/ews') }}"><a class="nav-link"
+                                        href="{{  route('ewss.index') }}"><i class="fas fa-book-open"></i>Pengisian EWS</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                            <ul class="dropdown-menu">
+                                @can('inters.index')
+                                <li class="{{ setActive('/inter') }}"><a class="nav-link"
+                                        href="{{  route('inters.index') }}"><i class="fas fa-book-open"></i>Intervensi Risiko Jatuh</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                            <ul class="dropdown-menu">
+                                @can('dpjps.index')
+                                <li class="{{ setActive('/dpjp') }}"><a class="nav-link"
+                                        href="{{  route('dpjps.index') }}"><i class="fas fa-book-open"></i>Verifikasi DPJP</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
 
                         @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
                         <li class="menu-header">PENGATURAN</li>

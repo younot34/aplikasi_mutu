@@ -47,7 +47,17 @@
                         </div>
                         <div class="form-group col-md-3">
                             <label>Dokter Spesialis</label>
-                            <input type="text" name="dokter_spesial" value="{{$visite->dokter_spesial ?? old('dokter_spesial')}}" class="form-control">
+                            <input type="text" name="dokter_spesial" value="{{$visite->dokter_spesial ?? old('dokter_spesial')}}" class="form-control" list="data_list_dok">
+                            <datalist id="data_list_dok">
+                                <option value="dr.Albert Novriadi,Sp.OG"></option>
+                                <option value="dr.Muharrom Hijrie Nurpatikana,Sp.B"></option>
+                                <option value="dr.Sulistyo Suharto,M,Si.,Med.,Sp.A"></option>
+                                <option value="dr.Padmi Bektilestari,Sp.PD"></option>
+                                <option value="dr.Kurniawan Agung Yuwono,Sp.PD"></option>
+                                <option value="dr.Lestari Handayani,Sp.N"></option>
+                                <option value="dr.Idha Widiastuti,SE.MM"></option>
+                                <option value="dr.F.Bayu Satria,Sp.JP,FIHA"></option>
+                            </datalist>
                         </div>
 
                         <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>
