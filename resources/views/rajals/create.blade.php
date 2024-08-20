@@ -14,37 +14,33 @@
                     <h4><i class="fas fa-exam"></i> Tambah</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('dpjps.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('rajals.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group col-md-3">
                             <label>Tanggal</label>
                             <input type="datetime-local" name="tanggal" value="<?= date('Y-m-d', time()); ?>" class="form-control">
                         </div>
                         <div class="form-group col-md-3">
-                            <label>No.RM</label>
-                            <input type="number" name="no_rm" class="form-control" placeholder="no rm">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label>Nama Pasien</label>
-                            <input type="text" name="nama_pasien" class="form-control" placeholder="nama pasien">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label>Terverifikasi</label>
-                            <input type="text" name="terverifikasi" class="form-control" list="data_list">
-                            <datalist id="data_list">
-                                <option value="✔️"></option>
+                            <label>Poli</label>
+                            <input type="text" name="poli" class="form-control" list="data_list_poli">
+                            <datalist id="data_list_poli">
+                                <option value="Mata"></option>
+                                <option value="Kandungan"></option>
+                                <option value="Anak"></option>
+                                <option value="Gigi"></option>
+                                <option value="Penyakit Dalam"></option>
+                                <option value="Saraf"></option>
+                                <option value="Bedah"></option>
+                                <option value="Jantung"></option>
                             </datalist>
                         </div>
                         <div class="form-group col-md-3">
-                            <label>Tidak Terverifikasi</label>
-                            <input type="text" name="tidak_terverifikasi" class="form-control" list="data_list">
-                            <datalist id="data_list">
-                                <option value="✔️"></option>
-                            </datalist>
+                            <label>Patuh</label>
+                            <input type="number" name="patuh" class="form-control">
                         </div>
                         <div class="form-group col-md-3">
-                            <label>DPJP</label>
-                            <input type="text" name="dpjp" class="form-control" placeholder="nama dpjp">
+                            <label>Tidak Patuh</label>
+                            <input type="number" name="tidak_patuh" class="form-control">
                         </div>
                         <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>
                         <button class="btn btn-warning btn-reset" type="reset"><i class="fa fa-redo"></i> RESET</button>

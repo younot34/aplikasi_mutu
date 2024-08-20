@@ -106,6 +106,13 @@ class PermissionsTableSeeder extends Seeder
          Permission::create(['name' => 'dpjps.delete']);
          Permission::create(['name' => 'dpjps.export_dp']);
 
+         //permission for rajals
+         Permission::create(['name' => 'rajals.index']);
+         Permission::create(['name' => 'rajals.create']);
+         Permission::create(['name' => 'rajals.edit']);
+         Permission::create(['name' => 'rajals.delete']);
+         Permission::create(['name' => 'rajals.export_ra']);
+
         //permission for roles
         Permission::create(['name' => 'roles.index']);
         Permission::create(['name' => 'roles.create']);

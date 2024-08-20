@@ -46,7 +46,7 @@
                         </div>
                         <div class="form-group col-md-3">
                             <label>DPJP</label>
-                            <input type="text" name="dpjp" value="{{$dpjp->dpjp ?? old('dpjp')}}" class="form-control" placeholder="nama pasien">
+                            <input type="text" name="dpjp" value="{{$dpjp->dpjp ?? old('dpjp')}}" class="form-control" placeholder="nama dpjp">
                         </div>
                         <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>
                     </form>

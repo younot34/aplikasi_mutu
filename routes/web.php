@@ -21,6 +21,7 @@ use App\Http\Controllers\InterController;
 use App\Http\Controllers\JatuhController;
 use App\Http\Controllers\ListobatController;
 use App\Http\Controllers\OkController;
+use App\Http\Controllers\RajalController;
 use App\Http\Controllers\RiController;
 use App\Http\Controllers\VisiteController;
 use Maatwebsite\Excel\Facades\Excel;
@@ -139,4 +140,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('dpjps', DpjpController::class);
     Route::get('/export_dp', [DpjpController::class, 'laporanBulanan'])->name('dpjps.export_dp');
     Route::get('/export_dp/export', [DpjpController::class, 'export'])->name('dpjps.export_dp.export');
+    //rajals
+    Route::resource('rajals', RajalController::class);
+    Route::get('/export_ra', [RajalController::class, 'laporanBulanan'])->name('rajals.export_ra');
+    Route::get('/export_ra/export', [RajalController::class, 'export'])->name('rajals.export_ra.export');
 });

@@ -28,7 +28,7 @@
                         </div>
                         <div class="form-group col-md-3">
                             <label>Nama Pasien</label>
-                            <input type="text" name="nama_pasien" value="{{$ews->nama_px ?? old('nama_pasien')}}" class="form-control" placeholder="nama pasien">
+                            <input type="text" name="nama_pasien" value="{{$ews->nama_pasien ?? old('nama_pasien')}}" class="form-control" placeholder="nama pasien">
                         </div>
                         <div class="form-group col-md-3">
                             <label>Terisi</label>

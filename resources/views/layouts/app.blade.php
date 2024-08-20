@@ -248,6 +248,30 @@
                                 @endcan
                             </ul>
                         </li>
+                        @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                        <li class="menu-header">RAJAL</li>
+                        @endif
+
+                        @can('sliders.index')
+                        <li class="{{ setActive('admin/slider') }}"><a class="nav-link"
+                                href="#"><i class="fas fa-laptop"></i>
+                                <span>Sliders</span></a></li>
+                        @endcan
+                        <li
+                            class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
+                            @if(auth()->user()->can('rajals.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>RAJAL
+                                Management</span></a>
+                            @endif
+
+                            <ul class="dropdown-menu">
+                                @can('rajals.index')
+                                <li class="{{ setActive('/rajal') }}"><a class="nav-link"
+                                        href="{{  route('rajals.index') }}"><i class="fas fa-book-open"></i>Waktu Tunggu</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
 
                         @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
                         <li class="menu-header">PENGATURAN</li>
