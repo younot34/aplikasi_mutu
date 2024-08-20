@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Exports\FarmasiExport;
 use App\Exports\ImprsExport;
 use App\Http\Controllers\ApdController;
+use App\Http\Controllers\AsesController;
 use App\Http\Controllers\ClinicalController;
 use App\Http\Controllers\DpjpController;
 use App\Http\Controllers\EwsController;
@@ -144,4 +145,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('rajals', RajalController::class);
     Route::get('/export_ra', [RajalController::class, 'laporanBulanan'])->name('rajals.export_ra');
     Route::get('/export_ra/export', [RajalController::class, 'export'])->name('rajals.export_ra.export');
+    //asess
+    Route::resource('asess', AsesController::class);
+    Route::get('/export_as', [AsesController::class, 'laporanBulanan'])->name('asess.export_as');
+    Route::get('/export_as/export', [AsesController::class, 'export'])->name('asess.export_as.export');
 });

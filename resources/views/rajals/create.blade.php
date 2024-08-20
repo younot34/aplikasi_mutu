@@ -35,11 +35,11 @@
                             </datalist>
                         </div>
                         <div class="form-group col-md-3">
-                            <label>Patuh</label>
+                            <label>Jumlah Pasien Poli</label>
                             <input type="number" name="patuh" class="form-control">
                         </div>
                         <div class="form-group col-md-3">
-                            <label>Tidak Patuh</label>
+                            <label>Pasien Tidak Patuh</label>
                             <input type="number" name="tidak_patuh" class="form-control">
                         </div>
                         <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>

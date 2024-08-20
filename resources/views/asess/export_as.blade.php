@@ -11,11 +11,11 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-exam"></i> Laporan Bulanan </h4>
+                    <h4><i class="fas fa-exam"></i> Laporan Bulanan Assesment</h4>
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('rajals.export_ra') }}" method="GET" class="d-inline-block">
+                    <form action="{{ route('asess.export_as') }}" method="GET" class="d-inline-block">
                         <div class="form-group">
                             <label for="bulan">Pilih Bulan:</label>
                             <input type="month" id="bulan" name="bulan" value="{{ $bulan }}" class="form-control">
@@ -45,13 +45,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($rajal as $no => $rajals)
+                            @foreach ($ases as $no => $asess)
                             <tr>
-                                <th scope="row" style="text-align: center">{{ ++$no + ($rajal->currentPage()-1) * $rajal->perPage() }}</th>
-                                <td>{{ $rajals->tanggal }}</td>
-                                <td>{{ $rajals->poli }}</td>
-                                <td><center>{{ $rajals->patuh }}</center></td>
-                                <td><center>{{ $rajals->tidak_patuh }}</center></td>
+                                <th scope="row" style="text-align: center">{{ ++$no + ($ases->currentPage()-1) * $ases->perPage() }}</th>
+                                <td>{{ $asess->tanggal }}</td>
+                                <td>{{ $asess->poli }}</td>
+                                <td><center>{{ $asess->patuh }}</center></td>
+                                <td><center>{{ $asess->tidak_patuh }}</center></td>
                             </tr>
                         @endforeach
                             <tr>
@@ -61,8 +61,8 @@
                                         @php
                                             $totalpatuh = 0;
 
-                                            foreach ($rajal as $rajals) {
-                                                $totalpatuh += $rajals->patuh;
+                                            foreach ($ases as $asess) {
+                                                $totalpatuh += $asess->patuh;
                                             }
                                             $result = $totalpatuh;
                                         @endphp
@@ -74,8 +74,8 @@
                                         @php
                                             $totaltidak_patuh = 0;
 
-                                            foreach ($rajal as $rajals) {
-                                                $totaltidak_patuh += $rajals->tidak_patuh;
+                                            foreach ($ases as $asess) {
+                                                $totaltidak_patuh += $asess->tidak_patuh;
                                             }
                                             $resultt = $totaltidak_patuh
                                         @endphp
@@ -91,9 +91,9 @@
                                             $totalpatuh = 0;
                                             $totaltidak_patuh = 0;
 
-                                            foreach ($rajal as $rajals) {
-                                                $totalpatuh += $rajals->patuh;
-                                                $totaltidak_patuh += $rajals->tidak_patuh;
+                                            foreach ($ases as $asess) {
+                                                $totalpatuh += $asess->patuh;
+                                                $totaltidak_patuh += $asess->tidak_patuh;
                                             }
                                             $result = number_format(($totaltidak_patuh / $totalpatuh) * 100,2);
                                         @endphp
@@ -104,7 +104,7 @@
                         </tbody>
                     </table>
                     <div style="text-align: center">
-                        {{ $rajal->links("vendor.pagination.bootstrap-4") }}
+                        {{ $ases->links("vendor.pagination.bootstrap-4") }}
                     </div>
                 </div>
             </div>

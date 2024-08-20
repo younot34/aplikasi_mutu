@@ -271,6 +271,13 @@
                                     </li>
                                 @endcan
                             </ul>
+                            <ul class="dropdown-menu">
+                                @can('asess.index')
+                                <li class="{{ setActive('/ases') }}"><a class="nav-link"
+                                        href="{{  route('asess.index') }}"><i class="fas fa-book-open"></i>Assesment</a>
+                                    </li>
+                                @endcan
+                            </ul>
                         </li>
 
                         @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))

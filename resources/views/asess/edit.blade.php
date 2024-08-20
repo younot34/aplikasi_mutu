@@ -15,16 +15,16 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('rajals.update', $rajal->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('asess.update', $ases->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group col-md-3">
                             <label>Tanggal</label>
-                            <input type="datetime-local" name="tanggal" value="{{ $rajal->tanggal ? date('Y-m-d\TH:i', strtotime($rajal->tanggal)) : date('Y-m-d\TH:i') }}" class="form-control ">
+                            <input type="datetime-local" name="tanggal" value="{{ $ases->tanggal ? date('Y-m-d\TH:i', strtotime($ases->tanggal)) : date('Y-m-d\TH:i') }}" class="form-control ">
                         </div>
                         <div class="form-group col-md-3">
                             <label>Poli</label>
-                            <input type="text" name="poli" value="{{$rajal->poli ?? old('poli')}}" class="form-control" placeholder="nama poli" list="data_list_poli">
+                            <input type="text" name="poli" value="{{$ases->poli ?? old('poli')}}" class="form-control" placeholder="nama poli" list="data_list_poli">
                             <datalist id="data_list_poli">
                                 <option value="Mata"></option>
                                 <option value="Kandungan"></option>
@@ -37,12 +37,12 @@
                             </datalist>
                         </div>
                         <div class="form-group col-md-3">
-                            <label>Jumlah Pasien Poli</label>
-                            <input type="number" name="patuh" value="{{$rajal->patuh ?? old('patuh')}}" class="form-control">
+                            <label>Jumlah Pasien Assesment</label>
+                            <input type="number" name="patuh" value="{{$ases->patuh ?? old('patuh')}}" class="form-control">
                         </div>
                         <div class="form-group col-md-3">
-                            <label>Pasien Tidak Patuh</label>
-                            <input type="number" name="tidak_patuh" value="{{$rajal->tidak_patuh ?? old('tidak_patuh')}}" class="form-control">
+                            <label>Assesment Tidak Patuh</label>
+                            <input type="number" name="tidak_patuh" value="{{$ases->tidak_patuh ?? old('tidak_patuh')}}" class="form-control">
                         </div>
                         <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>
                     </form>
