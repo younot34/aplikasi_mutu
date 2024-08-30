@@ -281,6 +281,31 @@
                         </li>
 
                         @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                        <li class="menu-header">RM</li>
+                        @endif
+
+                        @can('sliders.index')
+                        <li class="{{ setActive('admin/slider') }}"><a class="nav-link"
+                                href="#"><i class="fas fa-laptop"></i>
+                                <span>Sliders</span></a></li>
+                        @endcan
+                        <li
+                            class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
+                            @if(auth()->user()->can('rmrs.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>RM
+                                Management</span></a>
+                            @endif
+
+                            <ul class="dropdown-menu">
+                                @can('rmrs.index')
+                                <li class="{{ setActive('/rmr') }}"><a class="nav-link"
+                                        href="{{  route('rmrs.index') }}"><i class="fas fa-book-open"></i>Kelengkapan Rajal</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
+
+                        @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
                         <li class="menu-header">PENGATURAN</li>
                         @endif
 
@@ -329,7 +354,7 @@
                     Copyright &copy; 2024 <div class="bullet"></div> MUTU APP <div class="bullet"></div> RSU 'Aisyiyah Purworejo
                 </div>
                 <div class="footer-right">
-
+                    <div class="bullet"></div> Semangat yaa🫰<div class="bullet"></div>
                 </div>
             </footer>
         </div>

@@ -306,7 +306,7 @@ class OkController extends Controller
 
     public function checkData($date)
     {
-        $hasData = Oks::whereDate('your_date_column', $date)->exists();
+        $hasData = Oks::whereDate('tanggal', $date)->exists();
 
         return response()->json(['hasData' => $hasData]);
     }

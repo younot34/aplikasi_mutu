@@ -42,6 +42,13 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'oks.delete']);
         Permission::create(['name' => 'oks.review']);
         Permission::create(['name' => 'oks.review_bulanan_ok']);
+        //permission for rmrs
+        Permission::create(['name' => 'rmrs.index']);
+        Permission::create(['name' => 'rmrs.create']);
+        Permission::create(['name' => 'rmrs.edit']);
+        Permission::create(['name' => 'rmrs.delete']);
+        Permission::create(['name' => 'rmrs.review']);
+        Permission::create(['name' => 'rmrs.review_bulanan_rm']);
 
         //permission for ppi
         Permission::create(['name' => 'ppis.index']);

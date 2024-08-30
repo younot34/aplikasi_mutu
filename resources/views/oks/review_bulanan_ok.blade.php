@@ -29,8 +29,8 @@
                         <table class='table table-bordered'>
                             <thead>
                                 <tr>
-                                    <th>No.RM</th>
                                     <th>Tanggal</th>
+                                    <th>No.RM</th>
                                     <th>Nama Pasien</th>
                                     <th>Umur</th>
                                     <th>Diagnosa</th>
@@ -71,28 +71,38 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($oks as $ok)
+                                @php
+                                $lastDate = null; // Variabel untuk menyimpan tanggal terakhir yang ditampilkan
+                                @endphp
+                                @foreach ($oks as $item)
                                     <tr>
-                                        <td> {{$ok->tanggal}}</td>
-                                        <td> {{$ok->no_rm}}</td>
-                                        <td> {{$ok->nama_pasien}}</td>
-                                        <td> {{$ok->umur}}</td>
-                                        <td> {{$ok->diagnosa}}</td>
-                                        <td> {{$ok->tindakan_operasi}}</td>
-                                        <td> {{$ok->dokter_op}}</td>
-                                        <td> {{$ok->dokter_anest}}</td>
-                                        <td> {{$ok->jenis_op}}</td>
-                                        <td> {{$ok->asuransi}}</td>
-                                        <td> {{$ok->rencana_tindakan}}</td>
-                                        <td> {{$ok->signin}}</td>
-                                        <td> {{$ok->time_out}}</td>
-                                        <td> {{$ok->sign_out}}</td>
-                                        <td> {{$ok->penandaan_lokasi_op}}</td>
-                                        <td> {{$ok->kelengkapan_ssc}}</td>
-                                        <td> {{$ok->penundaan_op_elektif}}</td>
-                                        <td> {{$ok->sc_emergensi}}</td>
-                                        <td> {{$ok->keterangan}}</td>
-                                        <td> {{$ok->kendala}}</td>
+                                        <td>
+                                            @if ($item->tanggal != $lastDate)
+                                                {{ $item->tanggal }}
+                                                @php
+                                                    $lastDate = $item->tanggal; // Update tanggal terakhir yang ditampilkan
+                                                @endphp
+                                            @endif
+                                        </td>
+                                        <td> {{$item->no_rm}}</td>
+                                        <td> {{$item->nama_pasien}}</td>
+                                        <td> {{$item->umur}}</td>
+                                        <td> {{$item->diagnosa}}</td>
+                                        <td> {{$item->tindakan_operasi}}</td>
+                                        <td> {{$item->dokter_op}}</td>
+                                        <td> {{$item->dokter_anest}}</td>
+                                        <td> {{$item->jenis_op}}</td>
+                                        <td> {{$item->asuransi}}</td>
+                                        <td> {{$item->rencana_tindakan}}</td>
+                                        <td> {{$item->signin}}</td>
+                                        <td> {{$item->time_out}}</td>
+                                        <td> {{$item->sign_out}}</td>
+                                        <td> {{$item->penandaan_lokasi_op}}</td>
+                                        <td> {{$item->kelengkapan_ssc}}</td>
+                                        <td> {{$item->penundaan_op_elektif}}</td>
+                                        <td> {{$item->sc_emergensi}}</td>
+                                        <td> {{$item->keterangan}}</td>
+                                        <td> {{$item->kendala}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
