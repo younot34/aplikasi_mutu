@@ -16,9 +16,9 @@
                 <div class="card-body">
                     <form action="{{ route('imprs.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group">
+                        <div class="form-group col-md-3">
                             <label>Tanggal</label>
-                            <input type="datetime-local" name="waktu" value="<?= date('Y-m-d', time()); ?>" class="form-control @error('start') is-invalid @enderror">
+                            <input type="date" name="waktu" value="<?= date('Y-m-d'); ?>" class="form-control @error('start') is-invalid @enderror">
                             @error('waktu')
                             <div class="invalid-feedback" style="display: block">
                                 {{ $message }}

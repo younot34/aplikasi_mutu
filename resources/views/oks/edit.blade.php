@@ -25,7 +25,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label>No.RM</label>
-                                    <input type="number" name="oks[{{ $ok->id }}][no_rm]" value="{{ $ok->no_rm }}" class="form-control">
+                                    <input type="text" name="oks[{{ $ok->id }}][no_rm]" value="{{ $ok->no_rm }}" class="form-control" pattern="\d*">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Nama Pasien</label>

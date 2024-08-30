@@ -102,7 +102,7 @@ class RiController extends Controller
         $request->validate([
             'tanggal' => 'required|date',
             'sift' => 'required|string',
-            'no_rm' => 'required|integer',
+            'no_rm' => 'required|string',
             'nama_px' => 'required|string',
             'alamat' => 'required|string',
             'benar_namao' => 'required|array',
@@ -204,7 +204,7 @@ class RiController extends Controller
         $request->validate([
             'tanggal' => 'required|date',
             'sift' => 'required|string',
-            'no_rm' => 'required|integer',
+            'no_rm' => 'required|string',
             'nama_px' => 'required|string',
             'alamat' => 'required|string',
             'benar_namao' => 'required|array',

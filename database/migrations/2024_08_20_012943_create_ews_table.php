@@ -16,7 +16,7 @@ class CreateEwsTable extends Migration
         Schema::create('ews', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
-            $table->integer('no_rm');
+            $table->string('no_rm');
             $table->string('nama_pasien');
             $table->string('terisi')->nullable();
             $table->string('tidak_terisi')->nullable();

@@ -95,7 +95,7 @@ class ClinicalController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'no_rm' => 'required|integer',
+            'no_rm' => 'required|string',
             'nama_px' => 'required|string',
             'ca_cervik' => 'nullable|string',
             'tb' => 'nullable|string',
@@ -151,7 +151,7 @@ class ClinicalController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'no_rm' => 'required|integer',
+            'no_rm' => 'required|string',
             'nama_px' => 'required|string',
             'ca_cervik' => 'nullable|string',
             'tb' => 'nullable|string',

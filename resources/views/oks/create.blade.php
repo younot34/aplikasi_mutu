@@ -19,7 +19,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label>No.RM</label>
-                                    <input type="number" name="no_rm" class="form-control">
+                                    <input type="text" name="no_rm" class="form-control" pattern="\d*">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Nama Pasien</label>

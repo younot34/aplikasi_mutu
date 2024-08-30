@@ -20,7 +20,7 @@
 
                             <div class="form-group col-md-3 ">
                                 <label>Tanggal</label>
-                                <input type="datetime-local" name="waktu" value="<?= date('Y-m-d', time()); ?>" class="form-control @error('start') is-invalid @enderror">
+                                <input type="date" name="waktu" value="<?= date('Y-m-d'); ?>" class="form-control @error('start') is-invalid @enderror">
                                 @error('waktu')
                                 <div class="invalid-feedback" style="display: block">
                                     {{ $message }}
@@ -29,45 +29,30 @@
                             </div>
                             <div class="form-group col-md-3 ">
                                 <label>Nama Pasien</label>
-                                <input type="text" name="nama_px" value="{{ old('nama_px') }}" class="form-control">
-                                @error('nama_px')
-                                <div class="invalid-feedback" style="display: block">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <input type="text" name="nama_px" class="form-control">
                             </div>
-                            <div class="form-group col-md-3 ">
+                            <div class="form-group col-md-3">
                                 <label>No_RM</label>
-                                <input type="text" name="no_rm" value="{{ old('no_rm') }}" class="form-control">
-                                @error('no_rm')
-                                <div class="invalid-feedback" style="display: block">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                <input type="text" name="no_rm" class="form-control" pattern="\d*" title="Hanya angka yang diperbolehkan">
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-3 ">
-                                <label>R/</label>
-                                <input type="number" name="r[]" class="form-control">
-                                @error('no_rm')
-                                <div class="invalid-feedback" style="display: block">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
                             <div class="form-group col-md-3">
                                 <label>Total Obat Fornas</label>
-                                <input type="number" name="total_obat_fornas[]" class="form-control" id="total_obat_fornas">
+                                <input type="number" name="total_obat_fornas[]" class="form-control" id="total_obat_fornas" readonly>
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Total Item</label>
-                                <input type="number" name="total_item[]" class="form-control" id="total_item">
+                                <input type="number" name="total_item[]" class="form-control" id="total_item" readonly>
                             </div>
                         </div>
                         <div id="obat-container">
                             <!-- List nama obat -->
                             <div class="form-row">
+                                <div class="form-group col-md-3 ">
+                                    <label>R/</label>
+                                    <input type="number" name="r[]" class="form-control">
+                                </div>
                                 <div class="form-group col-md-3">
                                     <label>Nama Obat</label>
                                     <input type="text" name="nama_obat[]" class="form-control" list="obat_list" onchange="updateTotals()">

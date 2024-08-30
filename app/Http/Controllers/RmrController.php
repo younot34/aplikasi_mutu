@@ -97,7 +97,7 @@ class RmrController extends Controller
         $request->validate([
             'tanggal' => 'nullable|date',
             'no' => 'nullable|integer',
-            'no_rm' => 'nullable|integer',
+            'no_rm' => 'nullable|string',
             'asesmen' => 'nullable|string',
             'cppt' => 'nullable|string',
             'resep' => 'nullable|string',
@@ -160,19 +160,19 @@ class RmrController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'rmr.*.tanggal' => 'nullable|date',
-            'rmr.*.no' => 'nullable|integer',
-            'rmr.*.no_rm' => 'nullable|integer',
-            'rmr.*.asesmen' => 'nullable|string',
-            'rmr.*.cppt' => 'nullable|string',
-            'rmr.*.resep' => 'nullable|string',
-            'rmr.*.resume' => 'nullable|string',
-            'rmr.*.lengkap' => 'nullable|string',
-            'rmr.*.tidak' => 'nullable|string',
+            'rmrs.*.tanggal' => 'nullable|date',
+            'rmrs.*.no' => 'nullable|integer',
+            'rmrs.*.no_rm' => 'nullable|string',
+            'rmrs.*.asesmen' => 'nullable|string',
+            'rmrs.*.cppt' => 'nullable|string',
+            'rmrs.*.resep' => 'nullable|string',
+            'rmrs.*.resume' => 'nullable|string',
+            'rmrs.*.lengkap' => 'nullable|string',
+            'rmrs.*.tidak' => 'nullable|string',
         ]);
 
         try {
-            foreach ($request->rmr as $id => $data) {
+            foreach ($request->rmrs as $id => $data) {
                 $rmr = Rmr::findOrFail($id);
                 $rmr->update($data);
             }

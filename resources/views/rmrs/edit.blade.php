@@ -15,12 +15,12 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('rmrs.update', $rmrs->first()->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('rmrs.update', $rmr->first()->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="tanggal" value="{{ $tanggal }}">
 
-                        @foreach ($rmrs as $rmr)
+                        @foreach ($rmr as $rmr)
                         <div id="resep-container" style="margin-bottom: 10px;">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>No.RM</label>
-                                    <input type="number" name="rmrs[{{ $rmr->id }}][no_rm]" value="{{ $rmr->no_rm }}" class="form-control">
+                                    <input type="text" name="rmrs[{{ $rmr->id }}][no_rm]" value="{{ $rmr->no_rm }}" class="form-control" pattern="\d*">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Asesment</label>

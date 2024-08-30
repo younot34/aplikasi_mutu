@@ -96,7 +96,7 @@ class JatuhController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'no_rm' => 'required|integer',
+            'no_rm' => 'required|string',
             'nama_px' => 'required|string',
             'rendah' => 'nullable|string',
             'tinggi' => 'nullable|string',
@@ -150,7 +150,7 @@ class JatuhController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'no_rm' => 'required|integer',
+            'no_rm' => 'required|string',
             'nama_px' => 'required|string',
             'rendah' => 'nullable|string',
             'tinggi' => 'nullable|string',

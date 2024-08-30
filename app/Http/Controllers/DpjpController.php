@@ -96,7 +96,7 @@ class DpjpController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'no_rm' => 'required|integer',
+            'no_rm' => 'required|string',
             'nama_pasien' => 'required|string',
             'terverifikasi' => 'nullable|string',
             'tidak_terverifikasi' => 'nullable|string',
@@ -147,7 +147,7 @@ class DpjpController extends Controller
     {
         $request->validate([
            'tanggal' => 'required|date',
-            'no_rm' => 'required|integer',
+            'no_rm' => 'required|string',
             'nama_pasien' => 'required|string',
             'terverifikasi' => 'nullable|string',
             'tidak_terverifikasi' => 'nullable|string',

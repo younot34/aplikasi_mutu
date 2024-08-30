@@ -17,7 +17,7 @@ class CreateRisTable extends Migration
             $table->id();
             $table->date('tanggal');
             $table->string('sift');
-            $table->integer('no_rm');
+            $table->string('no_rm');
             $table->string('nama_px');
             $table->string('alamat');
             $table->timestamps();

@@ -16,7 +16,7 @@ class CreateVisitesTable extends Migration
         Schema::create('visites', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
-            $table->integer('no_rm');
+            $table->string('no_rm');
             $table->string('nama_px');
             $table->string('jam6sampai14')->nullable();
             $table->string('kurang14')->nullable();

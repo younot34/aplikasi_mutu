@@ -113,7 +113,7 @@ class FarmasiController extends Controller
         $request->validate([
             'waktu' => 'required|date',
             'nama_px' => 'required|string',
-            'no_rm' => 'required|integer',
+            'no_rm' => 'required|string',
             'r' => 'array',
             'nama_obat' => 'array',
             'total_obat_fornas' => 'array',
@@ -186,7 +186,7 @@ class FarmasiController extends Controller
         $request->validate([
             'waktu' => 'required|date',
             'nama_px' => 'required|string',
-            'no_rm' => 'required|integer',
+            'no_rm' => 'required|string',
             'r' => 'array',
             'nama_obat' => 'array',
             'total_obat_fornas' => 'array',

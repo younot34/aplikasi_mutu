@@ -17,7 +17,7 @@ class CreateRmrsTable extends Migration
             $table->id();
             $table->datetime('tanggal')->nullable();
             $table->integer('no')->nullable();
-            $table->integer('no_rm')->nullable();
+            $table->string('no_rm')->nullable();
             $table->string('asesmen')->nullable();
             $table->string('cppt')->nullable();
             $table->string('resep')->nullable();

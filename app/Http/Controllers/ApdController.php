@@ -114,7 +114,6 @@ class ApdController extends Controller
         try {
             Apd::create([
                 'tanggal' => $request->tanggal,
-                'no_rm' => $request->no_rm,
                 'unit' => $request->unit,
                 'nama_petugas' => $request->nama_petugas,
                 'profesi' => $request->profesi,
@@ -182,7 +181,6 @@ class ApdController extends Controller
             $apd = Apd::findOrFail($id);
             $apd->update([
                 'tanggal' => $request->tanggal,
-                'no_rm' => $request->no_rm,
                 'unit' => $request->unit,
                 'nama_petugas' => $request->nama_petugas,
                 'profesi' => $request->profesi,

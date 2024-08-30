@@ -20,7 +20,7 @@
                         @method('PUT')
                         <div class="form-group col-md-3">
                             <label>No.RM</label>
-                            <input type="number" name="no_rm" value="{{$clinical->no_rm ?? old('no_rm')}}" class="form-control" placeholder="no rm">
+                            <input type="text" name="no_rm" value="{{$clinical->no_rm ?? old('no_rm')}}" class="form-control" pattern="\d*" placeholder="no rm">
                         </div>
                         <div class="form-group col-md-3">
                             <label>Nama Pasien</label>

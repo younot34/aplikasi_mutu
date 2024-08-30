@@ -16,7 +16,7 @@ class CreateOksTable extends Migration
         Schema::create('oks', function (Blueprint $table) {
             $table->id();
             $table->datetime('tanggal')->nullable();
-            $table->integer('no_rm');
+            $table->string('no_rm');
             $table->string('nama_pasien');
             $table->integer('umur');
             $table->string('diagnosa');

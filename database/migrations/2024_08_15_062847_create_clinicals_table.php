@@ -15,7 +15,7 @@ class CreateClinicalsTable extends Migration
     {
         Schema::create('clinicals', function (Blueprint $table) {
             $table->id();
-            $table->integer('no_rm');
+            $table->string('no_rm');
             $table->string('nama_px');
             $table->string('ca_cervik')->nullable();
             $table->string('tb')->nullable();

@@ -17,7 +17,7 @@ class CreateFarmasisTable extends Migration
             $table->id();
             $table->date('waktu');
             $table->string('nama_px');
-            $table->integer('no_rm');
+            $table->string('no_rm');
             $table->timestamps();
         });
     }

@@ -106,23 +106,23 @@
                                             </button>
                                         @endcan
                                     </td>
+                                    @if ($tanggal !== $farmasi->waktu)
+                                        @php
+                                            $tanggal = $farmasi->waktu;
+                                        @endphp
+                                        <tr>
+                                            <td colspan="6" style="text-align: right;"><strong>JUMLAH</strong></td>
+                                            <td>{{ $totalObatFornas }}</td>
+                                            <td>{{ $totalItem }}</td>
+                                            <td></td>
+                                        </tr>
+                                        @php
+                                            $totalObatFornas = 0;
+                                            $totalItem = 0;
+                                        @endphp
+                                    @endif
                                 </tr>
-                                @if ($tanggal !== $farmasi->waktu)
-                                    @php
-                                        $tanggal = $farmasi->waktu;
-                                    @endphp
-                                    <tr>
-                                        <td colspan="6" style="text-align: right;"><strong>JUMLAH</strong></td>
-                                        <td>{{ $totalObatFornas }}</td>
-                                        <td>{{ $totalItem }}</td>
-                                        <td></td>
-                                    </tr>
-                                    @php
-                                        $totalObatFornas = 0;
-                                        $totalItem = 0;
-                                    @endphp
-                                @endif
-                            @endforeach
+                                @endforeach
 
                             </tbody>
                         </table>

@@ -16,7 +16,7 @@ class CreateDpjpsTable extends Migration
         Schema::create('dpjps', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
-            $table->integer('no_rm');
+            $table->string('no_rm');
             $table->string('nama_pasien');
             $table->string('terverifikasi')->nullable();
             $table->string('tidak_terverifikasi')->nullable();

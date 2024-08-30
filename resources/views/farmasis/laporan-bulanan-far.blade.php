@@ -53,7 +53,11 @@
                                         @endif
                                         <td>
                                             @foreach ($farmasi->nama_obats as $index => $nama_obatss)
-                                            <div>{{ $obat->r }}</div>
+                                            <div>{{ $nama_obatss->r }}</div>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach ($farmasi->nama_obats as $index => $nama_obatss)
                                             <div>{{ $nama_obatss->nama_obat }}</div>
                                             @endforeach
                                         </td>

@@ -99,7 +99,7 @@ class OkController extends Controller
         // Validasi input
         $request->validate([
             'tanggal' => 'nullable|date',
-            'no_rm' => 'required|integer',
+            'no_rm' => 'required|string',
             'nama_pasien' => 'required|string',
             'umur' => 'required|integer',
             'diagnosa' => 'required|string',
@@ -185,7 +185,7 @@ class OkController extends Controller
     {
         $request->validate([
             'oks.*.tanggal' => 'date',
-            'oks.*.no_rm' => 'required|integer',
+            'oks.*.no_rm' => 'required|string',
             'oks.*.nama_pasien' => 'required|string',
             'oks.*.umur' => 'required|integer',
             'oks.*.diagnosa' => 'required|string',

@@ -41,7 +41,7 @@
 
                         <div class="form-group">
                             <label>No RM</label>
-                            <input type="text" name="no_rm" value="{{ $farmasi->no_rm ?? old('no_rm') }}" class="form-control">
+                            <input type="text" name="no_rm" value="{{ $farmasi->no_rm ?? old('no_rm') }}" class="form-control" pattern="\d*">
                             @error('no_rm')
                             <div class="invalid-feedback" style="display: block">
                                 {{ $message }}

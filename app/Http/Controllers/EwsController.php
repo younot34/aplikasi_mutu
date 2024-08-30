@@ -96,7 +96,7 @@ class EwsController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'no_rm' => 'required|integer',
+            'no_rm' => 'required|string',
             'nama_pasien' => 'required|string',
             'terisi' => 'nullable|string',
             'tidak_terisi' => 'nullable|string',
@@ -145,7 +145,7 @@ class EwsController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'no_rm' => 'required|integer',
+            'no_rm' => 'required|string',
             'nama_pasien' => 'required|string',
             'terisi' => 'nullable|string',
             'tidak_terisi' => 'nullable|string',

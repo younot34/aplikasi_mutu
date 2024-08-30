@@ -16,7 +16,7 @@ class CreateJatuhsTable extends Migration
         Schema::create('jatuhs', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
-            $table->integer('no_rm');
+            $table->string('no_rm');
             $table->string('nama_px');
             $table->string('rendah')->nullable();
             $table->string('tinggi')->nullable();
