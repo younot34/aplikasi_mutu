@@ -57,13 +57,13 @@
                                     <label>Nama Obat</label>
                                     <input type="text" name="nama_obat[]" class="form-control" list="obat_list" onchange="updateTotals()">
                                     <datalist id="obat_list">
-                                        <option value="ABBOCATH 16                                      "></option>
-                                        <option value="ABBOCATH 18                                      "></option>
-                                        <option value="ABBOCATH 18                                      "></option>
-                                        <option value="ABBOCATH 20                                      "></option>
-                                        <option value="ABBOCATH 22                                      "></option>
-                                        <option value="ABBOCATH 24                                      "></option>
-                                        <option value="ABBOCATH 26                                      "></option>
+                                        <option value="ABBOCATH 16"></option>
+                                        <option value="ABBOCATH 18"></option>
+                                        <option value="ABBOCATH 18"></option>
+                                        <option value="ABBOCATH 20"></option>
+                                        <option value="ABBOCATH 22"></option>
+                                        <option value="ABBOCATH 24"></option>
+                                        <option value="ABBOCATH 26"></option>
                                         <option value="ALKOHOL SWAB"></option>
                                         <option value="BACTUGRAT"></option>
                                         <option value="BD JARUM INSULIN"></option>

@@ -48,7 +48,7 @@
                                         <td>
                                             <a href="{{ route('oks.create', ['date' => $date->format('Y-m-d')]) }}" class="btn btn-success">Create</a>
                                             <a href="#" class="btn btn-warning edit-btn" data-date="{{ $date->format('Y-m-d') }}">Edit</a>
-                                            <button class="btn btn-danger delete-btn" data-date="{{ $date->format('Y-m-d') }}">Delete</button>
+                                            {{-- <button class="btn btn-danger delete-btn" data-date="{{ $date->format('Y-m-d') }}">Delete</button> --}}
                                             <a href="#" class="btn btn-info review-btn" data-date="{{ $date->format('Y-m-d') }}">Review</a>
                                         </td>
                                     </tr>

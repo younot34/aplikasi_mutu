@@ -201,6 +201,18 @@ class RmrController extends Controller
         return response()->json(['message' => 'Data berhasil dihapus'], 200);
     }
 
+    public function destroyId($id)
+    {
+        // Temukan data berdasarkan ID
+        $record = Rmr::findOrFail($id);
+
+        // Hapus data tersebut
+        $record->delete();
+
+        // Redirect kembali dengan pesan sukses
+        return redirect()->back()->with('success', 'Data berhasil dihapus.');
+    }
+
 
     public function calendar(Request $request)
     {

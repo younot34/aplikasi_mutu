@@ -8,20 +8,20 @@
         <div class="section-body">
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-exam"></i> RM</h4>
+                    <h4><i class="fas fa-exam"></i> RM Rawat Inap</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('rmrs.index') }}" method="GET" class="d-inline-block">
+                    <form action="{{ route('rmris.index') }}" method="GET" class="d-inline-block">
                         @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin')
-                        <form id="bulanForm" action="{{ route('rmrs.review_bulanan_rm') }}" method="GET" class="d-inline-block">
+                        <form id="bulanForm" action="{{ route('rmris.review_bulanan_rmi') }}" method="GET" class="d-inline-block">
                             <div class="form-group">
                                 <label for="bulan">Pilih Bulan:</label>
                                 <input type="month" id="bulan" name="bulan" value="{{ $bulan }}" class="form-control">
                             </div>
                             <button type="submit" class="btn btn-primary">Tampilkan</button>
                         </form>
-                        @can('rmrs.review_bulanan_rm')
-                            <form action="{{ route('rmrs.review_bulanan_rm') }}" method="GET" class="d-inline-block">
+                        @can('rmris.review_bulanan_rmi')
+                            <form action="{{ route('rmris.review_bulanan_rmi') }}" method="GET" class="d-inline-block">
                                 <button type="submit" class="btn btn-sm btn-primary review-bulanan-btn">
                                     <i class="fa fa-door-open"></i> Laporan Bulanan
                                 </button>
@@ -40,13 +40,13 @@
                             <tbody>
                                 @for ($date = $tanggal; $date <= $akhirBulan; $date->addDay())
                                     @php
-                                        $hasData = \App\Models\Rmr::whereDate('tanggal', $date->format('Y-m-d'))->exists();
+                                        $hasData = \App\Models\Rmri::whereDate('tanggal', $date->format('Y-m-d'))->exists();
                                         $bgColor = $hasData ? 'bg-success text-white' : '';
                                     @endphp
                                     <tr>
                                         <td class="{{ $bgColor }}">{{ $date->format('Y-m-d') }}</td>
                                         <td>
-                                            <a href="{{ route('rmrs.create', ['date' => $date->format('Y-m-d')]) }}" class="btn btn-success">Create</a>
+                                            <a href="{{ route('rmris.create', ['date' => $date->format('Y-m-d')]) }}" class="btn btn-success">Create</a>
                                             <a href="#" class="btn btn-warning edit-btn" data-date="{{ $date->format('Y-m-d') }}">Edit</a>
                                             {{-- <button class="btn btn-danger delete-btn" data-date="{{ $date->format('Y-m-d') }}">Delete</button> --}}
                                             <a href="#" class="btn btn-info review-btn" data-date="{{ $date->format('Y-m-d') }}">Review</a>
@@ -64,12 +64,12 @@
                                         button.addEventListener('click', function (event) {
                                             event.preventDefault();
                                             const date = this.getAttribute('data-date');
-                                            fetch(`/rmrs/${date}/edit`)
+                                            fetch(`/rmris/${date}/edit`)
                                                 .then(response => {
                                                     if (response.status === 404) {
                                                         alert('Data tidak ditemukan');
                                                     } else {
-                                                        window.location.href = `/rmrs/${date}/edit`;
+                                                        window.location.href = `/rmris/${date}/edit`;
                                                     }
                                                 })
                                                 .catch(error => {
@@ -82,7 +82,7 @@
                                             event.preventDefault();
                                             const date = this.getAttribute('data-date');
                                             if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-                                                fetch(`/rmrs/${date}`, {
+                                                fetch(`/rmris/${date}`, {
                                                     method: 'DELETE',
                                                     headers: {
                                                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -106,12 +106,12 @@
                                         button.addEventListener('click', function (event) {
                                             event.preventDefault();
                                             const date = this.getAttribute('data-date');
-                                            fetch(`/rmrs/${date}`)
+                                            fetch(`/rmris/${date}`)
                                                 .then(response => {
                                                     if (response.status === 404) {
                                                         alert('Data tidak ditemukan');
                                                     } else {
-                                                        window.location.href = `/rmrs/${date}`;
+                                                        window.location.href = `/rmris/${date}`;
                                                     }
                                                 })
                                                 .catch(error => {
@@ -122,7 +122,7 @@
                                     rows.forEach(row => {
                                         const date = row.querySelector('td:first-child').innerText;
 
-                                        fetch(`/rmrs/check-data/${date}`)
+                                        fetch(`/rmris/check-data/${date}`)
                                             .then(response => response.json())
                                             .then(data => {
                                                 if (data.hasData) {

@@ -25,6 +25,7 @@ use App\Http\Controllers\OkController;
 use App\Http\Controllers\RajalController;
 use App\Http\Controllers\RiController;
 use App\Http\Controllers\RmrController;
+use App\Http\Controllers\RmriController;
 use App\Http\Controllers\VisiteController;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -100,6 +101,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('oks/{ok}/edit', [OkController::class, 'edit'])->name('oks.edit');
     Route::put('oks/{ok}', [OkController::class, 'update'])->name('oks.update');
     Route::delete('oks/{ok}', [OkController::class, 'destroy'])->name('oks.destroy');
+    Route::delete('/oks/delete/{id}', [RmrController::class, 'destroyId'])->name('oks.destroyId');
     Route::get('/oks/calendar', [OkController::class, 'calendar'])->name('oks.calendar');
     Route::get('/oks/review/{date}', [OkController::class, 'reviewByDate']);
     Route::get('/review_bulanan_ok', [OkController::class, 'reviewBulananOk'])->name('oks.review_bulanan_ok');
@@ -114,11 +116,27 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('rmrs/{rmr}/edit', [RmrController::class, 'edit'])->name('rmrs.edit');
     Route::put('rmrs/{rmr}', [RmrController::class, 'update'])->name('rmrs.update');
     Route::delete('rmrs/{rmr}', [RmrController::class, 'destroy'])->name('rmrs.destroy');
+    Route::delete('/rmrs/delete/{id}', [RmrController::class, 'destroyId'])->name('rmrs.destroyId');
     Route::get('/rmrs/calendar', [RmrController::class, 'calendar'])->name('rmrs.calendar');
     Route::get('/rmrs/review/{date}', [RmrController::class, 'reviewRmByDate']);
     Route::get('/review_bulanan_rm', [RmrController::class, 'reviewBulananRm'])->name('rmrs.review_bulanan_rm');
     Route::get('/review_bulanan_rm/export', [RmrController::class, 'exportBulanan'])->name('rmrs.review_bulanan_rm.export');
     Route::get('/rmrs/check-data/{date}', [RmrController::class, 'checkData']);
+    //rmri
+    Route::resource('rmris', RmriController::class);
+    Route::get('rmris', [RmriController::class, 'index'])->name('rmris.index');
+    Route::get('rmris/create', [RmriController::class, 'create'])->name('rmris.create');
+    Route::post('rmris', [RmriController::class, 'store'])->name('rmris.store');
+    Route::get('rmris/{rmri}', [RmriController::class, 'show'])->name('rmris.review');
+    Route::get('rmris/{rmri}/edit', [RmriController::class, 'edit'])->name('rmris.edit');
+    Route::put('rmris/{rmri}', [RmriController::class, 'update'])->name('rmris.update');
+    Route::delete('rmris/{rmri}', [RmriController::class, 'destroy'])->name('rmris.destroy');
+    Route::delete('/rmris/delete/{id}', [RmriController::class, 'destroyId'])->name('rmris.destroyId');
+    Route::get('/rmris/calendar', [RmriController::class, 'calendar'])->name('rmris.calendar');
+    Route::get('/rmris/review/{date}', [RmriController::class, 'reviewRmiByDate']);
+    Route::get('/review_bulanan_rmi', [RmriController::class, 'reviewBulananRmi'])->name('rmris.review_bulanan_rmi');
+    Route::get('/review_bulanan_rmi/export', [RmriController::class, 'exportBulanan'])->name('rmris.review_bulanan_rmi.export');
+    Route::get('/rmris/check-data/{date}', [RmriController::class, 'checkData']);
 
     //ppi
     Route::resource('ppis', PpiController::class);

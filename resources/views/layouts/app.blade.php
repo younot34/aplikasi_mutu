@@ -303,6 +303,13 @@
                                     </li>
                                 @endcan
                             </ul>
+                            <ul class="dropdown-menu">
+                                @can('rmris.index')
+                                <li class="{{ setActive('/rmri') }}"><a class="nav-link"
+                                        href="{{  route('rmris.index') }}"><i class="fas fa-book-open"></i>Kelengkapan Rawat Inap</a>
+                                    </li>
+                                @endcan
+                            </ul>
                         </li>
 
                         @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))

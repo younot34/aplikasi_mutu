@@ -32,6 +32,7 @@
                                     <th>Resume</th>
                                     <th>Lengkap</th>
                                     <th>Tidak Lengkap</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,6 +82,13 @@
                                             <th> ${item.resume}</th>
                                             <th> ${item.lengkap}</th>
                                             <th> ${item.tidak}</th>
+                                            <th>
+                                                <form action="/rmrs/delete/${item.id}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </th>
                                         </tr>`;
                                         tbody.innerHTML += row;
                                     });
