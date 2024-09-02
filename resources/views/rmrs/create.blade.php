@@ -27,19 +27,31 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Asesment</label>
-                                    <input type="text" name="asesmen" class="form-control">
+                                    <input type="text" name="asesmen" class="form-control" list="data_list_rm">
+                                    <datalist id="data_list_rm">
+                                        <option value="✔️"></option>
+                                    </datalist>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>CPPT</label>
-                                    <input type="text" name="cppt" class="form-control">
+                                    <input type="text" name="cppt" class="form-control" list="data_list_rm">
+                                    <datalist id="data_list_rm">
+                                        <option value="✔️"></option>
+                                    </datalist>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Resep</label>
-                                    <input type="text" name="resep" class="form-control">
+                                    <input type="text" name="resep" class="form-control" list="data_list_rm">
+                                    <datalist id="data_list_rm">
+                                        <option value="✔️"></option>
+                                    </datalist>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Resume</label>
-                                    <input type="text" name="resume" class="form-control">
+                                    <input type="text" name="resume" class="form-control" list="data_list_rm">
+                                    <datalist id="data_list_rm">
+                                        <option value="✔️"></option>
+                                    </datalist>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Lengkap</label>

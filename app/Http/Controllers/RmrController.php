@@ -248,14 +248,17 @@ class RmrController extends Controller
     }
     public function reviewBulananRm(Request $request)
     {
-        $bulan = $request->input('bulan');
-        if ($bulan) {
-            $rmr = Rmr::whereMonth('tanggal', date('m', strtotime($bulan)))
-                       ->orderBy('tanggal', 'asc')  // Mengurutkan berdasarkan tanggal
-                       ->paginate(10);
-        } else {
-            $rmr = Rmr::orderBy('tanggal', 'asc')  // Mengurutkan berdasarkan tanggal
-                       ->paginate(10);
+        $bulan = $request->input('bulan', date('Y-m')); // default to current month
+        $tanggalData = Rmr::whereYear('tanggal', date('Y', strtotime($bulan)))
+            ->whereMonth('tanggal', date('m', strtotime($bulan)))
+            ->get();
+
+        // Siapkan array untuk menyimpan data berdasarkan tanggal
+        $rmr = [];
+
+        // Kumpulkan data berdasarkan tanggal
+        foreach ($tanggalData as $item) {
+            $rmr[$item->tanggal][] = $item; // Group by date
         }
         return view('rmrs.review_bulanan_rm', compact('rmr', 'bulan'));
     }

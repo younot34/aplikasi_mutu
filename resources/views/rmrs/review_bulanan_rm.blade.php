@@ -29,24 +29,50 @@
                         <table class='table table-bordered'>
                             <thead>
                                 <tr>
-                                    <th>Tanggal</th>
                                     <th>No</th>
-                                    <th>No.RM</th>
-                                    <th>Asesment</th>
-                                    <th>CPPT</th>
-                                    <th>Resep</th>
-                                    <th>Resume</th>
+                                    <th>Tanggal</th>
+                                    <th>Jumlah Berkas</th>
                                     <th>Lengkap</th>
-                                    <th>Tidak Lengkap</th>
+                                    <th>Tidak</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php
                                 $lastDate = null; // Variabel untuk menyimpan tanggal terakhir yang ditampilkan
+                                $no = 1;
+                                $totalJumlahBerkas = 0;
+                                $totalLengkap = 0;
+                                $totalTidak = 0;
                                 @endphp
 
-                                @foreach ($rmr as $item)
+                                @foreach ($rmr as $date => $data)
+                                @php
+                                    // Hitung jumlah lengkap dan tidak untuk tanggal ini
+                                    $jumlahLengkap = 0;
+                                    $jumlahTidak = 0;
+
+                                    foreach ($data as $item) {
+                                        // Menghitung jumlah lengkap
+                                        $jumlahLengkap += (
+                                            ($item->lengkap === '✔️' ? 1 : 0)
+                                        );
+
+                                        // Menghitung jumlah tidak
+                                        $jumlahTidak += (
+                                            ($item->tidak === '✔️' ? 1 : 0)
+                                        );
+                                    }
+
+                                    // Jumlah berkas dihitung sebagai jumlah lengkap + jumlah tidak
+                                    $jumlahBerkas = $jumlahLengkap + $jumlahTidak;
+
+                                    // Tambahkan ke total
+                                    $totalJumlahBerkas += $jumlahBerkas;
+                                    $totalLengkap += $jumlahLengkap;
+                                    $totalTidak += $jumlahTidak;
+                                @endphp
                                     <tr>
+                                        <td>{{ $item->no++ }}</td>
                                         <td>
                                             @if ($item->tanggal != $lastDate)
                                                 {{ $item->tanggal }}
@@ -55,17 +81,20 @@
                                                 @endphp
                                             @endif
                                         </td>
-                                        <td>{{ $item->no }}</td>
-                                        <td>{{ $item->no_rm }}</td>
-                                        <td>{{ $item->asesmen }}</td>
-                                        <td>{{ $item->cppt }}</td>
-                                        <td>{{ $item->resep }}</td>
-                                        <td>{{ $item->resume }}</td>
-                                        <td>{{ $item->lengkap }}</td>
-                                        <td>{{ $item->tidak }}</td>
+                                        <td>{{ $jumlahBerkas }}</td>
+                                        <td>{{ $jumlahLengkap }}</td>
+                                        <td>{{ $jumlahTidak }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="2">Total</th>
+                                    <th>{{ $totalJumlahBerkas }}</th>
+                                    <th>{{ $totalLengkap }}</th>
+                                    <th>{{ $totalTidak }}</th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
