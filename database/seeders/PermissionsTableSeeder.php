@@ -42,6 +42,8 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'oks.delete']);
         Permission::create(['name' => 'oks.review']);
         Permission::create(['name' => 'oks.review_bulanan_ok']);
+        Permission::create(['name' => 'oks.review_bulanan_ok_imprs']);
+        Permission::create(['name' => 'oks.review_bulanan_ok_unit']);
         //permission for rmrs
         Permission::create(['name' => 'rmrs.index']);
         Permission::create(['name' => 'rmrs.create']);
@@ -149,5 +151,75 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'rmris.delete']);
         Permission::create(['name' => 'rmris.review']);
         Permission::create(['name' => 'rmris.review_bulanan_rmi']);
+        
+        //radios
+        Permission::create(['name' => 'radios.index']);
+        Permission::create(['name' => 'radios.create']);
+        Permission::create(['name' => 'radios.edit']);
+        Permission::create(['name' => 'radios.delete']);
+        Permission::create(['name' => 'radios.review']);
+        Permission::create(['name' => 'radios.review_bulanan_radio']);
+        
+        //resep_jadi
+        Permission::create(['name' => 'obat_jadis.index']);
+        Permission::create(['name' => 'obat_jadis.create']);
+        Permission::create(['name' => 'obat_jadis.edit']);
+        Permission::create(['name' => 'obat_jadis.delete']);
+        Permission::create(['name' => 'obat_jadis.export_oj']);
+        
+        //resep_racikan
+        Permission::create(['name' => 'obat_racikans.index']);
+        Permission::create(['name' => 'obat_racikans.create']);
+        Permission::create(['name' => 'obat_racikans.edit']);
+        Permission::create(['name' => 'obat_racikans.delete']);
+        Permission::create(['name' => 'obat_racikans.export_or']);
+        
+        //ido
+        Permission::create(['name' => 'idos.index']);
+        Permission::create(['name' => 'idos.create']);
+        Permission::create(['name' => 'idos.edit']);
+        Permission::create(['name' => 'idos.delete']);
+        Permission::create(['name' => 'idos.export_ido']);
+        // Permission::create(['name' => 'idos.grafik_doublecheck']);
+        
+        //plebiti
+        Permission::create(['name' => 'plebitis.index']);
+        Permission::create(['name' => 'plebitis.create']);
+        Permission::create(['name' => 'plebitis.edit']);
+        Permission::create(['name' => 'plebitis.delete']);
+        Permission::create(['name' => 'plebitis.export_plebiti']);
+        // Permission::create(['name' => 'plebitis.grafik_doublecheck']);
+        
+        //nilai_kritis_lab
+        Permission::create(['name' => 'nilai_kritiss.index']);
+        Permission::create(['name' => 'nilai_kritiss.create']);
+        Permission::create(['name' => 'nilai_kritiss.edit']);
+        Permission::create(['name' => 'nilai_kritiss.delete']);
+        Permission::create(['name' => 'nilai_kritiss.export_lab']);
+        
+        //moniroeing
+        Permission::create(['name' => 'monitorings.index']);
+        Permission::create(['name' => 'monitorings.create']);
+        Permission::create(['name' => 'monitorings.edit']);
+        Permission::create(['name' => 'monitorings.delete']);
+        Permission::create(['name' => 'monitorings.export_monitoring']);
+        // Permission::create(['name' => 'plebitis.grafik_doublecheck']);
+        
+        //grafik
+        Permission::create(['name' => 'asess.grafik_ases']);
+        Permission::create(['name' => 'rajals.grafik_rajal']);
+        Permission::create(['name' => 'imprs.grafik_doublecheck']);
+        Permission::create(['name' => 'farmasis.grafik_fornas']);
+        Permission::create(['name' => 'rmris.grafik_rmri']);
+        Permission::create(['name' => 'obat_racikans.grafik_or']);
+        Permission::create(['name' => 'ppis.grafik_ppi_tahunan']);
+        Permission::create(['name' => 'apds.grafik_apd_tahunan']);
+        Permission::create(['name' => 'nilai_kritiss.grafik_lab_tahunan']);
+        Permission::create(['name' => 'oks.grafik_op']);
+        Permission::create(['name' => 'oks.grafik_sc']);
+        Permission::create(['name' => 'oks.grafik_ssc']);
+        Permission::create(['name' => 'ris.grafik_kep']);
+        Permission::create(['name' => 'jatuhs.grafik_j']);
+        Permission::create(['name' => 'visites.grafik_v']);
     }
 }

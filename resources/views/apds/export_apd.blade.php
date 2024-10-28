@@ -18,16 +18,26 @@
                     <form action="{{ route('apds.export_apd') }}" method="GET" class="d-inline-block">
                         <div class="form-group">
                             <label for="bulan">Pilih Bulan:</label>
-                            <input type="month" id="bulan" name="bulan" value="{{ $bulan }}" class="form-control">
+                            <input type="month" id="bulan" name="bulan" value="{{ request('bulan', $bulan) }}" class="form-control">
                         </div>
+                        @if(auth()->user()->hasRole('admin') || auth()->user()->unit === 'PPI')
+                            <div class="form-group">
+                                <label for="unit">Pilih Unit:</label>
+                                <!-- Dropdown to select unit -->
+                                <select name="unit" class="form-control" onchange="this.form.submit()">
+                                    <option value="">Pilih Unit</option>
+                                    @foreach($units as $unit)
+                                        <option value="{{ $unit->unit }}" {{ request('unit') == $unit->unit ? 'selected' : '' }}>
+                                            {{ $unit->unit }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
+                        <!-- Submit button -->
                         <button type="submit" class="btn btn-primary">Tampilkan</button>
                     </form>
-                    {{-- <form action="{{ route('apds.export_apd.export') }}" method="GET" class="d-inline-block ml-2">
-                        <div class="form-group">
-                            <input type="hidden" id="bulan" name="bulan" value="{{ $bulan }}" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-success">Export to Excel</button>
-                    </form> --}}
+                    <div class="table-responsive">
                     <table class="table table-bordered mt-4">
                         <thead>
                             <tr>
@@ -60,9 +70,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($apd as $no => $apds)
+                            @foreach ($apd as $apds)
                             <tr>
-                                <th scope="row" style="text-align: center">{{ ++$no + ($apd->currentPage()-1) * $apd->perPage() }}</th>
+                                <th scope="row" style="text-align: center">{{ $loop->iteration }}</th>
                                 <td>{{ $apds->tanggal }}</td>
                                 <td>{{ $apds->unit }}</td>
                                 <td>{{ $apds->nama_petugas }}</td>
@@ -78,7 +88,7 @@
                                 <td>{{ $apds->tidak }}</td>
                                 <td>{{ $apds->keterangan }}</td>
                             </tr>
-                        @endforeach
+                            @endforeach
                             <tr>
                                 <td colspan="12" class="text-right"><center><strong>HASIL AKHIR YA</strong></center></td>
                                 <td colspan="3">
@@ -91,16 +101,29 @@
                                                 $totalYa += $apds->ya === '✔️' ? 1 : 0;
                                                 $totalTidak += $apds->tidak === '✔️' ? 1 : 0;
                                             }
-                                            $result = ($totalYa + $totalTidak) - $totalTidak;
+
+                                            $totalKeseluruhan = $totalYa + $totalTidak;
                                         @endphp
-                                            <center>{{$result}}</center>
+                                        <center>{{ $totalYa }}</center>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="12" class="text-right"><center><strong>Persentase Ya</strong></center></td>
+                                <td colspan="3">
+                                    <strong>
+                                        @if($totalKeseluruhan > 0)
+                                            <center>{{ round(($totalYa / $totalKeseluruhan) * 100, 2) }}%</center>
+                                        @else
+                                            <center>0%</center>
+                                        @endif
                                     </strong>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                     <div style="text-align: center">
-                        {{ $apd->links("vendor.pagination.bootstrap-4") }}
                     </div>
                 </div>
             </div>

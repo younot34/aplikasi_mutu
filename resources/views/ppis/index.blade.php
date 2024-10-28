@@ -16,7 +16,7 @@
 
                 <div class="card-body">
                     <form action="{{ route('ppis.index') }}" method="GET">
-                    @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin')
+                    @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin|petugas8|petugas9|petugas10|petugas11|petugas12|petugas13')
                         <div class="form-group">
                             <div class="input-group mb-3">
                                 @can('ppis.create')
@@ -24,12 +24,12 @@
                                         <a href="{{ route('ppis.create') }}" class="btn btn-primary" style="padding-top: 10px;"><i class="fa fa-plus-circle"></i> TAMBAH</a>
                                     </div>
                                 @endcan
-                                <input type="text" class="form-control" name="q"
-                                       placeholder="cari berdasarkan unit ppis">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> CARI
-                                    </button>
-                                </div>
+                                <!--<input type="text" class="form-control" name="q"-->
+                                <!--       placeholder="cari berdasarkan unit ppis">-->
+                                <!--<div class="input-group-append">-->
+                                <!--    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> CARI-->
+                                <!--    </button>-->
+                                <!--</div>-->
                             </div>
                             @can('ppis.export_ppi')
                                 <a href="{{ route('ppis.export_ppi') }}" class="btn btn-sm btn-primary">
@@ -48,7 +48,7 @@
                                 <th scope="col">Tanggal</th>
                                 <th scope="col">Observer</th>
                                 <th scope="col">Profesi</th>
-                                <th scope="col">Jumlah</th>
+                                <th scope="col">Jumlah Patuh</th>
                                 <th scope="col">Opp</th>
                                 <th scope="col">Indikasi</th>
                                 <th scope="col">Cuci Tangan</th>

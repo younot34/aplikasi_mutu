@@ -28,6 +28,8 @@ class Oks extends Model
         'penandaan_lokasi_op',
         'kelengkapan_ssc',
         'penundaan_op_elektif',
+        'penundaan_op_elektif1',
+        'sc_emergensi1',
         'sc_emergensi',
         'keterangan',
         'kendala'

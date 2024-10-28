@@ -54,12 +54,14 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name'      => 'required',
+            'unit'      => 'required',
             'email'     => 'required|email|unique:users',
             'password'  => 'required|confirmed'
         ]);
 
         $user = User::create([
             'name'      => $request->input('name'),
+            'unit'      => $request->input('name'),
             'email'     => $request->input('email'),
             'password'  => bcrypt($request->input('password'))
         ]);
@@ -99,6 +101,7 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name'      => 'required',
+            'unit'      => 'required',
             'email'     => 'required|email|unique:users,email,'.$user->id
         ]);
 
@@ -107,11 +110,13 @@ class UserController extends Controller
         if($request->input('password') == "") {
             $user->update([
                 'name'      => $request->input('name'),
+                'unit'      => $request->input('unit'),
                 'email'     => $request->input('email')
             ]);
         } else {
             $user->update([
                 'name'      => $request->input('name'),
+                'unit'      => $request->input('unit'),
                 'email'     => $request->input('email'),
                 'password'  => bcrypt($request->input('password'))
             ]);

@@ -102,8 +102,8 @@ class ClinicalController extends Controller
             'ht' => 'nullable|string',
             'hiv' => 'nullable|string',
             'dm' => 'nullable|string',
-            'masuk' => 'required|date',
-            'keluar' => 'required|date',
+            'masuk' => 'nullable|date',
+            'keluar' => 'nullable|date',
         ]);
 
         try {
@@ -158,8 +158,8 @@ class ClinicalController extends Controller
             'ht' => 'nullable|string',
             'hiv' => 'nullable|string',
             'dm' => 'nullable|string',
-            'masuk' => 'required|date',
-            'keluar' => 'required|date',
+            'masuk' => 'nullable|date',
+            'keluar' => 'nullable|date',
         ]);
         try {
             // Simpan data ke tabel ris

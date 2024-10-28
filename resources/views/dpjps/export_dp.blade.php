@@ -49,9 +49,30 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $totalterverif = 0;
+                                $totaltidak_terverif = 0;
+
+                                foreach ($dpjp as $no => $dpjps) {
+                                    $terverifs = 0;
+                                    $tidakterverifs = 0;
+                                    
+                                    if(
+                                        $dpjps->terverifikasi == '✔️'
+                                    ){
+                                        $totalterverif++;
+                                    }else{
+                                        $totaltidak_terverif++;
+                                    }
+                                    $totalterverif += $terverifs;
+                                    $totaltidak_terverif += $tidakterverifs;
+                                }
+                                $totalSemua = $totalterverif + $totaltidak_terverif;
+                                $persentase = $totalSemua > 0 ? ($totalterverif / $totalSemua) * 100 : 0;
+                            @endphp
                             @foreach ($dpjp as $no => $dpjps)
                             <tr>
-                                <th scope="row" style="text-align: center">{{ ++$no + ($dpjp->currentPage()-1) * $dpjp->perPage() }}</th>
+                                <th scope="row" style="text-align: center">{{ $loop->iteration }}</th>
                                 <td>{{ $dpjps->tanggal }}</td>
                                 <td>{{ $dpjps->no_rm }}</td>
                                 <td>{{ $dpjps->nama_pasien }}</td>
@@ -59,40 +80,35 @@
                                 <td>{{ $dpjps->tidak_terverifikasi }}</td>
                                 <td>{{ $dpjps->dpjp }}</td>
                             </tr>
-                        @endforeach
+                            @endforeach
                             <tr>
                                 <td colspan="4" class="text-right"><center><strong>HASIL AKHIR</strong></center></td>
                                 <td colspan="1">
                                     <strong>
-                                        @php
-                                            $totalterverifikasi = 0;
-
-                                            foreach ($dpjp as $dpjps) {
-                                                $totalterverifikasi += $dpjps->terverifikasi === '✔️' ? 1 : 0;
-                                            }
-                                            $result = $totalterverifikasi;
-                                        @endphp
-                                            <center>{{$result}}</center>
+                                            <center>{{$totalterverif}}</center>
                                     </strong>
                                 </td>
                                 <td colspan="1">
                                     <strong>
-                                        @php
-                                            $totaltidak_terverifikasi = 0;
-
-                                            foreach ($dpjp as $dpjps) {
-                                                $totaltidak_terverifikasi += $dpjps->tidak_terverifikasi === '✔️' ? 1 : 0;
-                                            }
-                                            $resultt = $totaltidak_terverifikasi
-                                        @endphp
-                                            <center>{{$resultt}}</center>
+                                            <center>{{$totaltidak_terverif}}</center>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right"><center><strong>PERSENTASE</strong></center></td>
+                                <td colspan="2">
+                                    <strong>
+                                        @if ($persentase > 0)
+                                            <center>{{ number_format($persentase, 2) }}%</center>
+                                        @else
+                                            0%
+                                        @endif
                                     </strong>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div style="text-align: center">
-                        {{ $dpjp->links("vendor.pagination.bootstrap-4") }}
                     </div>
                 </div>
             </div>

@@ -271,52 +271,5 @@ document.addEventListener('DOMContentLoaded', function() {
             row.parentNode.removeChild(row);
         }
     };
-
-    const addPpiButton = document.getElementById('add-ppi-button');
-    if (addPpiButton) {
-        addPpiButton.addEventListener('click', function() {
-            var container = document.getElementById('ppi-container');
-            var newRow = document.createElement('div');
-            newRow.className = 'form-row';
-            newRow.innerHTML = `
-            <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>opp</th>
-                                            <th>indikasi</th>
-                                            <th>cuci tangan</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td rowspan="1">
-                                            <input type="number" name="opp[]">
-                                        </td>
-                                        <td>
-                                            <input type="number" name="indikasi[]" class="form-control" list="data_list">
-                                            <datalist id="data_list">
-                                                <option value="1"></option>
-                                                <option value="2"></option>
-                                                <option value="3"></option>
-                                                <option value="4"></option>
-                                                <option value="5"></option>
-                                            </datalist>
-                                        </td>
-                                        <td>
-                                            <input type="text" name="cuci_tangan[]" class="form-control" list="data_list_cuci">
-                                            <datalist id="data_list_cuci">
-                                                <option value="Rub"></option>
-                                                <option value="Air M"></option>
-                                                <option value="Tidak"></option>
-                                                <option value="Gloves"></option>
-                                            </datalist>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                </table>
-                                `;
-            container.appendChild(newRow);
-        });
-    }
 });
 

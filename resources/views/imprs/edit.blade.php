@@ -4,14 +4,14 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Edit imprs</h1>
+            <h1>Edit</h1>
         </div>
 
         <div class="section-body">
 
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-exam"></i> Edit imprs</h4>
+                    <h4><i class="fas fa-exam"></i> Edit</h4>
                 </div>
 
                 <div class="card-body">

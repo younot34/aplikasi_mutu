@@ -41,7 +41,7 @@
                             <input type="number" name="patuh" value="{{$ases->patuh ?? old('patuh')}}" class="form-control">
                         </div>
                         <div class="form-group col-md-3">
-                            <label>Assesment Tidak Patuh</label>
+                            <label>Assesment Patuh</label>
                             <input type="number" name="tidak_patuh" value="{{$ases->tidak_patuh ?? old('tidak_patuh')}}" class="form-control">
                         </div>
                         <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>

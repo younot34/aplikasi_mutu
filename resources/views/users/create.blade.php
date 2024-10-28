@@ -31,6 +31,26 @@
                         </div>
 
                         <div class="form-group">
+                            <label>UNIT</label>
+                            <input type="text" name="unit" value="{{ old('unit') }}" placeholder="Masukkan Nama Unit"
+                                class="form-control @error('unit') is-invalid @enderror" list="data_unit">
+                                <datalist id="data_unit">
+                                    <option value="IGD"></option>
+                                    <option value="LABORAT"></option>
+                                    <option value="RAWAT JALAN"></option>
+                                    <option value="HCU"></option>
+                                    <option value="MATERNITAS / VK"></option>
+                                    <option value="RAWAT INAP"></option>
+                                </datalist>
+
+                            @error('unit')
+                            <div class="invalid-feedback" style="display: block">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
                             <label>EMAIL</label>
                             <input type="email" name="email" value="{{ old('email') }}" placeholder="Masukkan Email"
                                 class="form-control @error('email') is-invalid @enderror">

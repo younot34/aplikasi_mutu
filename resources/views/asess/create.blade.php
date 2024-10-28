@@ -32,6 +32,9 @@
                                 <option value="Saraf"></option>
                                 <option value="Bedah"></option>
                                 <option value="Jantung"></option>
+                                <option value="Gizi"></option>
+                                <option value="Imunisasi"></option>
+                                <option value="KB"></option
                             </datalist>
                         </div>
                         <div class="form-group col-md-3">
@@ -39,7 +42,7 @@
                             <input type="number" name="patuh" class="form-control">
                         </div>
                         <div class="form-group col-md-3">
-                            <label>Assesment Tidak Patuh</label>
+                            <label>Assesment Patuh</label>
                             <input type="number" name="tidak_patuh" class="form-control">
                         </div>
                         <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>

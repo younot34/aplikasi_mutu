@@ -190,14 +190,22 @@ class EwsController extends Controller
             ]);
         }
     }
+    
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $pasien = Ews::where('nama_pasien', 'LIKE', "%{$search}%")->get();
+
+        return response()->json($pasien);
+    }
 
     public function laporanBulanan(Request $request)
     {
         $bulan = $request->input('bulan' );
         if ($bulan) {
-            $ews = Ews::whereMonth('tanggal', date('m', strtotime($bulan)))->paginate(10);
+            $ews = Ews::whereMonth('tanggal', date('m', strtotime($bulan)))->get();
         } else {
-            $ews = Ews::paginate(10);
+            $ews = Ews::get();
         }
         return view('ewss.export_e', compact('ews', 'bulan'));
     }

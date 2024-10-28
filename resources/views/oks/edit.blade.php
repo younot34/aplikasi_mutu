@@ -57,7 +57,11 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Jenis OP</label>
-                                    <input type="text" name="oks[{{ $ok->id }}][jenis_op]" value="{{ $ok->jenis_op }}" class="form-control">
+                                    <input type="text" name="oks[{{ $ok->id }}][jenis_op]" value="{{ $ok->jenis_op }}" class="form-control" list="data_list_jenis_op">
+                                    <datalist id="data_list_jenis_op">
+                                        <option value="ELEKTIF"></option>
+                                        <option value="CITO"></option>
+                                    </datalist>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Asuransi</label>
@@ -83,28 +87,60 @@
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label>Penandaan Lokasi OP</label>
-                                    <input type="text" name="oks[{{ $ok->id }}][penandaan_lokasi_op]" value="{{ $ok->penandaan_lokasi_op }}" class="form-control">
+                                    <input type="text" name="oks[{{ $ok->id }}][penandaan_lokasi_op]" value="{{ $ok->penandaan_lokasi_op }}" class="form-control" list="data_list">
+                                    <datalist id="data_list">
+                                        <option value="✔️"></option>
+                                        <option value="❌"></option>
+                                    </datalist>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Kelengkapan SSC</label>
-                                    <input type="text" name="oks[{{ $ok->id }}][kelengkapan_ssc]" value="{{ $ok->kelengkapan_ssc }}" class="form-control">
+                                    <input type="text" name="oks[{{ $ok->id }}][kelengkapan_ssc]" value="{{ $ok->kelengkapan_ssc }}" class="form-control" list="data_list">
+                                    <datalist id="data_list">
+                                        <option value="✔️"></option>
+                                        <option value="❌"></option>
+                                    </datalist>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label>Penundaan OP Elektif >2 Jam</label>
-                                    <input type="text" name="oks[{{ $ok->id }}][penundaan_op_elektif]" value="{{ $ok->penundaan_op_elektif }}" class="form-control">
+                                    <label>Penundaan OP Elektif <= 2 Jam</label>
+                                    <input type="text" name="oks[{{ $ok->id }}][penundaan_op_elektif1]" value="{{ $ok->penundaan_op_elektif1 }}" class="form-control" list="data_list">
+                                    <datalist id="data_list">
+                                        <option value="✔️"></option>
+                                        <option value="❌"></option>
+                                    </datalist>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label>SC Emergensi Kategori 1 >30mnt</label>
-                                    <input type="text" name="oks[{{ $ok->id }}][sc_emergensi]" value="{{ $ok->sc_emergensi }}" class="form-control">
+                                    <label>Penundaan OP Elektif > 2 Jam</label>
+                                    <input type="text" name="oks[{{ $ok->id }}][penundaan_op_elektif]" value="{{ $ok->penundaan_op_elektif }}" class="form-control" list="data_list">
+                                    <datalist id="data_list">
+                                        <option value="✔️"></option>
+                                        <option value="❌"></option>
+                                    </datalist>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>SC Emergensi Kategori 1 <= 30mnt</label>
+                                    <input type="text" name="oks[{{ $ok->id }}][sc_emergensi1]" value="{{ $ok->sc_emergensi1 }}" class="form-control" list="data_list">
+                                    <datalist id="data_list">
+                                        <option value="✔️"></option>
+                                        <option value="❌"></option>
+                                    </datalist>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>SC Emergensi Kategori 1 > 30mnt</label>
+                                    <input type="text" name="oks[{{ $ok->id }}][sc_emergensi]" value="{{ $ok->sc_emergensi }}" class="form-control" list="data_list">
+                                    <datalist id="data_list">
+                                        <option value="✔️"></option>
+                                        <option value="❌"></option>
+                                    </datalist>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Keterangan</label>
-                                <input type="text" name="oks[{{ $ok->id }}][keterangan]" value="{{ $ok->keterangan }}" class="form-control">
+                                <textarea type="text" name="oks[{{ $ok->id }}][keterangan]" value="{{ $ok->keterangan }}" class="form-control"></textarea>
                             </div>
                             <div class="form-group">
                                 <label>Kendala</label>
-                                <input type="text" name="oks[{{ $ok->id }}][kendala]" value="{{ $ok->kendala }}" class="form-control">
+                                <textarea type="text" name="oks[{{ $ok->id }}][kendala]" value="{{ $ok->kendala }}" class="form-control"></textarea>
                             </div>
                         </div>
                         <hr>

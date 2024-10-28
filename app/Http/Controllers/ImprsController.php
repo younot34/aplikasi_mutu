@@ -21,7 +21,7 @@ class ImprsController extends Controller
     */
    public function __construct()
    {
-       $this->middleware(['permission:imprs.index|imprs.create|imprs.edit|imprs.delete']);
+       $this->middleware(['permission:imprs.index|imprs.create|imprs.edit|imprs.delete|imprs.grafik_doublecheck']);
    }
 
     /**
@@ -66,6 +66,14 @@ class ImprsController extends Controller
                $imprs = $imprs->where('waktu', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }elseif($currentUser->hasRole('petugas7')){
+           $imprs = Imprs::latest()->when(request()->q, function($imprs) {
+               $imprs = $imprs->where('waktu', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas8')){
+           $imprs = Imprs::latest()->when(request()->q, function($imprs) {
+               $imprs = $imprs->where('waktu', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas9')){
            $imprs = Imprs::latest()->when(request()->q, function($imprs) {
                $imprs = $imprs->where('waktu', 'like', '%'. request()->q . '%');
            })->paginate(10);
@@ -239,13 +247,60 @@ class ImprsController extends Controller
     }
     public function laporanBulanan(Request $request)
     {
-        $bulan = $request->input('bulan');
+        $bulan = $request->input('bulan'); // Mengambil bulan dari input
+        $imprs = Imprs::with('reseps'); // Mulai dengan query untuk Imprs yang terkait dengan reseps
+
+        // Jika bulan diberikan, filter berdasarkan bulan tersebut
         if ($bulan) {
-            $imprs = Imprs::whereMonth('waktu', date('m', strtotime($bulan)))->with('reseps')->paginate(10);
-        } else {
-            $imprs = Imprs::with('reseps')->paginate(10);
+            $imprs = $imprs->whereMonth('waktu', date('m', strtotime($bulan)));
         }
+
+        // Ambil data dengan paginasi
+        $imprs = $imprs->get();
+
         return view('imprs.export', compact('imprs', 'bulan'));
+    }
+    
+    public function laporanTahunan(Request $request)
+    {
+        $tahun = $request->get('tahun', date('Y'));
+    
+        // Inisialisasi bulan
+        $months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        $achievements = [];
+        $totalHighAlert = [];
+        $totalTerverifikasi = [];
+    
+        // Loop untuk setiap bulan dalam setahun
+        foreach (range(1, 12) as $month) {
+            $monthlyData = Imprs::whereYear('waktu', $tahun)
+                                ->whereMonth('waktu', $month)
+                                ->with('reseps')
+                                ->get();
+    
+            // Menghitung total resep terverifikasi dan high alert untuk bulan tertentu
+            $highAlert = $monthlyData->sum(function($imprss) {
+                return $imprss->reseps->sum('resep_high_alert');
+            });
+    
+            $terverifikasi = $monthlyData->sum(function($imprss) {
+                return $imprss->reseps->sum('resep_terverifikasi');
+            });
+    
+            // Menyimpan total resep
+            $totalHighAlert[] = $highAlert;
+            $totalTerverifikasi[] = $terverifikasi;
+    
+            // Menghitung persentase capaian jika ada resep high alert, jika tidak, 0%
+            if ($highAlert > 0) {
+                $achievements[] = ($terverifikasi / $highAlert) * 100;
+            } else {
+                $achievements[] = 0;
+            }
+        }
+    
+        // Mengembalikan data ke view
+        return view('imprs.grafik_doublecheck', compact('tahun', 'achievements', 'months', 'totalHighAlert', 'totalTerverifikasi'));
     }
 
     public function export(Request $request)

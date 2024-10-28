@@ -16,7 +16,7 @@ class RajalController extends Controller
     */
    public function __construct()
    {
-       $this->middleware(['permission:rajals.index|rajals.create|rajals.edit|rajals.delete']);
+       $this->middleware(['permission:rajals.index|rajals.create|rajals.edit|rajals.delete|rajals.grafik_rajal']);
    }
     /**
      * Display a listing of the resource.
@@ -60,6 +60,14 @@ class RajalController extends Controller
                $rajal = $rajal->where('tanggal', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }elseif($currentUser->hasRole('petugas7')){
+           $rajal = Rajal::latest()->when(request()->q, function($rajal) {
+               $rajal = $rajal->where('tanggal', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas8')){
+           $rajal = Rajal::latest()->when(request()->q, function($rajal) {
+               $rajal = $rajal->where('tanggal', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas9')){
            $rajal = Rajal::latest()->when(request()->q, function($rajal) {
                $rajal = $rajal->where('tanggal', 'like', '%'. request()->q . '%');
            })->paginate(10);
@@ -191,10 +199,50 @@ class RajalController extends Controller
     {
         $bulan = $request->input('bulan' );
         if ($bulan) {
-            $rajal = Rajal::whereMonth('tanggal', date('m', strtotime($bulan)))->paginate(10);
+            $rajal = Rajal::whereMonth('tanggal', date('m', strtotime($bulan)))->get();
         } else {
-            $rajal = Rajal::paginate(10);
+            $rajal = Rajal::get();
         }
         return view('rajals.export_ra', compact('rajal', 'bulan'));
     }
+    
+    public function laporanTahunan(Request $request)
+    {
+        $tahun = $request->input('tahun', date('Y'));
+    
+        // Ambil data rawat jalan (rajal) dalam satu tahun
+        $rajals = Rajal::whereYear('tanggal', $tahun)->get();
+    
+        // Data per bulan
+        $dataPerBulan = array_fill(1, 12, ['patuh' => 0, 'tidak_patuh' => 0]);
+    
+        foreach ($rajals as $rajal) {
+            $bulan = (int)date('m', strtotime($rajal->tanggal));
+            $dataPerBulan[$bulan]['patuh'] += $rajal->patuh;
+            $dataPerBulan[$bulan]['tidak_patuh'] += $rajal->tidak_patuh;
+        }
+    
+        // Menghitung persentase tiap bulan
+        $capaian = [];
+        foreach ($dataPerBulan as $bulan => $data) {
+            if ($data['patuh'] + $data['tidak_patuh'] > 0) { // Pastikan tidak dibagi dengan nol
+                $capaian[$bulan] = ($data['tidak_patuh'] / $data['patuh']) * 100; // Hitung persentase kepatuhan
+            } else {
+                $capaian[$bulan] = 0;
+            }
+        }
+    
+        // Data untuk Chart.js
+        $chartData = [
+            'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            'capaian' => array_values($capaian), // Persentase kepatuhan per bulan
+            'patuh' => array_column($dataPerBulan, 'patuh'), // Jumlah patuh per bulan
+            'tidak_patuh' => array_column($dataPerBulan, 'tidak_patuh'), // Jumlah tidak patuh per bulan
+            'target' => array_fill(0, 12, 80) // Target 80% (tambahkan ini)
+        ];
+    
+        return view('rajals.grafik_rajal', compact('chartData', 'tahun'));
+    }
+
+
 }

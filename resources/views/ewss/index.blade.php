@@ -55,7 +55,7 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th style="width: 15%;text-align: center">Terisis</th>
+                                <th style="width: 15%;text-align: center">Terisi</th>
                                 <th style="width: 15%;text-align: center">Tidak Terisi</th>
                                 <th></th>
                             </tr>

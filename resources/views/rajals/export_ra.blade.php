@@ -47,7 +47,7 @@
                         <tbody>
                             @foreach ($rajal as $no => $rajals)
                             <tr>
-                                <th scope="row" style="text-align: center">{{ ++$no + ($rajal->currentPage()-1) * $rajal->perPage() }}</th>
+                                <th scope="row" style="text-align: center">{{$loop->iteration }}</th>
                                 <td>{{ $rajals->tanggal }}</td>
                                 <td>{{ $rajals->poli }}</td>
                                 <td><center>{{ $rajals->patuh }}</center></td>
@@ -90,12 +90,18 @@
                                         @php
                                             $totalpatuh = 0;
                                             $totaltidak_patuh = 0;
-
+                            
                                             foreach ($rajal as $rajals) {
                                                 $totalpatuh += $rajals->patuh;
                                                 $totaltidak_patuh += $rajals->tidak_patuh;
                                             }
-                                            $result = number_format(($totaltidak_patuh / $totalpatuh) * 100,2);
+                            
+                                            // Pastikan totalpatuh tidak nol untuk menghindari division by zero
+                                            if ($totalpatuh > 0) {
+                                                $result = number_format(($totaltidak_patuh / $totalpatuh) * 100, 2);
+                                            } else {
+                                                $result = 0; // Atau nilai default lainnya yang sesuai
+                                            }
                                         @endphp
                                             <center>{{$result}}%</center>
                                     </strong>
@@ -104,7 +110,6 @@
                         </tbody>
                     </table>
                     <div style="text-align: center">
-                        {{ $rajal->links("vendor.pagination.bootstrap-4") }}
                     </div>
                 </div>
             </div>

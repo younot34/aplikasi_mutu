@@ -16,7 +16,7 @@ class AsesController extends Controller
     */
    public function __construct()
    {
-       $this->middleware(['permission:asess.index|asess.create|asess.edit|asess.delete']);
+       $this->middleware(['permission:asess.index|asess.create|asess.edit|asess.delete|asess.grafik_ases']);
    }
     /**
      * Display a listing of the resource.
@@ -67,8 +67,15 @@ class AsesController extends Controller
            $ases = Ases::latest()->when(request()->q, function($ases) {
                $ases = $ases->where('tanggal', 'like', '%'. request()->q . '%');
            })->paginate(10);
+       }elseif($currentUser->hasRole('petugas8')){
+           $ases = Ases::latest()->when(request()->q, function($ases) {
+               $ases = $ases->where('tanggal', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas')){
+           $ases = Ases::latest()->when(request()->q, function($ases) {
+               $ases = $ases->where('tanggal', 'like', '%'. request()->q . '%');
+           })->paginate(10);
        }
-
        $user = new User();
 
        return view('asess.index', compact('ases','user'));
@@ -191,10 +198,48 @@ class AsesController extends Controller
     {
         $bulan = $request->input('bulan' );
         if ($bulan) {
-            $ases = Ases::whereMonth('tanggal', date('m', strtotime($bulan)))->paginate(10);
+            $ases = Ases::whereMonth('tanggal', date('m', strtotime($bulan)))->get();
         } else {
-            $ases = Ases::paginate(10);
+            $ases = Ases::get();
         }
         return view('asess.export_as', compact('ases', 'bulan'));
+    }
+    
+    public function laporanTahunan(Request $request)
+    {
+        $tahun = $request->input('tahun', date('Y'));
+    
+        // Ambil data assessment dalam satu tahun
+        $ases = Ases::whereYear('tanggal', $tahun)->get();
+    
+        // Array untuk menyimpan data patuh dan tidak patuh tiap bulan
+        $dataPerBulan = array_fill(1, 12, ['patuh' => 0, 'tidak_patuh' => 0]);
+    
+        foreach ($ases as $assessment) {
+            $bulan = (int)date('m', strtotime($assessment->tanggal));
+            $dataPerBulan[$bulan]['patuh'] += $assessment->patuh;
+            $dataPerBulan[$bulan]['tidak_patuh'] += $assessment->tidak_patuh;
+        }
+    
+        // Menghitung persentase tiap bulan
+        $capaian = [];
+        foreach ($dataPerBulan as $bulan => $data) {
+            if ($data['patuh'] > 0) {
+                $capaian[$bulan] = ($data['tidak_patuh'] / $data['patuh']) * 100;
+            } else {
+                $capaian[$bulan] = 0;
+            }
+        }
+    
+        // Data untuk Chart.js
+        $chartData = [
+            'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            'capaian' => array_values($capaian),
+            'target' => array_fill(0, 12, 85), // Target 80%
+            'totalPatuh' => array_column($dataPerBulan, 'patuh'),
+            'totalTidakPatuh' => array_column($dataPerBulan, 'tidak_patuh'),
+        ];
+    
+        return view('asess.grafik_ases', compact('chartData', 'tahun'));
     }
 }

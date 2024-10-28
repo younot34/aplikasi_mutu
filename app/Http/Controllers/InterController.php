@@ -10,15 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
 class InterController extends Controller
 {
     /**
-    * __construct
-    *
-    * @return void
-    */
-   public function __construct()
-   {
-       $this->middleware(['permission:inters.index|inters.create|inters.edit|inters.delete']);
-   }
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -195,10 +186,10 @@ class InterController extends Controller
     {
         $bulan = $request->input('bulan' );
         if ($bulan) {
-            $inter = Inter::whereMonth('tanggal', date('m', strtotime($bulan)))->paginate(10);
+            $inter = Inter::whereMonth('tanggal', date('m', strtotime($bulan)))->get();
         } else {
-            $inter = Inter::paginate(10);
+            $inter = Inter::get();
         }
-        return view('inters.export_e', compact('inter', 'bulan'));
+        return view('inters.export_in', compact('inter', 'bulan'));
     }
 }

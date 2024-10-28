@@ -199,9 +199,9 @@ class DpjpController extends Controller
     {
         $bulan = $request->input('bulan' );
         if ($bulan) {
-            $dpjp = Dpjp::whereMonth('tanggal', date('m', strtotime($bulan)))->paginate(10);
+            $dpjp = Dpjp::whereMonth('tanggal', date('m', strtotime($bulan)))->get();
         } else {
-            $dpjp = Dpjp::paginate(10);
+            $dpjp = Dpjp::get();
         }
         return view('dpjps.export_dp', compact('dpjp', 'bulan'));
     }

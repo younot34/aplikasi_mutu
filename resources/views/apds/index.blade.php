@@ -16,7 +16,7 @@
 
                 <div class="card-body">
                     <form action="{{ route('apds.index') }}" method="GET">
-                    @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin')
+                    @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin|petugas8|petugas9|petugas10|petugas11|petugas12|petugas13')
                         <div class="form-group">
                             <div class="input-group mb-3">
                                 @can('apds.create')
@@ -24,12 +24,12 @@
                                         <a href="{{ route('apds.create') }}" class="btn btn-primary" style="padding-top: 10px;"><i class="fa fa-plus-circle"></i> TAMBAH</a>
                                     </div>
                                 @endcan
-                                <input type="text" class="form-control" name="q"
-                                       placeholder="cari berdasarkan unit apds">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> CARI
-                                    </button>
-                                </div>
+                                <!--<input type="text" class="form-control" name="q"-->
+                                <!--       placeholder="cari berdasarkan unit apds">-->
+                                <!--<div class="input-group-append">-->
+                                <!--    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> CARI-->
+                                <!--    </button>-->
+                                <!--</div>-->
                             </div>
                             @can('apds.export_apd')
                                 <a href="{{ route('apds.export_apd') }}" class="btn btn-sm btn-primary"> Laporan Bulanan

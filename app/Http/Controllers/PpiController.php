@@ -12,6 +12,9 @@ use App\Exports\PpiExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 
 class PpiController extends Controller
 {
@@ -22,7 +25,7 @@ class PpiController extends Controller
     */
    public function __construct()
    {
-       $this->middleware(['permission:ppis.index|ppis.create|ppis.edit|ppis.delete']);
+       $this->middleware(['permission:ppis.index|ppis.create|ppis.edit|ppis.delete|ppis.grafik_ppi_tahunan']);
    }
     /**
      * Display a listing of the resource.
@@ -33,51 +36,20 @@ class PpiController extends Controller
     public function index()
     {
         $currentUser = User::findOrFail(Auth()->id());
-       if($currentUser->hasRole('admin')){
-           $ppis = Ppi::latest()->when(request()->q, function($ppis) {
-               $ppis = $ppis->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('karyawan')){
-           $ppis = ppi::whereHas('users', function (Builder $query) {
-               $query->where('user_id', Auth()->id());
-           })->paginate(10);
-       }elseif($currentUser->hasRole('petugas1')){
-            $ppis = Ppi::latest()->when(request()->q, function($ppis) {
-               $ppis = $ppis->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('petugas2')){
-           $ppis = Ppi::latest()->when(request()->q, function($ppis) {
-               $ppis = $ppis->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('petugas3')){
-           $ppis = Ppi::latest()->when(request()->q, function($ppis) {
-               $ppis = $ppis->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('petugas4')){
-           $ppis = Ppi::latest()->when(request()->q, function($ppis) {
-               $ppis = $ppis->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('petugas5')){
-           $ppis = Ppi::latest()->when(request()->q, function($ppis) {
-               $ppis = $ppis->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('petugas6')){
-           $ppis = Ppi::latest()->when(request()->q, function($ppis) {
-               $ppis = $ppis->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('petugas7')){
-           $ppis = Ppi::latest()->when(request()->q, function($ppis) {
-               $ppis = $ppis->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('direktur')){
-           $ppis = Ppi::latest()->when(request()->q, function($ppis) {
-               $ppis = $ppis->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }
+        $unit = $currentUser->unit;
+        if($currentUser->hasRole('admin')|| $unit === 'PPI'){
+            // Admin bisa melihat semua data
+            $ppis = Ppi::latest()->when(request()->q, function($query) {
+                $query->where('unit', 'like', '%' . request()->q . '%');
+            })->paginate(10);
+        } else {
+            // Selain admin, hanya bisa melihat data sesuai unitnya
+            $ppis = Ppi::where('unit', $unit)->latest()->when(request()->q, function($query) {
+                $query->where('unit', 'like', '%' . request()->q . '%');
+            })->paginate(10);
+        }
 
-       $user = new User();
-
-       return view('ppis.index', compact('ppis','user'));
+        return view('ppis.index', compact('ppis'));
     }
 
     /**
@@ -258,30 +230,35 @@ class PpiController extends Controller
 
     public function laporanBulanan(Request $request)
     {
+        $currentUser = Auth::user(); // Mengambil user yang sedang login
+        $unit = $currentUser->unit;
         $bulan = $request->input('bulan', date('Y-m')); // Default ke bulan ini
-        $ppis = Ppi::with(['profesis', 'indikasis'])
+    
+        // Query untuk PPI, menggunakan eager loading untuk relasi
+        $ppisQuery = Ppi::with(['profesis', 'indikasis'])
             ->whereMonth('tanggal', '=', date('m', strtotime($bulan)))
-            ->whereYear('tanggal', '=', date('Y', strtotime($bulan)))
-            ->get();
-
-        // Hitung total data dan atur jumlah data per halaman
-        $totalData = count($ppis);
-        $perPage = 10;
-        $currentPage = Paginator::resolveCurrentPage('page');
-
-        // Buat objek LengthAwarePaginator
-        $ppis = new LengthAwarePaginator(
-            $ppis->forPage($currentPage, $perPage),
-            $totalData,
-            $perPage,
-            $currentPage,
-            [
-                'path' => Paginator::resolveCurrentPath(),
-                'pageName' => 'page',
-            ]
-        );
-
-        return view('ppis.export_ppi', compact('ppis', 'bulan'));
+            ->whereYear('tanggal', '=', date('Y', strtotime($bulan)));
+    
+        $selectedUnit = $request->input('unit');
+    
+        // Admin atau PPI bisa melihat semua data dan filter unit jika dipilih
+        if ($currentUser->hasRole('admin') || $unit === 'PPI') {
+            if ($selectedUnit) {
+                $ppisQuery->where('unit', $selectedUnit);
+            }
+        } else {
+            // Pengguna biasa hanya melihat data dari unitnya sendiri
+            $ppisQuery->where('unit', $unit);
+        }
+    
+        // Eksekusi query untuk mendapatkan data
+        $ppis = $ppisQuery->get();
+    
+        // Mendapatkan daftar unit yang tersedia untuk dropdown
+        $units = User::select('unit')->distinct()->get();
+    
+        // Mengirim data ke view
+        return view('ppis.export_ppi', compact('ppis', 'bulan', 'units', 'selectedUnit'));
     }
 
     // public function laporanBulanan(Request $request)
@@ -299,5 +276,51 @@ class PpiController extends Controller
     {
         return Excel::download(new PpiExport($request->input('bulan')), 'export.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
+    
+    public function laporanTahunanPpi(Request $request)
+{
+    $tahun = $request->input('tahun', date('Y'));
+
+    // Ambil data PPI berdasarkan tahun
+    $ppis = Ppi::whereYear('tanggal', $tahun)->get();
+
+    // Array untuk menyimpan data patuh dan tidak patuh per bulan
+    $dataPerBulan = array_fill(1, 12, [
+        'jumlah_patuh' => 0,
+        'jumlah_cuci_tangan' => 0,
+    ]);
+
+    foreach ($ppis as $ppi) {
+        $bulan = (int)date('m', strtotime($ppi->tanggal));
+        foreach ($ppi->profesis as $profesi) {
+            $dataPerBulan[$bulan]['jumlah_patuh'] += $profesi->jumlah; // Total patuh
+        }
+        foreach ($ppi->indikasis as $indikasi) {
+            $dataPerBulan[$bulan]['jumlah_cuci_tangan']++; // Total cuci tangan
+        }
+    }
+
+    // Menghitung jumlah tidak patuh dan persentase
+    foreach ($dataPerBulan as $bulan => $data) {
+        $dataPerBulan[$bulan]['jumlah_tidak_patuh'] = $data['jumlah_cuci_tangan'] - $data['jumlah_patuh'];
+        if ($data['jumlah_cuci_tangan'] > 0) {
+            $dataPerBulan[$bulan]['persentase_patuh'] = ($data['jumlah_patuh'] / $data['jumlah_cuci_tangan']) * 100;
+        } else {
+            $dataPerBulan[$bulan]['persentase_patuh'] = 0;
+        }
+    }
+
+    // Data untuk Chart.js
+    $chartData = [
+        'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+        'jumlah_patuh' => array_column($dataPerBulan, 'jumlah_patuh'),
+        'jumlah_tidak_patuh' => array_column($dataPerBulan, 'jumlah_tidak_patuh'),
+        'persentase' => array_column($dataPerBulan, 'persentase_patuh'),
+        'target' => array_fill(0, 12, 85), // Target 80%
+    ];
+
+    return view('ppis.grafik_ppi_tahunan', compact('chartData', 'tahun', 'dataPerBulan'));
+}
+
 
 }

@@ -39,8 +39,10 @@
                                     <th>Sign Out</th>
                                     <th>Penandaan Lokasi OP</th>
                                     <th>Kelengkapan SSC</th>
-                                    <th>Penundaan OP Elektif</th>
-                                    <th>SC Emergensi</th>
+                                    <th>Penundaan OP Elektif <= 2 jam</th>
+                                    <th>Penundaan OP Elektif > 2 jam</th>
+                                    <th>SC Emergensi <= 30 menit</th>
+                                    <th>SC Emergensi > 30 menit</th>
                                     <th>Keterangan</th>
                                     <th>Kendala</th>
                                     <th>Aksi</th>
@@ -100,7 +102,9 @@
                                             <th> ${item.sign_out}</th>
                                             <th> ${item.penandaan_lokasi_op}</th>
                                             <th> ${item.kelengkapan_ssc}</th>
+                                            <th> ${item.penundaan_op_elektif1}</th>
                                             <th> ${item.penundaan_op_elektif}</th>
+                                            <th> ${item.sc_emergensi1}</th>
                                             <th> ${item.sc_emergensi}</th>
                                             <th> ${item.keterangan}</th>
                                             <th> ${item.kendala}</th>

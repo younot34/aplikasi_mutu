@@ -51,7 +51,7 @@
                         <tbody>
                             @foreach ($visite as $no => $visites)
                             <tr>
-                                <th scope="row" style="text-align: center">{{ ++$no + ($visite->currentPage()-1) * $visite->perPage() }}</th>
+                                <th scope="row" style="text-align: center">{{ $loop->iteration }}</th>
                                 <td>{{ $visites->tanggal }}</td>
                                 <td>{{ $visites->no_rm }}</td>
                                 <td>{{ $visites->nama_px }}</td>
@@ -89,10 +89,23 @@
                                     </strong>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="4" class="text-right"><center><strong>PERSENTASE</strong></center></td>
+                                <td colspan="1">
+                                    <strong>
+                                        <center>
+                                            @if ($totalJam6sampai14 > 0)
+                                                {{ round(($totalJam6sampai14 / ($totalJam6sampai14 + $totalKurang14)) * 100, 2) }}%
+                                            @else
+                                                0%
+                                            @endif
+                                        </center>
+                                    </strong>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <div style="text-align: center">
-                        {{ $visite->links("vendor.pagination.bootstrap-4") }}
                     </div>
                 </div>
             </div>

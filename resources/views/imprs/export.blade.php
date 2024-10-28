@@ -11,7 +11,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-exam"></i> Laporan Bulanan Imprs </h4>
+                    <h4><i class="fas fa-exam"></i> Laporan Bulanan Double Check </h4>
                 </div>
 
                 <div class="card-body">
@@ -38,9 +38,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $totalHighAlert = 0;
+                                $totalTerverifikasi = 0;
+                            @endphp
                             @foreach ($imprs as $no => $imprss)
                                 <tr>
-                                    <td style="text-align: center">{{ ++$no + ($imprs->currentPage()-1) * $imprs->perPage() }}</td>
+                                    <td style="text-align: center">{{ $loop->iteration }}</td>
                                     <td>{{ date('d/m/Y', strtotime($imprss->waktu)) }}</td>
                                     <td>
                                         @foreach ($imprss->reseps as $resep)
@@ -53,23 +57,18 @@
                                         @endforeach
                                     </td>
                                 </tr>
+                                @php
+                                    // Menambahkan total untuk perhitungan akhir
+                                    $totalHighAlert += $imprss->reseps->sum('resep_high_alert');
+                                    $totalTerverifikasi += $imprss->reseps->sum('resep_terverifikasi');
+                                @endphp
                             @endforeach
                             <tr>
                                 <td colspan="2" class="text-right"><center><strong>HASIL AKHIR</strong></center></td>
                                 <td colspan="2">
                                     <strong>
-                                        @php
-                                            $totalHighAlert = 0;
-                                            $totalTerverifikasi = 0;
-
-                                            foreach ($imprs as $imprss) {
-                                                $totalHighAlert += $imprss->reseps->sum('resep_high_alert');
-                                                $totalTerverifikasi += $imprss->reseps->sum('resep_terverifikasi');
-                                            }
-                                        @endphp
-
                                         @if ($totalHighAlert > 0)
-                                            <center>{{ ($totalTerverifikasi / $totalHighAlert)  * 100 }}%</center>
+                                            <center>{{ number_format(($totalTerverifikasi / $totalHighAlert) * 100, 2) }}%</center>
                                         @else
                                             0%
                                         @endif
@@ -79,7 +78,6 @@
                         </tbody>
                     </table>
                     <div style="text-align: center">
-                        {{ $imprs->links("vendor.pagination.bootstrap-4") }}
                     </div>
                 </div>
             </div>

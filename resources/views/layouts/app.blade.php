@@ -70,11 +70,8 @@
                         <li class="{{ setActive('/dashboard') }}"><a class="nav-link"
                                 href="{{ route('dashboard.index') }}"><i class="fas fa-tachometer-alt"></i>
                                 <span>Dashboard</span></a></li>
-                        {{-- @can('mutus.index') --}}
-                        {{-- <li class="{{ setActive('/mutu') }}"><a class="nav-link"
-                                href="{{  route('mutus.index') }}"><i class="fas fa-book-open"></i>
-                                <span>mutus</span></a></li>
-                        @endcan --}}
+
+
                         @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
                         <li class="menu-header">FARMASI</li>
                         @endif
@@ -86,19 +83,13 @@
                         <li
                             class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
                             @if(auth()->user()->can('farmasis.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
-                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>Farmasi
-                                Management</span></a>
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>INM</span></a>
                             @endif
 
                             <ul class="dropdown-menu">
                                 @can('farmasis.index')
                                 <li class="{{ setActive('/farmasi') }}"><a class="nav-link"
-                                        href="{{  route('farmasis.index') }}"><i class="fas fa-book-open"></i>farmasi nasional</a>
-                                    </li>
-                                @endcan
-                                @can('imprs.index')
-                                <li class="{{ setActive('/imprs') }}"><a class="nav-link"
-                                        href="{{  route('imprs.index') }}"><i class="fas fa-book-open"></i>imprs</a>
+                                        href="{{  route('farmasis.index') }}"><i class="fas fa-book-open"></i>Fornas</a>
                                     </li>
                                 @endcan
                                 {{-- @can('list.index')
@@ -106,6 +97,41 @@
                                         href="{{  route('list.index') }}"><i class="fas fa-book-open"></i>obat</a>
                                     </li>
                                 @endcan --}}
+                            </ul>
+                        </li>
+                        <li
+                            class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
+                            @if(auth()->user()->can('farmasis.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>IMPRS</span></a>
+                            @endif
+
+                            <ul class="dropdown-menu">
+                                
+                                @can('imprs.index')
+                                <li class="{{ setActive('/imprs') }}"><a class="nav-link"
+                                        href="{{  route('imprs.index') }}"><i class="fas fa-book-open"></i>Double Check</a>
+                                    </li>
+                                @endcan
+                            
+                                @can('obat_racikans.index')
+                                <li class="{{ setActive('/obat_racikan') }}"><a class="nav-link"
+                                        href="{{  route('obat_racikans.index') }}"><i class="fas fa-book-open"></i>Waktu Tunggu Obat Racikan</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
+                        <li
+                            class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
+                            @if(auth()->user()->can('farmasis.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>IMUT</span></a>
+                            @endif
+
+                            <ul class="dropdown-menu">
+                                @can('obat_jadis.index')
+                                <li class="{{ setActive('/obat_jadi') }}"><a class="nav-link"
+                                        href="{{  route('obat_jadis.index') }}"><i class="fas fa-book-open"></i>Waktu Tunggu Obat Jadi</a>
+                                    </li>
+                                @endcan
                             </ul>
                         </li>
 
@@ -145,8 +171,7 @@
                         <li
                             class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
                             @if(auth()->user()->can('ppis.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
-                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>PPI
-                                Management</span></a>
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>INM</span></a>
                             @endif
 
                             <ul class="dropdown-menu">
@@ -155,11 +180,36 @@
                                         href="{{  route('ppis.index') }}"><i class="fas fa-book-open"></i>Cuci Tangan</a>
                                     </li>
                                 @endcan
-                            </ul>
-                            <ul class="dropdown-menu">
+                            
                                 @can('apds.index')
                                 <li class="{{ setActive('/apd') }}"><a class="nav-link"
                                         href="{{  route('apds.index') }}"><i class="fas fa-book-open"></i>Apd</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
+
+                        @can('sliders.index')
+                        <li class="{{ setActive('admin/slider') }}"><a class="nav-link"
+                                href="#"><i class="fas fa-laptop"></i>
+                                <span>Sliders</span></a></li>
+                        @endcan
+                        <li
+                            class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
+                            @if(auth()->user()->can('idos.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>IMPRS</span></a>
+                            @endif
+
+                            <ul class="dropdown-menu">
+                                @can('idos.index')
+                                <li class="{{ setActive('/ido') }}"><a class="nav-link"
+                                        href="{{  route('idos.index') }}"><i class="fas fa-book-open"></i>IDO</a>
+                                    </li>
+                                @endcan
+                            
+                                @can('plebitis.index')
+                                <li class="{{ setActive('/plebiti') }}"><a class="nav-link"
+                                        href="{{  route('plebitis.index') }}"><i class="fas fa-book-open"></i>PLEBITIS</a>
                                     </li>
                                 @endcan
                             </ul>
@@ -177,8 +227,7 @@
                         <li
                             class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
                             @if(auth()->user()->can('ris.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
-                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>RI NAS
-                                Management</span></a>
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>INM</span></a>
                             @endif
 
                             <ul class="dropdown-menu">
@@ -187,15 +236,13 @@
                                         href="{{  route('ris.index') }}"><i class="fas fa-book-open"></i>Indentifikasi Pasien</a>
                                     </li>
                                 @endcan
-                            </ul>
-                            <ul class="dropdown-menu">
+                            
                                 @can('visites.index')
                                 <li class="{{ setActive('/visite') }}"><a class="nav-link"
                                         href="{{  route('visites.index') }}"><i class="fas fa-book-open"></i>Jam Visite Dokter</a>
                                     </li>
                                 @endcan
-                            </ul>
-                            <ul class="dropdown-menu">
+                            
                                 @can('clinicals.index')
                                 <li class="{{ setActive('/clinical') }}"><a class="nav-link"
                                         href="{{  route('clinicals.index') }}"><i class="fas fa-book-open"></i>Clinical Pathway</a>
@@ -210,20 +257,11 @@
                                 @endcan
                             </ul>
                         </li>
-                        @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
-                        <li class="menu-header">RI RS</li>
-                        @endif
 
-                        @can('sliders.index')
-                        <li class="{{ setActive('admin/slider') }}"><a class="nav-link"
-                                href="#"><i class="fas fa-laptop"></i>
-                                <span>Sliders</span></a></li>
-                        @endcan
                         <li
                             class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
                             @if(auth()->user()->can('ewss.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
-                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>RI RS
-                                Management</span></a>
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>IMPRS</span></a>
                             @endif
 
                             <ul class="dropdown-menu">
@@ -232,15 +270,13 @@
                                         href="{{  route('ewss.index') }}"><i class="fas fa-book-open"></i>Pengisian EWS</a>
                                     </li>
                                 @endcan
-                            </ul>
-                            <ul class="dropdown-menu">
+                            
                                 @can('inters.index')
                                 <li class="{{ setActive('/inter') }}"><a class="nav-link"
                                         href="{{  route('inters.index') }}"><i class="fas fa-book-open"></i>Intervensi Risiko Jatuh</a>
                                     </li>
                                 @endcan
-                            </ul>
-                            <ul class="dropdown-menu">
+                            
                                 @can('dpjps.index')
                                 <li class="{{ setActive('/dpjp') }}"><a class="nav-link"
                                         href="{{  route('dpjps.index') }}"><i class="fas fa-book-open"></i>Verifikasi DPJP</a>
@@ -248,6 +284,7 @@
                                 @endcan
                             </ul>
                         </li>
+
                         @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
                         <li class="menu-header">RAJAL</li>
                         @endif
@@ -270,8 +307,7 @@
                                         href="{{  route('rajals.index') }}"><i class="fas fa-book-open"></i>Waktu Tunggu</a>
                                     </li>
                                 @endcan
-                            </ul>
-                            <ul class="dropdown-menu">
+                            
                                 @can('asess.index')
                                 <li class="{{ setActive('/ases') }}"><a class="nav-link"
                                         href="{{  route('asess.index') }}"><i class="fas fa-book-open"></i>Assesment</a>
@@ -302,11 +338,113 @@
                                         href="{{  route('rmrs.index') }}"><i class="fas fa-book-open"></i>Kelengkapan Rajal</a>
                                     </li>
                                 @endcan
-                            </ul>
-                            <ul class="dropdown-menu">
+                            
                                 @can('rmris.index')
                                 <li class="{{ setActive('/rmri') }}"><a class="nav-link"
-                                        href="{{  route('rmris.index') }}"><i class="fas fa-book-open"></i>Kelengkapan Rawat Inap</a>
+                                        href="{{  route('rmris.index') }}"><i class="fas fa-book-open"></i>Kelengkapan RI</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
+
+
+                        @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                        <li class="menu-header">Radiologi</li>
+                        @endif
+
+                        @can('sliders.index')
+                        <li class="{{ setActive('admin/slider') }}"><a class="nav-link"
+                                href="#"><i class="fas fa-laptop"></i>
+                                <span>Sliders</span></a></li>
+                        @endcan
+                        <li
+                            class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
+                            @if(auth()->user()->can('radios.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>Radiologi
+                                Management</span></a>
+                            @endif
+
+                            <ul class="dropdown-menu">
+                                @can('radios.index')
+                                <li class="{{ setActive('/radio') }}"><a class="nav-link"
+                                        href="{{  route('radios.index') }}"><i class="fas fa-book-open"></i>Radiologi</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
+                        
+                        
+                        @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                        <li class="menu-header">LABORATORIUM</li>
+                        @endif
+
+                        @can('sliders.index')
+                        <li class="{{ setActive('admin/slider') }}"><a class="nav-link"
+                                href="#"><i class="fas fa-laptop"></i>
+                                <span>Sliders</span></a></li>
+                        @endcan
+                        <li
+                            class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
+                            @if(auth()->user()->can('nilai_kritiss.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>INM</span></a>
+                            @endif
+
+                            <ul class="dropdown-menu">
+                                @can('nilai_kritiss.index')
+                                <li class="{{ setActive('/nilai_kritis') }}"><a class="nav-link"
+                                        href="{{  route('nilai_kritiss.index') }}"><i class="fas fa-book-open"></i>REGISTRASI PELAPORAN HASIL NILAI KRITIS</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
+                        <li
+                            class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
+                            @if(auth()->user()->can('monitorings.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>IMPRS</span></a>
+                            @endif
+
+                            <ul class="dropdown-menu">
+                                @can('monitorings.index')
+                                <li class="{{ setActive('/monitoring') }}"><a class="nav-link"
+                                        href="{{  route('monitorings.index') }}"><i class="fas fa-book-open"></i>MONITORING IDENTIFIKASI SAMPLE</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
+                        
+                        @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                        <li class="menu-header">MUTU</li>
+                        @endif
+
+                        @can('sliders.index')
+                        <li class="{{ setActive('admin/slider') }}"><a class="nav-link"
+                                href="#"><i class="fas fa-laptop"></i>
+                                <span>Sliders</span></a></li>
+                        @endcan
+                        <li
+                            class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
+                            @if(auth()->user()->can('imprs.grafik_doublecheck') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>INM</span></a>
+                            @endif
+
+                            <ul class="dropdown-menu">
+                                @can('farmasis.grafik_fornas')
+                                <li class="{{ setActive('/grafik_fornas') }}"><a class="nav-link"
+                                        href="{{  route('farmasis.grafik_fornas') }}"><i class="fas fa-book-open"></i>Grafik INM</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
+                        <li
+                            class="dropdown {{ setActive('admin/role'). setActive('admin/permission'). setActive('admin/user') }}">
+                            @if(auth()->user()->can('imprs.grafik_doublecheck') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))
+                                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>IMPRS</span></a>
+                            @endif
+
+                            <ul class="dropdown-menu">
+                                @can('imprs.grafik_doublecheck')
+                                <li class="{{ setActive('/grafik_doublecheck') }}"><a class="nav-link"
+                                        href="{{  route('imprs.grafik_doublecheck') }}"><i class="fas fa-book-open"></i>Grafik IMPRS</a>
                                     </li>
                                 @endcan
                             </ul>

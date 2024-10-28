@@ -4,19 +4,19 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>IMPRS</h1>
+            <h1>FARMASI</h1>
         </div>
 
         <div class="section-body">
 
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-exam"></i> IMPRS</h4>
+                    <h4><i class="fas fa-exam"></i> DOUBLE CHECK</h4>
                 </div>
 
                 <div class="card-body">
                     <form action="{{ route('imprs.index') }}" method="GET">
-                    @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin')
+                    @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin|petugas8|petugas9|petugas10|petugas11|petugas12|petugas13')
                         <div class="form-group">
                             <div class="input-group mb-3">
                                 @can('imprs.create')
@@ -25,7 +25,7 @@
                                     </div>
                                 @endcan
                                 <input type="text" class="form-control" name="q"
-                                       placeholder="cari berdasarkan tanggal imprs">
+                                       placeholder="cari berdasarkan tanggal double check">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> CARI
                                     </button>
@@ -68,7 +68,13 @@
                                     </td>
                                     <td>
                                         @foreach ($imprss->reseps as $resep)
-                                        <div>{{ number_format(($resep->resep_terverifikasi / $resep->resep_high_alert) * 100, 2) }}%</div>
+                                            <div>
+                                                @if($resep->resep_high_alert > 0)
+                                                    {{ number_format(($resep->resep_terverifikasi / $resep->resep_high_alert) * 100, 2) }}%
+                                                @else
+                                                    0%
+                                                @endif
+                                            </div>
                                         @endforeach
                                     </td>
                                     <td class="text-center">

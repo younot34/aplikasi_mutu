@@ -15,15 +15,6 @@ use Illuminate\Database\Eloquent\Builder;
 class RiController extends Controller
 {
     /**
-    * __construct
-    *
-    * @return void
-    */
-   public function __construct()
-   {
-       $this->middleware(['permission:ris.index|ris.create|ris.edit|ris.delete']);
-   }
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -305,7 +296,7 @@ class RiController extends Controller
             ]);
         }
     }
-
+    
     public function laporanBulanan(Request $request)
     {
         $bulan = $request->input('bulan' );
@@ -315,5 +306,88 @@ class RiController extends Controller
             $ri = Ri::with(['pobats','pdarahs','psamples','ptindakans'])->paginate(10);
         }
         return view('ris.export_ri', compact('ri', 'bulan'));
+    }
+    
+    public function laporanTahunan(Request $request)
+    {
+        // Ambil tahun dari input, jika tidak ada maka gunakan tahun saat ini
+        $tahun = $request->input('tahun', date('Y'));
+
+        // Inisialisasi data per bulan
+        $dataPerBulan = [];
+        $totalPatuhTahun = 0;
+        $totalPeluangTahun = 0;
+
+        // Looping untuk setiap bulan dalam satu tahun
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+            // Ambil data dari database berdasarkan bulan dan tahun
+            $riBulanan = Ri::whereYear('tanggal', $tahun)
+                            ->whereMonth('tanggal', $bulan)
+                            ->get();
+
+            $totalPatuhBulanan = 0;
+            $totalPeluangBulanan = 0;
+
+            // Hitung patuh dan peluang per bulan
+            foreach ($riBulanan as $ris) {
+                $patuh = 0;
+                $peluang = 0;
+
+                foreach (['pobats', 'pdarahs', 'psamples', 'ptindakans'] as $type) {
+                    foreach ($ris->$type as $item) {
+                        // Perhitungan patuh
+                        if (
+                            ($type == 'pobats' && $item->benar_namao == '✔️' && $item->benar_alamato == '✔️') ||
+                            ($type == 'pdarahs' && $item->benar_namad == '✔️' && $item->benar_alamatd == '✔️') ||
+                            ($type == 'psamples' && $item->benar_namas == '✔️' && $item->benar_alamats == '✔️') ||
+                            ($type == 'ptindakans' && $item->benar_namat == '✔️' && $item->benar_alamatt == '✔️')
+                        ) {
+                            $patuh++;
+                        }
+
+                        // Perhitungan peluang
+                        if (
+                            ($type == 'pobats' && ($item->benar_namao == '✔️' || $item->benar_alamato == '✔️')) ||
+                            ($type == 'pdarahs' && ($item->benar_namad == '✔️' || $item->benar_alamatd == '✔️')) ||
+                            ($type == 'psamples' && ($item->benar_namas == '✔️' || $item->benar_alamats == '✔️')) ||
+                            ($type == 'ptindakans' && ($item->benar_namat == '✔️' || $item->benar_alamatt == '✔️'))
+                        ) {
+                            $peluang++;
+                        }
+                    }
+                }
+
+                // Hitung total patuh dan peluang bulanan
+                $totalPatuhBulanan += $patuh > 0 ? 1 : 0;
+                $totalPeluangBulanan += $peluang > 0 ? 1 : 0;
+            }
+
+            // Simpan data bulanan ke dalam array
+            $dataPerBulan[$bulan] = [
+                'total_patuh' => $totalPatuhBulanan,
+                'total_peluang' => $totalPeluangBulanan,
+                'persentase' => $totalPeluangBulanan > 0 ? ($totalPatuhBulanan / $totalPeluangBulanan) * 100 : 0,
+            ];
+
+            // Akumulasi total patuh dan peluang tahunan
+            $totalPatuhTahun += $totalPatuhBulanan;
+            $totalPeluangTahun += $totalPeluangBulanan;
+        }
+
+        // Hitung persentase kepatuhan tahunan
+        $persentaseKepatuhanTahun = $totalPeluangTahun > 0 ? ($totalPatuhTahun / $totalPeluangTahun) * 100 : 0;
+
+        // Siapkan data untuk grafik
+        $chartData = [
+            'labels' => [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ],
+            'persentase' => array_column($dataPerBulan, 'persentase'),
+            'target' => array_fill(0, 12, 100), // Target 80%
+        ];
+
+        // Kirim data ke view
+        return view('ris.grafik_kep', compact('tahun', 'dataPerBulan', 'persentaseKepatuhanTahun', 'chartData'));
     }
 }

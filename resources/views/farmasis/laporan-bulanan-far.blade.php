@@ -71,6 +71,20 @@
                                 <td><strong>{{ $totalObatFornas }}</strong></td>
                                 <td><strong>{{ $totalItem }}</strong></td>
                             </tr>
+                            <tr>
+                                <td colspan="6" class="text-right"><center><strong>Persentase</strong></center></td>
+                                <td colspan="8">
+                                    <strong>
+                                        <center>
+                                            @if ($totalItem > 0)
+                                                {{ round(($totalObatFornas / $totalItem) * 100, 2) }}%
+                                            @else
+                                                0%
+                                            @endif
+                                        </center>
+                                    </strong>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

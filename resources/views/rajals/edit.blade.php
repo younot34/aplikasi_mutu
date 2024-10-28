@@ -41,7 +41,7 @@
                             <input type="number" name="patuh" value="{{$rajal->patuh ?? old('patuh')}}" class="form-control">
                         </div>
                         <div class="form-group col-md-3">
-                            <label>Pasien Tidak Patuh</label>
+                            <label>Pasien Patuh</label>
                             <input type="number" name="tidak_patuh" value="{{$rajal->tidak_patuh ?? old('tidak_patuh')}}" class="form-control">
                         </div>
                         <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>

@@ -4,14 +4,14 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Tambah imprs</h1>
+            <h1>Tambah</h1>
         </div>
 
         <div class="section-body">
 
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-exam"></i> Tambah imprs</h4>
+                    <h4><i class="fas fa-exam"></i> Tambah</h4>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('imprs.store') }}" method="POST" enctype="multipart/form-data">

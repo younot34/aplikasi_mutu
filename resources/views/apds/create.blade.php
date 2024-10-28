@@ -22,7 +22,15 @@
                         </div>
                         <div class="form-group col-md-3">
                             <label>Unit</label>
-                            <input type="text" name="unit" class="form-control">
+                            <input type="text" name="unit" class="form-control" list="data_unit">
+                            <datalist id="data_unit">
+                                <option value="IGD"></option>
+                                <option value="LABORAT"></option>
+                                <option value="RAWAT JALAN"></option>
+                                <option value="HCU"></option>
+                                <option value="MATERNITAS / VK"></option>
+                                <option value="RAWAT INAP"></option>
+                            </datalist>
                         </div>
                         <div class="form-group col-md-3">
                             <label>Nama Petugas</label>

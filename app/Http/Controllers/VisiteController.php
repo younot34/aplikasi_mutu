@@ -10,15 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
 class VisiteController extends Controller
 {
     /**
-    * __construct
-    *
-    * @return void
-    */
-   public function __construct()
-   {
-       $this->middleware(['permission:visites.index|visites.create|visites.edit|visites.delete']);
-   }
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -199,10 +190,62 @@ class VisiteController extends Controller
     {
         $bulan = $request->input('bulan' );
         if ($bulan) {
-            $visite = Visite::whereMonth('tanggal', date('m', strtotime($bulan)))->paginate(10);
+            $visite = Visite::whereMonth('tanggal', date('m', strtotime($bulan)))->get();
         } else {
-            $visite = Visite::paginate(10);
+            $visite = Visite::get();
         }
         return view('visites.export_v', compact('visite', 'bulan'));
+    }
+    
+        public function laporanTahunan(Request $request)
+    {
+        // Ambil tahun dari input, jika tidak ada maka gunakan tahun saat ini
+        $tahun = $request->input('tahun', date('Y'));
+
+        // Inisialisasi data per bulan
+        $dataPerBulan = [];
+        $totalJamKurang14Tahun = 0;
+        $totalJamLebih14Tahun = 0;
+
+        // Looping untuk setiap bulan dalam satu tahun
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+            // Ambil data dari database berdasarkan bulan dan tahun
+            $visitesBulanan = Visite::whereYear('tanggal', $tahun)
+                ->whereMonth('tanggal', $bulan)
+                ->get();
+
+            $totalJamKurang14Bulanan = 0;
+            $totalJamLebih14Bulanan = 0;
+
+            // Hitung total jam < 14.00 dan > 14.00 per bulan
+            foreach ($visitesBulanan as $visite) {
+                if ($visite->jam6sampai14) {
+                    $totalJamKurang14Bulanan++;
+                } else {
+                    $totalJamLebih14Bulanan++;
+                }
+            }
+
+            // Simpan data bulanan ke dalam array
+            $dataPerBulan[$bulan] = [
+                'total_jam_kurang_14' => $totalJamKurang14Bulanan,
+                'total_jam_lebih_14' => $totalJamLebih14Bulanan,
+                'persentase' => ($totalJamKurang14Bulanan + $totalJamLebih14Bulanan) > 0
+                    ? ($totalJamKurang14Bulanan / ($totalJamKurang14Bulanan + $totalJamLebih14Bulanan)) * 100 : 0,
+            ];
+
+            // Akumulasi total tahunan
+            $totalJamKurang14Tahun += $totalJamKurang14Bulanan;
+            $totalJamLebih14Tahun += $totalJamLebih14Bulanan;
+        }
+
+        // Siapkan data untuk grafik
+        $chartData = [
+            'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            'persentase_kurang_14' => array_column($dataPerBulan, 'persentase'),
+            'target' => array_fill(0, 12, 80), // Target 80% setiap bulan
+        ];
+
+        return view('visites.grafik_v', compact('tahun', 'chartData', 'dataPerBulan'));
     }
 }

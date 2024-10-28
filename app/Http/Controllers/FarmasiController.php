@@ -24,7 +24,7 @@ class FarmasiController extends Controller
     */
    public function __construct()
    {
-       $this->middleware(['permission:farmasis.index|farmasis.create|farmasis.edit|farmasis.delete|farmasis.laporan-bulanan-far']);
+       $this->middleware(['permission:farmasis.index|farmasis.create|farmasis.edit|farmasis.delete|farmasis.laporan-bulanan-far|farmasis.grafik_fornas']);
    }
 
    public function export(Request $request)
@@ -74,6 +74,14 @@ class FarmasiController extends Controller
                $farmasis = $farmasis->where('nama_px', 'like', '%'. request()->q . '%');
            })->paginate(10);
        }elseif($currentUser->hasRole('petugas7')){
+           $farmasis = Farmasi::latest()->when(request()->q, function($farmasis) {
+               $farmasis = $farmasis->where('nama_px', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas8')){
+           $farmasis = Farmasi::latest()->when(request()->q, function($farmasis) {
+               $farmasis = $farmasis->where('nama_px', 'like', '%'. request()->q . '%');
+           })->paginate(10);
+       }elseif($currentUser->hasRole('petugas9')){
            $farmasis = Farmasi::latest()->when(request()->q, function($farmasis) {
                $farmasis = $farmasis->where('nama_px', 'like', '%'. request()->q . '%');
            })->paginate(10);
@@ -298,6 +306,51 @@ class FarmasiController extends Controller
         });
 
         return view('farmasis.laporan-bulanan-far', compact('farmasis', 'bulan', 'totalObatFornas', 'totalItem'));
+    }
+    
+    public function laporanTahunan(Request $request)
+    {
+        $tahun = $request->input('tahun');
+        if (!$tahun) {
+            $tahun = date('Y');
+        }
+
+        // Ambil data farmasi dalam satu tahun
+        $farmasis = Farmasi::with('obats')
+                            ->whereYear('waktu', $tahun)
+                            ->get();
+
+        // Array untuk menyimpan total item dan total obat fornas tiap bulan
+        $dataPerBulan = array_fill(1, 12, ['totalObatFornas' => 0, 'totalItem' => 0]);
+
+        foreach ($farmasis as $farmasi) {
+            $bulan = (int)date('m', strtotime($farmasi->waktu));
+            foreach ($farmasi->obats as $obat) {
+                $dataPerBulan[$bulan]['totalObatFornas'] += $obat->total_obat_fornas;
+                $dataPerBulan[$bulan]['totalItem'] += $obat->total_item;
+            }
+        }
+
+        // Menghitung persentase capaian tiap bulan
+        $capaian = [];
+        foreach ($dataPerBulan as $bulan => $data) {
+            if ($data['totalItem'] > 0) {
+                $capaian[$bulan] = ($data['totalObatFornas'] / $data['totalItem']) * 100;
+            } else {
+                $capaian[$bulan] = 0;
+            }
+        }
+
+        // Data untuk Chart.js
+        $chartData = [
+            'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            'capaian' => array_values($capaian),
+            'target' => array_fill(0, 12, 80), // Target 80% tiap bulan
+            'totalObatFornas' => array_column($dataPerBulan, 'totalObatFornas'),
+            'totalItem' => array_column($dataPerBulan, 'totalItem')
+        ];
+
+        return view('farmasis.grafik_fornas', compact('chartData', 'tahun'));
     }
 
 }

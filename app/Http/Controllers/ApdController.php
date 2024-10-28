@@ -16,7 +16,7 @@ class ApdController extends Controller
     */
    public function __construct()
    {
-       $this->middleware(['permission:apds.index|apds.create|apds.edit|apds.delete']);
+       $this->middleware(['permission:apds.index|apds.create|apds.edit|apds.delete|apds.grafik_apd_tahunan']);
    }
     /**
      * Display a listing of the resource.
@@ -27,47 +27,18 @@ class ApdController extends Controller
     public function index()
     {
         $currentUser = User::findOrFail(Auth()->id());
-       if($currentUser->hasRole('admin')){
-           $apd = Apd::latest()->when(request()->q, function($apd) {
-               $apd = $apd->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('karyawan')){
-           $apd = Apd::whereHas('users', function (Builder $query) {
-               $query->where('user_id', Auth()->id());
-           })->paginate(10);
-       }elseif($currentUser->hasRole('petugas1')){
-           $apd = Apd::latest()->when(request()->q, function($apd) {
-               $apd = $apd->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('petugas2')){
-           $apd = Apd::latest()->when(request()->q, function($apd) {
-               $apd = $apd->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('petugas3')){
-           $apd = Apd::latest()->when(request()->q, function($apd) {
-               $apd = $apd->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('petugas4')){
-           $apd = Apd::latest()->when(request()->q, function($apd) {
-               $apd = $apd->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('petugas5')){
-           $apd = Apd::latest()->when(request()->q, function($apd) {
-               $apd = $apd->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('petugas6')){
-           $apd = Apd::latest()->when(request()->q, function($apd) {
-               $apd = $apd->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('petugas7')){
-           $apd = Apd::latest()->when(request()->q, function($apd) {
-               $apd = $apd->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }elseif($currentUser->hasRole('direktur')){
-           $apd = Apd::latest()->when(request()->q, function($apd) {
-               $apd = $apd->where('unit', 'like', '%'. request()->q . '%');
-           })->paginate(10);
-       }
+        $unit = $currentUser->unit;
+       if($currentUser->hasRole('admin')|| $unit === 'PPI' || $unit === 'mutu'){
+            // Admin bisa melihat semua data
+            $apd = Apd::latest()->when(request()->q, function($query) {
+                $query->where('unit', 'like', '%' . request()->q . '%');
+            })->paginate(10);
+        } else {
+            // Selain admin, hanya bisa melihat data sesuai unitnya
+            $apd = Apd::where('unit', $unit)->latest()->when(request()->q, function($query) {
+                $query->where('unit', 'like', '%' . request()->q . '%');
+            })->paginate(10);
+        }
 
        $user = new User();
 
@@ -229,12 +200,80 @@ class ApdController extends Controller
 
     public function laporanBulanan(Request $request)
     {
-        $bulan = $request->input('bulan' );
-        if ($bulan) {
-            $apd = Apd::whereMonth('tanggal', date('m', strtotime($bulan)))->paginate(10);
+        $currentUser = User::findOrFail(auth()->id()); // Get the logged-in user
+        $bulan = $request->input('bulan', date('Y-m')); // Default to current month if no input
+        $selectedUnit = $request->input('unit'); // Get the selected unit from the request
+
+        // Query for filtering APD data based on month and year
+        $apdQuery = Apd::whereMonth('tanggal', '=', date('m', strtotime($bulan)))
+            ->whereYear('tanggal', '=', date('Y', strtotime($bulan)));
+
+        // Admin or users in the 'PPI' unit can filter by selected unit
+        if ($currentUser->hasRole('admin') || $currentUser->unit === 'PPI') {
+            if ($selectedUnit) {
+                // Apply unit filter if selected
+                $apdQuery->where('unit', $selectedUnit);
+            }
         } else {
-            $apd = Apd::paginate(10);
+            // Other users can only see data from their own unit
+            $apdQuery->where('unit', $currentUser->unit);
         }
-        return view('apds.export_apd', compact('apd', 'bulan'));
+
+        // Paginate the filtered data
+        $apd = $apdQuery->get();
+
+        // Get a list of distinct units from the `users` table for filtering (accessible by admin and PPI)
+        $units = User::select('unit')->distinct()->get();
+
+        // Return view with data
+        return view('apds.export_apd', compact('apd', 'bulan', 'units', 'selectedUnit'));
     }
+    
+    public function laporanTahunanApd(Request $request)
+{
+    $tahun = $request->input('tahun', date('Y'));
+    $unit = $request->input('unit');
+
+    // Ambil data APD berdasarkan tahun dan unit yang dipilih
+    $query = Apd::whereYear('tanggal', $tahun);
+
+    if ($unit) {
+        $query->where('unit', $unit);
+    }
+
+    $apd = $query->get();
+
+    // Array untuk menyimpan data ya dan tidak tiap bulan
+    $dataPerBulan = array_fill(1, 12, ['ya' => 0, 'tidak' => 0]);
+
+    foreach ($apd as $item) {
+        $bulan = (int)date('m', strtotime($item->tanggal));
+        $dataPerBulan[$bulan]['ya'] += $item->ya === '✔️' ? 1 : 0;
+        $dataPerBulan[$bulan]['tidak'] += $item->tidak === '✔️' ? 1 : 0;
+    }
+
+    // Menghitung persentase tiap bulan
+    $capaian = [];
+    foreach ($dataPerBulan as $bulan => $data) {
+        $total = $data['ya'] + $data['tidak'];
+        if ($total > 0) {
+            $capaian[$bulan] = ($data['ya'] / $total) * 100; // Capaian dalam persen
+        } else {
+            $capaian[$bulan] = 0;
+        }
+    }
+
+    // Data untuk Chart.js
+    $chartData = [
+        'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+        'capaian' => array_values($capaian),
+        'target' => array_fill(0, 12, 100), // Target 80%
+        'totalYa' => array_column($dataPerBulan, 'ya'),
+        'totalTidak' => array_column($dataPerBulan, 'tidak'),
+    ];
+
+    return view('apds.grafik_apd_tahunan', compact('chartData', 'tahun', 'unit', 'apd'));
+}
+
+
 }

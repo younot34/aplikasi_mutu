@@ -42,14 +42,14 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th style="width: 15%;text-align: center">Terisis</th>
+                                <th style="width: 15%;text-align: center">Terisi</th>
                                 <th style="width: 15%;text-align: center">Tidak Terisi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($ews as $no => $ewss)
                             <tr>
-                                <th scope="row" style="text-align: center">{{ ++$no + ($ews->currentPage()-1) * $ews->perPage() }}</th>
+                                <th scope="row" style="text-align: center">{{ $loop->iteration }}</th>
                                 <td>{{ $ewss->tanggal }}</td>
                                 <td>{{ $ewss->no_rm }}</td>
                                 <td>{{ $ewss->nama_pasien }}</td>
@@ -86,10 +86,27 @@
                                     </strong>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="4" class="text-right"><center><strong>PERSENTASE</strong></center></td>
+                                <td colspan="2">
+                                    <strong>
+                                        @php
+                                            $totalTerisi = 0;
+                                            $totalTidak_terisi = 0;
+
+                                            foreach ($ews as $ewss) {
+                                                $totalTerisi += $ewss->terisi === '✔️' ? 1 : 0;
+                                                $totalTidak_terisi += $ewss->tidak_terisi === '✔️' ? 1 : 0;
+                                            }
+                                            $persentase = $totalTerisi / ($totalTerisi + $totalTidak_terisi) * 100;
+                                        @endphp
+                                            <center>{{number_format($persentase, 2)}}</center>
+                                    </strong>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <div style="text-align: center">
-                        {{ $ews->links("vendor.pagination.bootstrap-4") }}
                     </div>
                 </div>
             </div>

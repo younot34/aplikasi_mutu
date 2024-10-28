@@ -16,7 +16,7 @@
 
                 <div class="card-body">
                     <form action="{{ route('farmasis.index') }}" method="GET">
-                    @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin')
+                    @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin|petugas8|petugas9|petugas10|petugas11|petugas12|petugas13')
                         <div class="form-group">
                             <div class="input-group mb-3">
                                 @can('farmasis.create')

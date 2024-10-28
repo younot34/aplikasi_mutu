@@ -53,6 +53,30 @@ class RoleTableSeeder extends Seeder
         $role10 = Role::create([
             'name' => 'karyawan'
         ]);
+        
+        $role11 = Role::create([
+            'name' => 'petugas8'
+        ]);
+
+        $role12 = Role::create([
+            'name' => 'petugas9'
+        ]);
+
+        $role13 = Role::create([
+            'name' => 'petugas10'
+        ]);
+
+        $role14 = Role::create([
+            'name' => 'petugas11'
+        ]);
+
+        $role15 = Role::create([
+            'name' => 'petugas12'
+        ]);
+
+        $role16 = Role::create([
+            'name' => 'petugas13'
+        ]);
 
     }
 }

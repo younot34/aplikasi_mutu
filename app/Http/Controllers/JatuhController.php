@@ -10,15 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
 class JatuhController extends Controller
 {
     /**
-    * __construct
-    *
-    * @return void
-    */
-   public function __construct()
-   {
-       $this->middleware(['permission:jatuhs.index|jatuhs.create|jatuhs.edit|jatuhs.delete']);
-   }
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -206,10 +197,71 @@ class JatuhController extends Controller
     {
         $bulan = $request->input('bulan' );
         if ($bulan) {
-            $jatuh = Jatuh::whereMonth('tanggal', date('m', strtotime($bulan)))->paginate(10);
+            $jatuh = Jatuh::whereMonth('tanggal', date('m', strtotime($bulan)))->get();
         } else {
-            $jatuh = Jatuh::paginate(10);
+            $jatuh = Jatuh::get();
         }
         return view('jatuhs.export_j', compact('jatuh', 'bulan'));
+    }
+    
+        public function laporanTahunan(Request $request)
+    {
+        // Ambil tahun dari input, jika tidak ada maka gunakan tahun saat ini
+        $tahun = $request->input('tahun', date('Y'));
+
+        // Inisialisasi data per bulan
+        $dataPerBulan = [];
+        $totalLengkapTahun = 0;
+        $totalTidakLengkapTahun = 0;
+
+        // Looping untuk setiap bulan dalam satu tahun
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+            // Ambil data dari database berdasarkan bulan dan tahun
+            $jatuhBulanan = Jatuh::whereYear('tanggal', $tahun)
+                                ->whereMonth('tanggal', $bulan)
+                                ->get();
+
+            $totalLengkapBulanan = 0;
+            $totalTidakLengkapBulanan = 0;
+
+            // Hitung total lengkap dan tidak lengkap per bulan
+            foreach ($jatuhBulanan as $jatuhs) {
+                if (
+                    $jatuhs->tinggi == '✔️' &&
+                    $jatuhs->kancing == '✔️' &&
+                    $jatuhs->segitiga == '✔️' &&
+                    $jatuhs->handreal == '✔️'
+                ) {
+                    $totalLengkapBulanan++;
+                } else {
+                    $totalTidakLengkapBulanan++;
+                }
+            }
+
+            // Simpan data bulanan ke dalam array
+            $dataPerBulan[$bulan] = [
+                'total_lengkap' => $totalLengkapBulanan,
+                'total_tidak_lengkap' => $totalTidakLengkapBulanan,
+                'persentase' => ($totalLengkapBulanan + $totalTidakLengkapBulanan) > 0
+                                ? ($totalLengkapBulanan / ($totalLengkapBulanan + $totalTidakLengkapBulanan)) * 100 : 0,
+            ];
+
+            // Akumulasi total lengkap dan tidak lengkap tahunan
+            $totalLengkapTahun += $totalLengkapBulanan;
+            $totalTidakLengkapTahun += $totalTidakLengkapBulanan;
+        }
+
+        // Hitung persentase tahunan
+        $persentaseTahunan = ($totalLengkapTahun + $totalTidakLengkapTahun) > 0
+                            ? ($totalLengkapTahun / ($totalLengkapTahun + $totalTidakLengkapTahun)) * 100 : 0;
+
+        // Siapkan data untuk grafik
+        $chartData = [
+            'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            'persentase' => array_column($dataPerBulan, 'persentase'),
+            'target' => array_fill(0, 12, 100), // Target 80% setiap bulan
+        ];
+
+        return view('jatuhs.grafik_j', compact('tahun', 'chartData', 'dataPerBulan'));
     }
 }

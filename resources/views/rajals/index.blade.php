@@ -16,7 +16,7 @@
 
                 <div class="card-body">
                     <form action="{{ route('rajals.index') }}" method="GET">
-                    @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin')
+                    @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin|petugas8|petugas9|petugas10|petugas11|petugas12|petugas13')
                         <div class="form-group">
                             <div class="input-group mb-3">
                                 @can('rajals.create')
@@ -54,7 +54,7 @@
                                 <th></th>
                                 <th></th>
                                 <th style="width: 15%;text-align: center">Jumlah Pasien Poli</th>
-                                <th style="width: 15%;text-align: center">Pasien Tidak Patuh</th>
+                                <th style="width: 15%;text-align: center">Pasien Patuh</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -65,7 +65,7 @@
                                     <td>{{ $rajals->tanggal }}</td>
                                     <td>{{ $rajals->poli }}</td>
                                     <td><center>{{ $rajals->patuh }}</center></td>
-                                    <td><center>{{ $rajals->tidak_patuh }}</center></td>
+                                    <td><center>{{ $rajals->tidak_patuh}}</center></td>
                                     <td class="text-center">
 
                                         @can('rajals.edit')

@@ -34,7 +34,7 @@
                                 <th scope="col" style="text-align: center;width: 6%">NO.</th>
                                 <th scope="col">Tanggal</th>
                                 <th scope="col">Poli</th>
-                                <th scope="col" colspan="2"><center>Waktu Tunggu < 60mnt </center></th>
+                                <th scope="col" colspan="2"><center>Assesment </center></th>
                             </tr>
                             <tr>
                                 <th></th>
@@ -47,7 +47,7 @@
                         <tbody>
                             @foreach ($ases as $no => $asess)
                             <tr>
-                                <th scope="row" style="text-align: center">{{ ++$no + ($ases->currentPage()-1) * $ases->perPage() }}</th>
+                                <th scope="row" style="text-align: center">{{ $loop->iteration }}</th>
                                 <td>{{ $asess->tanggal }}</td>
                                 <td>{{ $asess->poli }}</td>
                                 <td><center>{{ $asess->patuh }}</center></td>
@@ -104,7 +104,6 @@
                         </tbody>
                     </table>
                     <div style="text-align: center">
-                        {{ $ases->links("vendor.pagination.bootstrap-4") }}
                     </div>
                 </div>
             </div>

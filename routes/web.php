@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\NavigateController;
+use App\Http\Controllers\NavigateeController;
 use App\Http\Controllers\PpiController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -18,10 +20,17 @@ use App\Http\Controllers\AsesController;
 use App\Http\Controllers\ClinicalController;
 use App\Http\Controllers\DpjpController;
 use App\Http\Controllers\EwsController;
+use App\Http\Controllers\IdoController;
 use App\Http\Controllers\InterController;
 use App\Http\Controllers\JatuhController;
 use App\Http\Controllers\ListobatController;
+use App\Http\Controllers\MonitoringLabController;
+use App\Http\Controllers\NilaiKritisLabController;
+use App\Http\Controllers\ObatJadiController;
+use App\Http\Controllers\ObatRacikanController;
 use App\Http\Controllers\OkController;
+use App\Http\Controllers\PlebitiController;
+use App\Http\Controllers\RadioController;
 use App\Http\Controllers\RajalController;
 use App\Http\Controllers\RiController;
 use App\Http\Controllers\RmrController;
@@ -43,6 +52,11 @@ use Maatwebsite\Excel\Facades\Excel;
 Route::get('/', function () {
     return view('auth.login');
 });
+
+//vanigate
+Route::post('/navigate', [NavigateController::class, 'navigate'])->name('your.navigate.route');
+Route::post('/navigatee', [NavigateeController::class, 'navigatee'])->name('your.navigatee.route');
+
 
 Auth::routes(['register' => false]);
 
@@ -91,6 +105,20 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::get('/export', [ImprsController::class, 'laporanBulanan'])->name('imprs.export');
     Route::get('/export/export', [ImprsController::class, 'export'])->name('imprs.export.export');
+    
+        //farmasi obat_jadi
+    Route::resource('obat_jadis', ObatJadiController::class);
+
+    Route::get('/export_oj', [ObatJadiController::class, 'laporanBulanan'])->name('obat_jadis.export_oj');
+    // Route::get('/grafik_doublecheck', [ObatJadiController::class, 'laporanTahunan'])->name('imprs.grafik_doublecheck');
+    // Route::get('/export/export', [ObatJadiController::class, 'export'])->name('imprs.export.export');
+
+    //farmasi obat_racikan
+    Route::resource('obat_racikans', ObatRacikanController::class);
+
+    Route::get('/export_or', [ObatRacikanController::class, 'laporanBulanan'])->name('obat_racikans.export_or');
+    // Route::get('/grafik_doublecheck', [ObatRacikanController::class, 'laporanTahunan'])->name('imprs.grafik_doublecheck');
+    // Route::get('/export/export', [ObatRacikanController::class, 'export'])->name('imprs.export.export');
 
     //ok
     Route::resource('oks', OkController::class);
@@ -101,11 +129,16 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('oks/{ok}/edit', [OkController::class, 'edit'])->name('oks.edit');
     Route::put('oks/{ok}', [OkController::class, 'update'])->name('oks.update');
     Route::delete('oks/{ok}', [OkController::class, 'destroy'])->name('oks.destroy');
-    Route::delete('/oks/delete/{id}', [RmrController::class, 'destroyId'])->name('oks.destroyId');
+    Route::delete('/oks/delete/{id}', [OkController::class, 'destroyId'])->name('oks.destroyId');
     Route::get('/oks/calendar', [OkController::class, 'calendar'])->name('oks.calendar');
     Route::get('/oks/review/{date}', [OkController::class, 'reviewByDate']);
     Route::get('/review_bulanan_ok', [OkController::class, 'reviewBulananOk'])->name('oks.review_bulanan_ok');
+    Route::get('/review_bulanan_ok_imprs', [OkController::class, 'reviewBulananOk1'])->name('oks.review_bulanan_ok_imprs');
+    Route::get('/review_bulanan_ok_unit', [OkController::class, 'reviewBulananOk2'])->name('oks.review_bulanan_ok_unit');
     Route::get('/review_bulanan_ok/export', [OkController::class, 'exportBulanan'])->name('oks.review_bulanan_ok.export');
+    Route::get('/grafik_sc', [OkController::class, 'reviewTahunanScEmergensi'])->name('oks.grafik_sc');
+    Route::get('/grafik_ssc', [OkController::class, 'reviewTahunanSsc'])->name('oks.grafik_ssc');
+    Route::get('/grafik_op', [OkController::class, 'reviewTahunanOpElektif'])->name('oks.grafik_op');
     Route::get('/oks/check-data/{date}', [OkController::class, 'checkData']);
     //rm
     Route::resource('rmrs', RmrController::class);
@@ -137,6 +170,21 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/review_bulanan_rmi', [RmriController::class, 'reviewBulananRmi'])->name('rmris.review_bulanan_rmi');
     Route::get('/review_bulanan_rmi/export', [RmriController::class, 'exportBulanan'])->name('rmris.review_bulanan_rmi.export');
     Route::get('/rmris/check-data/{date}', [RmriController::class, 'checkData']);
+    //radios
+    Route::resource('radios', RadioController::class);
+    Route::get('radios', [RadioController::class, 'index'])->name('radios.index');
+    Route::get('radios/create', [RadioController::class, 'create'])->name('radios.create');
+    Route::post('radios', [RadioController::class, 'store'])->name('radios.store');
+    Route::get('radios/{rmri}', [RadioController::class, 'show'])->name('radios.review');
+    Route::get('radios/{rmri}/edit', [RadioController::class, 'edit'])->name('radios.edit');
+    Route::put('radios/{rmri}', [RadioController::class, 'update'])->name('radios.update');
+    Route::delete('radios/{rmri}', [RadioController::class, 'destroy'])->name('radios.destroy');
+    Route::delete('/radios/delete/{id}', [RadioController::class, 'destroyId'])->name('radios.destroyId');
+    Route::get('/radios/calendar', [RadioController::class, 'calendar'])->name('radios.calendar');
+    Route::get('/radios/review/{date}', [RadioController::class, 'reviewRadioByDate']);
+    Route::get('/review_bulanan_radio', [RadioController::class, 'reviewBulananradio'])->name('radios.review_bulanan_radio');
+    Route::get('/review_bulanan_radio/export', [RadioController::class, 'exportBulanan'])->name('radios.review_bulanan_radio.export');
+    Route::get('/radios/check-data/{date}', [RadioController::class, 'checkData']);
 
     //ppi
     Route::resource('ppis', PpiController::class);
@@ -166,6 +214,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('ewss', EwsController::class);
     Route::get('/export_e', [EwsController::class, 'laporanBulanan'])->name('ewss.export_e');
     Route::get('/export_e/export', [EwsController::class, 'export'])->name('ewss.export_e.export');
+    Route::get('/search-pasien', [EwsController::class, 'search'])->name('search.pasien');
     //inters
     Route::resource('inters', InterController::class);
     Route::get('/export_in', [InterController::class, 'laporanBulanan'])->name('inters.export_in');
@@ -182,4 +231,32 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('asess', AsesController::class);
     Route::get('/export_as', [AsesController::class, 'laporanBulanan'])->name('asess.export_as');
     Route::get('/export_as/export', [AsesController::class, 'export'])->name('asess.export_as.export');
+    //idos
+    Route::resource('idos', IdoController::class);
+    Route::get('idos/{id}', [IdoController::class, 'show'])->name('idos.show');
+    //plebitis
+    Route::resource('plebitis', PlebitiController::class);
+    Route::get('plebitis/{id}', [PlebitiController::class, 'show'])->name('plebitis.show');
+    //laborat
+    Route::resource('nilai_kritiss', NilaiKritisLabController::class);
+    Route::delete('/nilai_kritiss/{id}', [NilaiKritisLabController::class, 'destroy'])->name('nilai_kritiss.destroy');
+    Route::get('/export_lab', [NilaiKritisLabController::class, 'laporanBulanan'])->name('nilai_kritiss.export_lab');
+    //monitoring lab
+    Route::resource('monitorings', MonitoringLabController::class);
+    Route::delete('/monitorings/{id}', [MonitoringLabController::class, 'destroy'])->name('monitorings.destroy');
+    // Route::get('nilai_kritis/{id}', [MonitoringLabController::class, 'show'])->name('nilai_kritis.show');
+    
+        //grafik
+    Route::get('/grafik_fornas', [FarmasiController::class, 'laporanTahunan'])->name('farmasis.grafik_fornas');
+    Route::get('/grafik_doublecheck', [ImprsController::class, 'laporanTahunan'])->name('imprs.grafik_doublecheck');
+    Route::get('/grafik_rajal', [RajalController::class, 'laporanTahunan'])->name('rajals.grafik_rajal');
+    Route::get('/grafik_ases', [AsesController::class, 'laporanTahunan'])->name('asess.grafik_ases');
+    Route::get('/grafik_rmri', [RmriController::class, 'reviewTahunan'])->name('rmris.grafik_rmri');
+    Route::get('/grafik_or', [ObatRacikanController::class, 'laporanTahunanObatRacikan'])->name('obat_racikans.grafik_or');
+    Route::get('/grafik_ppi_tahunan', [PpiController::class, 'laporanTahunanPpi'])->name('ppis.grafik_ppi_tahunan');
+    Route::get('/grafik_apd_tahunan', [ApdController::class, 'laporanTahunanApd'])->name('apds.grafik_apd_tahunan');
+    Route::get('/grafik_lab_tahunan', [NilaiKritisLabController::class, 'laporanTahunanLaboratorium'])->name('nilai_kritiss.grafik_lab_tahunan');
+    Route::get('/grafik_kep', [RiController::class, 'laporanTahunan'])->name('ris.grafik_kep');
+    Route::get('/grafik_v', [VisiteController::class, 'laporanTahunan'])->name('visites.grafik_v');
+    Route::get('/grafik_j', [JatuhController::class, 'laporanTahunan'])->name('jatuhs.grafik_j');
 });

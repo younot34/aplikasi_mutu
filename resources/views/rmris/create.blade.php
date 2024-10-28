@@ -171,9 +171,10 @@
                                     <tr>
                                         <td colspan="4">Keterangan (Lengkap / Tidak Lengkap)</td>
                                         <td colspan="4">
-                                            <input type="text" name="keterangan_lengkap" class="form-control" list="data_list">
-                                            <datalist id="data_list">
+                                            <input type="text" name="keterangan_lengkap" class="form-control" list="data_list_lengkap">
+                                            <datalist id="data_list_lengkap">
                                                 <option value="✔️"></option>
+                                                <option value="❌"></option>
                                             </datalist>
                                         </td>
                                     </tr>

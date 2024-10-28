@@ -99,23 +99,25 @@ class OkController extends Controller
         // Validasi input
         $request->validate([
             'tanggal' => 'nullable|date',
-            'no_rm' => 'required|string',
-            'nama_pasien' => 'required|string',
-            'umur' => 'required|integer',
-            'diagnosa' => 'required|string',
-            'tindakan_operasi' => 'required|string',
-            'dokter_op' => 'required|string',
-            'dokter_anest' => 'required|string',
-            'jenis_op' => 'required|string',
-            'asuransi' => 'required|string',
-            'rencana_tindakan' => 'required|date',
-            'signin' => 'required|date',
-            'time_out' => 'required|date',
-            'sign_out' => 'required|date',
-            'penandaan_lokasi_op' => 'required|string',
-            'kelengkapan_ssc' => 'required|string',
-            'penundaan_op_elektif' => 'required|string',
-            'sc_emergensi' => 'required|string',
+            'no_rm' => 'nullable|string',
+            'nama_pasien' => 'nullable|string',
+            'umur' => 'nullable|integer',
+            'diagnosa' => 'nullable|string',
+            'tindakan_operasi' => 'nullable|string',
+            'dokter_op' => 'nullable|string',
+            'dokter_anest' => 'nullable|string',
+            'jenis_op' => 'nullable|string',
+            'asuransi' => 'nullable|string',
+            'rencana_tindakan' => 'nullable|date',
+            'signin' => 'nullable|date',
+            'time_out' => 'nullable|date',
+            'sign_out' => 'nullable|date',
+            'penandaan_lokasi_op' => 'nullable|string',
+            'kelengkapan_ssc' => 'nullable|string',
+            'penundaan_op_elektif' => 'nullable|string',
+            'sc_emergensi1' => 'nullable|string',
+            'penundaan_op_elektif1' => 'nullable|string',
+            'sc_emergensi' => 'nullable|string',
             'keterangan' => 'nullable|string',
             'kendala' => 'nullable|string',
         ]);
@@ -140,6 +142,8 @@ class OkController extends Controller
                 'penandaan_lokasi_op' =>$request->penandaan_lokasi_op,
                 'kelengkapan_ssc' =>$request->kelengkapan_ssc,
                 'penundaan_op_elektif' =>$request->penundaan_op_elektif,
+                'penundaan_op_elektif1' =>$request->penundaan_op_elektif1,
+                'sc_emergensi1' =>$request->sc_emergensi1,
                 'sc_emergensi' =>$request->sc_emergensi,
                 'keterangan' =>$request->keterangan,
                 'kendala' =>$request->kendala,
@@ -185,23 +189,25 @@ class OkController extends Controller
     {
         $request->validate([
             'oks.*.tanggal' => 'date',
-            'oks.*.no_rm' => 'required|string',
-            'oks.*.nama_pasien' => 'required|string',
-            'oks.*.umur' => 'required|integer',
-            'oks.*.diagnosa' => 'required|string',
-            'oks.*.tindakan_operasi' => 'required|string',
-            'oks.*.dokter_op' => 'required|string',
-            'oks.*.dokter_anest' => 'required|string',
-            'oks.*.jenis_op' => 'required|string',
-            'oks.*.asuransi' => 'required|string',
-            'oks.*.rencana_tindakan' => 'required|date',
-            'oks.*.signin' => 'required|date',
-            'oks.*.time_out' => 'required|date',
-            'oks.*.sign_out' => 'required|date',
-            'oks.*.penandaan_lokasi_op' => 'required|string',
-            'oks.*.kelengkapan_ssc' => 'required|string',
-            'oks.*.penundaan_op_elektif' => 'required|string',
-            'oks.*.sc_emergensi' => 'required|string',
+            'oks.*.no_rm' => 'nullable|string',
+            'oks.*.nama_pasien' => 'nullable|string',
+            'oks.*.umur' => 'nullable|integer',
+            'oks.*.diagnosa' => 'nullable|string',
+            'oks.*.tindakan_operasi' => 'nullable|string',
+            'oks.*.dokter_op' => 'nullable|string',
+            'oks.*.dokter_anest' => 'nullable|string',
+            'oks.*.jenis_op' => 'nullable|string',
+            'oks.*.asuransi' => 'nullable|string',
+            'oks.*.rencana_tindakan' => 'nullable|date',
+            'oks.*.signin' => 'nullable|date',
+            'oks.*.time_out' => 'nullable|date',
+            'oks.*.sign_out' => 'nullable|date',
+            'oks.*.penandaan_lokasi_op' => 'nullable|string',
+            'oks.*.kelengkapan_ssc' => 'nullable|string',
+            'oks.*.penundaan_op_elektif' => 'nullable|string',
+            'oks.*.penundaan_op_elektif1' => 'nullable|string',
+            'oks.*.sc_emergensi1' => 'nullable|string',
+            'oks.*.sc_emergensi' => 'nullable|string',
             'oks.*.keterangan' => 'nullable|string',
             'oks.*.kendala' => 'nullable|string',
         ]);
@@ -299,11 +305,159 @@ class OkController extends Controller
     {
         $bulan = $request->input('bulan');
         if ($bulan) {
-            $oks = Oks::whereMonth('tanggal', date('m', strtotime($bulan)))->paginate(10);
+            $oks = Oks::whereMonth('tanggal', date('m', strtotime($bulan)))->get();
         } else {
-            $oks = Oks::paginate(10);
+            $oks = Oks::get();
         }
         return view('oks.review_bulanan_ok', compact('oks', 'bulan'));
+    }
+    
+    public function reviewBulananOk1(Request $request)
+    {
+        $bulan = $request->input('bulan');
+        if ($bulan) {
+            $oks = Oks::whereMonth('tanggal', date('m', strtotime($bulan)))->get();
+        } else {
+            $oks = Oks::get();
+        }
+        return view('oks.review_bulanan_ok_imprs', compact('oks', 'bulan'));
+    }
+    
+    public function reviewBulananOk2(Request $request)
+    {
+        $bulan = $request->input('bulan');
+        if ($bulan) {
+            $oks = Oks::whereMonth('tanggal', date('m', strtotime($bulan)))->get();
+        } else {
+            $oks = Oks::get();
+        }
+        return view('oks.review_bulanan_ok_unit', compact('oks', 'bulan'));
+    }
+    
+    public function reviewTahunanScEmergensi(Request $request)
+    {
+        // Default tahun sekarang
+        $tahun = $request->input('tahun', date('Y'));
+
+        //ambil data berdasarkan tahun
+        $okData = Oks::whereYear('tanggal', $tahun)->get();
+
+        // Data SC Emergensi dari database berdasarkan tahun
+        $dataPerbulan = array_fill(1,12, ['lebih' => 0, 'kurang' => 0]);
+
+        foreach ($okData as $ok){
+            $bulan = (int)date('m', strtotime($ok->tanggal));
+            $dataPerbulan[$bulan]['kurang'] += ($ok->sc_emergensi1 === '✔️' ? 1 : 0);
+            $dataPerbulan[$bulan]['lebih'] += ($ok->sc_emergensi === '✔️' ? 1 : 0);
+        }
+
+        $totalBerkas = array_map(function($data){
+            return $data['kurang'] + $data['lebih'];
+        },$dataPerbulan);
+
+        $capaian = [];
+        foreach ($dataPerbulan as $bulan => $data){
+            if($data['kurang'] + $data['lebih'] > 0){
+                $capaian[$bulan] = ($data['kurang']/ ($data['kurang'] + $data['lebih'])) * 100;
+            }else{
+                $capaian[$bulan] =0;
+            }
+        }
+
+        $chartData = [
+            'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            'capaian' => array_values($capaian),
+            'target' => array_fill(0, 12, 80),
+            'total' => array_values($totalBerkas),
+            'kurang' => array_column($dataPerbulan, 'kurang'),
+            'lebih' => array_column($dataPerbulan, 'lebih'),
+        ];
+
+        return view('oks.grafik_sc', compact('bulan', 'chartData', 'tahun'));
+    }
+
+    public function reviewTahunanOpElektif(Request $request)
+    {
+        // Default tahun sekarang
+        $tahun = $request->input('tahun', date('Y'));
+
+        //ambil data berdasarkan tahun
+        $okData = Oks::whereYear('tanggal', $tahun)->get();
+
+        // Data SC Emergensi dari database berdasarkan tahun
+        $dataPerbulan = array_fill(1,12, ['lebihdari' => 0, 'kurangdari' => 0]);
+
+        foreach ($okData as $ok){
+            $bulan = (int)date('m', strtotime($ok->tanggal));
+            $dataPerbulan[$bulan]['lebihdari'] += ($ok->penundaan_op_elektif === '✔️' ? 1 : 0);
+            $dataPerbulan[$bulan]['kurangdari'] += ($ok->penundaan_op_elektif1 === '✔️' ? 1 : 0);
+        }
+
+        $totalBerkas = array_map(function($data){
+            return $data['lebihdari'] + $data['kurangdari'];
+        },$dataPerbulan);
+
+        $capaian = [];
+        foreach ($dataPerbulan as $bulan => $data){
+            if($data['lebihdari'] + $data['kurangdari'] > 0){
+                $capaian[$bulan] = ($data['lebihdari']/ ($data['lebihdari'] + $data['kurangdari'])) * 100;
+            }else{
+                $capaian[$bulan] =0;
+            }
+        }
+
+        $chartData = [
+            'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            'capaian' => array_values($capaian),
+            'target' => array_fill(0, 12, 5),
+            'total' => array_values($totalBerkas),
+            'lebihdari' => array_column($dataPerbulan, 'lebihdari'),
+            'kurangdari' => array_column($dataPerbulan, 'kurangdari'),
+        ];           // Penundaan OP Elektif >= 2 Jam
+
+        return view('oks.grafik_op', compact('bulan', 'chartData', 'tahun'));
+    }
+    
+    public function reviewTahunanSsc(Request $request)
+    {
+        // Default tahun sekarang
+        $tahun = $request->input('tahun', date('Y'));
+
+        //ambil data berdasarkan tahun
+        $okData = Oks::whereYear('tanggal', $tahun)->get();
+
+        // Data SC Emergensi dari database berdasarkan tahun
+        $dataPerbulan = array_fill(1,12, ['TIDAK' => 0, 'YA' => 0]);
+
+        foreach ($okData as $ok){
+            $bulan = (int)date('m', strtotime($ok->tanggal));
+            $dataPerbulan[$bulan]['YA'] += ($ok->kelengkapan_ssc === '✔️' ? 1 : 0);
+            $dataPerbulan[$bulan]['TIDAK'] += ($ok->kelengkapan_ssc === '❌' ? 1 : 0);
+        }
+
+        $totalBerkas = array_map(function($data){
+            return $data['YA'] + $data['TIDAK'];
+        },$dataPerbulan);
+
+        $capaian = [];
+        foreach ($dataPerbulan as $bulan => $data){
+            if($data['YA'] + $data['TIDAK'] > 0){
+                $capaian[$bulan] = ($data['YA']/ ($data['YA'] + $data['TIDAK'])) * 100;
+            }else{
+                $capaian[$bulan] =0;
+            }
+        }
+
+        $chartData = [
+            'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            'capaian' => array_values($capaian),
+            'target' => array_fill(0, 12, 80),
+            'total' => array_values($totalBerkas),
+            'YA' => array_column($dataPerbulan, 'YA'),
+            'TIDAK' => array_column($dataPerbulan, 'TIDAK'),
+        ];
+
+        return view('oks.grafik_ssc', compact('bulan', 'chartData', 'tahun'));
     }
 
     public function exportBulanan(Request $request)

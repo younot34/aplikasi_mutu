@@ -23,7 +23,21 @@
                         @can('oks.review_bulanan_ok')
                             <form action="{{ route('oks.review_bulanan_ok') }}" method="GET" class="d-inline-block">
                                 <button type="submit" class="btn btn-sm btn-primary review-bulanan-btn">
-                                    <i class="fa fa-door-open"></i> Laporan Bulanan
+                                    <i class="fa fa-door-open"></i> Laporan Bulanan INM
+                                </button>
+                            </form>
+                        @endcan
+                        @can('oks.review_bulanan_ok_imprs')
+                            <form action="{{ route('oks.review_bulanan_ok_imprs') }}" method="GET" class="d-inline-block">
+                                <button type="submit" class="btn btn-sm btn-primary review-bulanan-btn">
+                                    <i class="fa fa-door-open"></i> Laporan Bulanan IMPRS
+                                </button>
+                            </form>
+                        @endcan
+                        @can('oks.review_bulanan_ok_unit')
+                            <form action="{{ route('oks.review_bulanan_ok_unit') }}" method="GET" class="d-inline-block">
+                                <button type="submit" class="btn btn-sm btn-primary review-bulanan-btn">
+                                    <i class="fa fa-door-open"></i> Laporan Bulanan UNIT
                                 </button>
                             </form>
                         @endcan

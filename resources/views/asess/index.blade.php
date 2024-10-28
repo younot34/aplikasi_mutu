@@ -16,7 +16,7 @@
 
                 <div class="card-body">
                     <form action="{{ route('asess.index') }}" method="GET">
-                    @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin')
+                    <!--@hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin|petugas8|petugas9|petugas10|petugas11|petugas12|petugas13')-->
                         <div class="form-group">
                             <div class="input-group mb-3">
                                 @can('asess.create')
@@ -37,7 +37,7 @@
                                 </a>
                             @endcan
                         </div>
-                        @endhasanyrole
+                        <!--@endhasanyrole-->
                     </form>
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -53,8 +53,8 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th style="width: 15%;text-align: center">Jumlah Pasien Assesment</th>
-                                <th style="width: 15%;text-align: center">Assesment Tidak Patuh</th>
+                                <th style="width: 15%;text-align: center">Jumlah Assessment Pasien</th>
+                                <th style="width: 15%;text-align: center">Jumlah Assessment Patuh</th>
                                 <th></th>
                             </tr>
                             </thead>

@@ -12,7 +12,7 @@
                 </div>
                 <div class="card-body">
                     <form action="{{ route('rmris.index') }}" method="GET" class="d-inline-block">
-                        @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin')
+                        @hasanyrole('petugas1|petugas2|petugas3|petugas4|petugas5|petugas6|petugas7|direktur|karyawan|admin|petugas8|petugas9|petugas10|petugas11|petugas12|petugas13')
                         <form id="bulanForm" action="{{ route('rmris.review_bulanan_rmi') }}" method="GET" class="d-inline-block">
                             <div class="form-group">
                                 <label for="bulan">Pilih Bulan:</label>

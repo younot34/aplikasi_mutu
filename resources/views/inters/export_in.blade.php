@@ -42,54 +42,70 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th style="width: 15%;text-align: center">Terisis</th>
+                                <th style="width: 15%;text-align: center">Terisi</th>
                                 <th style="width: 15%;text-align: center">Tidak Terisi</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $totalterisi = 0;
+                                $totaltidak_terisi = 0;
+
+                                foreach ($inter as $no => $inters) {
+                                    $terisis = 0;
+                                    $tidakterisis = 0;
+                                    
+                                    if(
+                                        $inters->terisi == '✔️'
+                                    ){
+                                        $totalterisi++;
+                                    }else{
+                                        $totaltidak_terisi++;
+                                    }
+                                    $totalterisi += $terisis;
+                                    $totaltidak_terisi += $tidakterisis;
+                                }
+                                $totalSemua = $totalterisi + $totaltidak_terisi;
+                                $persentase = $totalSemua > 0 ? ($totalterisi / $totalSemua) * 100 : 0;
+                            @endphp
                             @foreach ($inter as $no => $inters)
                             <tr>
-                                <th scope="row" style="text-align: center">{{ ++$no + ($inter->currentPage()-1) * $inter->perPage() }}</th>
+                                <th scope="row" style="text-align: center">{{ $loop->iteration }}</th>
                                 <td>{{ $inters->tanggal }}</td>
                                 <td>{{ $inters->no_rm }}</td>
                                 <td>{{ $inters->nama_pasien }}</td>
                                 <td>{{ $inters->terisi }}</td>
                                 <td>{{ $inters->tidak_terisi }}</td>
                             </tr>
-                        @endforeach
+                            @endforeach
                             <tr>
                                 <td colspan="4" class="text-right"><center><strong>HASIL AKHIR</strong></center></td>
                                 <td colspan="1">
                                     <strong>
-                                        @php
-                                            $totalterisi = 0;
-
-                                            foreach ($inter as $inters) {
-                                                $totalterisi += $inters->terisi === '✔️' ? 1 : 0;
-                                            }
-                                            $result = $totalterisi;
-                                        @endphp
-                                            <center>{{$result}}</center>
+                                            <center>{{$totalterisi}}</center>
                                     </strong>
                                 </td>
                                 <td colspan="1">
                                     <strong>
-                                        @php
-                                            $totaltidak_terisi = 0;
-
-                                            foreach ($inter as $inters) {
-                                                $totaltidak_terisi += $inters->tidak_terisi === '✔️' ? 1 : 0;
-                                            }
-                                            $resultt = $totaltidak_terisi
-                                        @endphp
-                                            <center>{{$resultt}}</center>
+                                            <center>{{$totaltidak_terisi}}</center>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right"><center><strong>PERSENTASE</strong></center></td>
+                                <td colspan="2">
+                                    <strong>
+                                        @if ($persentase > 0)
+                                            <center>{{ number_format($persentase, 2) }}%</center>
+                                        @else
+                                            0%
+                                        @endif
                                     </strong>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div style="text-align: center">
-                        {{ $inter->links("vendor.pagination.bootstrap-4") }}
                     </div>
                 </div>
             </div>

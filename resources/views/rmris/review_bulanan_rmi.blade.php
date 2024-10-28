@@ -53,20 +53,12 @@
                                     foreach ($data as $item) {
                                         // Menghitung jumlah lengkap
                                         $jumlahLengkap += (
-                                            ($item->resume_lengkap === '✔️' ? 1 : 0) +
-                                            ($item->pengantar_lengkap === '✔️' ? 1 : 0) +
-                                            ($item->cppt_lengkap === '✔️' ? 1 : 0) +
-                                            ($item->general_lengkap === '✔️' ? 1 : 0) +
-                                            ($item->informed_lengkap === '✔️' ? 1 : 0)
+                                            ($item->keterangan_lengkap === '✔️' ? 1 : 0)
                                         );
 
                                         // Menghitung jumlah tidak
                                         $jumlahTidak += (
-                                            ($item->resume_tidak === '✔️' ? 1 : 0) +
-                                            ($item->pengantar_tidak === '✔️' ? 1 : 0) +
-                                            ($item->cppt_tidak === '✔️' ? 1 : 0) +
-                                            ($item->general_tidak === '✔️' ? 1 : 0) +
-                                            ($item->informed_tidak === '✔️' ? 1 : 0)
+                                            ($item->keterangan_lengkap === '❌' ? 1 : 0)
                                         );
                                     }
 
@@ -93,6 +85,20 @@
                                     <th>{{ $totalJumlahBerkas }}</th>
                                     <th>{{ $totalLengkap }}</th>
                                     <th>{{ $totalTidak }}</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-right"><center><strong>Persentase</strong></center></td>
+                                    <td colspan="5">
+                                        <strong>
+                                            <center>
+                                                @if ($totalLengkap > 0)
+                                                    {{ round(($totalLengkap / $totalJumlahBerkas) * 100, 2) }}%
+                                                @else
+                                                    0%
+                                                @endif
+                                            </center>
+                                        </strong>
+                                    </td>
                                 </tr>
                             </tfoot>
                         </table>

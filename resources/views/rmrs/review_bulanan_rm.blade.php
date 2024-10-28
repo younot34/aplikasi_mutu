@@ -94,6 +94,20 @@
                                     <th>{{ $totalLengkap }}</th>
                                     <th>{{ $totalTidak }}</th>
                                 </tr>
+                                <tr>
+                                    <td colspan="2" class="text-right"><center><strong>Persentase</strong></center></td>
+                                    <td colspan="5">
+                                        <strong>
+                                            <center>
+                                                @if ($totalLengkap > 0)
+                                                    {{ round(($totalLengkap / $totalJumlahBerkas) * 100, 2) }}%
+                                                @else
+                                                    0%
+                                                @endif
+                                            </center>
+                                        </strong>
+                                    </td>
+                                </tr>
                             </tfoot>
                         </table>
                     </div>

@@ -22,8 +22,8 @@ class CreateClinicalsTable extends Migration
             $table->string('ht')->nullable();
             $table->string('hiv')->nullable();
             $table->string('dm')->nullable();
-            $table->date('masuk');
-            $table->date('keluar');
+            $table->date('masuk')->nullable();
+            $table->date('keluar')->nullable();
             $table->timestamps();
         });
     }
