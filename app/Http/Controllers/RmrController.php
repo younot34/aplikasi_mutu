@@ -273,6 +273,50 @@ class RmrController extends Controller
         return Excel::download(new RmrExport($bulan), 'review_bulanan_rm.xlsx');
     }
 
+    public function reviewTahunan(Request $request)
+    {
+        $tahun = $request->input('tahun', date('Y'));
+
+        // Ambil data RM RI (rmr) berdasarkan tahun yang dipilih
+        $rmrData = Rmr::whereYear('tanggal', $tahun)->get();
+
+        // Data per bulan
+        $dataPerBulan = array_fill(1, 12, ['lengkap' => 0, 'tidak' => 0]);
+
+        foreach ($rmrData as $rmr) {
+            $bulan = (int)date('m', strtotime($rmr->tanggal));
+            $dataPerBulan[$bulan]['lengkap'] += ($rmr->keterangan_lengkap === '✔️' ? 1 : 0);
+            $dataPerBulan[$bulan]['tidak'] += ($rmr->keterangan_lengkap === '❌' ? 1 : 0);
+        }
+
+        // Hitung total berkas per bulan
+        $totalBerkas = array_map(function($data) {
+            return $data['lengkap'] + $data['tidak'];
+        }, $dataPerBulan);
+
+        // Hitung persentase kelengkapan tiap bulan
+        $capaian = [];
+        foreach ($dataPerBulan as $bulan => $data) {
+            if ($data['lengkap'] + $data['tidak'] > 0) {
+                $capaian[$bulan] = ($data['lengkap'] / ($data['lengkap'] + $data['tidak'])) * 100;
+            } else {
+                $capaian[$bulan] = 0;
+            }
+        }
+
+        // Data untuk Chart.js
+        $chartData = [
+            'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            'capaian' => array_values($capaian),
+            'target' => array_fill(0, 12, 85), // Target 100% kelengkapan
+            'total' => array_values($totalBerkas), // Total berkas per bulan
+            'lengkap' => array_column($dataPerBulan, 'lengkap'), // Jumlah lengkap per bulan
+            'tidak' => array_column($dataPerBulan, 'tidak'), // Jumlah tidak lengkap per bulan
+        ];
+
+        return view('rmrs.grafik_rmr', compact('chartData', 'tahun'));
+    }
+
     public function checkData($date)
     {
         $hasData = Rmr::whereDate('tanggal', $date)->exists();

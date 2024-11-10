@@ -32,142 +32,56 @@
                                     </button>
                                 </div>
                             </div>
+                            @can('monitorings.export_moni')
+                                <a href="{{ route('monitorings.export_moni') }}" class="btn btn-sm btn-primary"> Laporan Bulanan
+                                    <i class="fa fa-door-open"></i>
+                                </a>
+                            @endcan
                         </div>
                     @endhasanyrole
                     </form>
 
 
                     <div class="table-responsive">
-                        @foreach ($monitorings as $item)
-                        @php
-                            // Ambil bulan dari tanggal di monitoring_lab_pertanggals
-                            $monthNames = [
-                                1 => 'Januari', 2 => 'Februari', 3 => 'Maret',
-                                4 => 'April', 5 => 'Mei', 6 => 'Juni',
-                                7 => 'Juli', 8 => 'Agustus', 9 => 'September',
-                                10 => 'Oktober', 11 => 'November', 12 => 'Desember'
-                            ];
-
-                            // Ambil semua bulan dari tanggal yang ada di monitoring_lab_pertanggals
-                            $dates = $item->monitoring_lab_pertanggals->pluck('tanggal')->map(function ($date) {
-                                return \Carbon\Carbon::parse($date)->month;
-                            })->unique();
-
-                            // Mengambil nama bulan yang unik
-                            $uniqueMonths = $dates->map(function ($month) use ($monthNames) {
-                                return $monthNames[$month];
-                            });
-                        @endphp
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th rowspan="6">NO</th>
-                                    <th rowspan="6">VARIABEL</th>
-                                    <th rowspan="6">SUB VARIABEL</th>
-                                    <th colspan="{{ $maxTanggalCount }}" class="text-center">{{ $uniqueMonths->join(', ') }}</th>
-                                    <th rowspan="2">Total</th>
-                                    <th rowspan="2">Hasil (%)</th>
-                                    <th rowspan="2">Aksi</th>
-                                </tr>
-                                <tr>
-                                    @for ($i = 1; $i <= $maxTanggalCount; $i++)
-                                        <th>{{ $i }}</th>
-                                    @endfor
+                                    <th scope="col" style="text-align: center;width: 6%">NO.</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col">No.RM</th>
+                                    <th scope="col">Nama Pasien</th>
+                                    <th scope="col">Patuh</th>
+                                    <th scope="col" style="width: 15%;text-align: center">AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($monitoring as $no => $monitorings)
                                 <tr>
-                                    <td rowspan="6">{{ $item->id }}</td>
-                                    <td rowspan="6">{{ $item->variabel }}</td>
-                            
-                                    <!-- Baris untuk data_pertanggal_1 -->
-                                    <td rowspan="3">{{ $item->sub_variabel_1 }}</td>
-                                    @foreach ($item->monitoring_lab_pertanggals as $montang)
-                                        <td>{{ $montang->data_pertanggal_1 ?? 0 }}</td>
-                                    @endforeach
-                            
-                                    <!-- Tambahkan kolom kosong jika jumlah monitoring_lab_pertanggals lebih sedikit dari 3 -->
-                                    @for ($i = count($item->monitoring_lab_pertanggals); $i < 3; $i++)
-                                        <td></td>
-                                    @endfor
-                            
-                                    <td rowspan="3">{{ $item->total_1 ?? 0 }}</td>
-                                    <td rowspan="6">{{ $item->hasil }}%</td>
-                                    <td class="text-center" rowspan="6">
+                                    <th scope="row" style="text-align: center">{{ ++$no + ($monitoring->currentPage()-1) * $monitoring->perPage() }}</th>
+                                    <td>{{ $monitorings->tanggal }}</td>
+                                    <td>{{ $monitorings->no_rm }}</td>
+                                    <td>{{ $monitorings->nama_pasien }}</td>
+                                    <td>{{ $monitorings->patuh }}</td>
+                                    <td class="text-center">
+
                                         @can('monitorings.edit')
-                                            <a href="{{ route('monitorings.edit', $item->id) }}" class="btn btn-sm btn-primary">
+                                            <a href="{{ route('monitorings.edit', $monitorings->id) }}" class="btn btn-sm btn-primary">
                                                 <i class="fa fa-pencil-alt"></i>
                                             </a>
                                         @endcan
+
                                         @can('monitorings.delete')
-                                            <button onClick="Delete(this.id)" class="btn btn-sm btn-danger" id="{{ $item->id }}">
+                                            <button onClick="Delete(this.id)" class="btn btn-sm btn-danger" id="{{ $monitorings->id }}">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         @endcan
                                     </td>
                                 </tr>
-                            
-                                <!-- Baris untuk data_pertanggal_2 -->
-                                <tr>
-                                    @foreach ($item->monitoring_lab_pertanggals as $montang)
-                                        <td>{{ $montang->data_pertanggal_2 ?? 0 }}</td>
-                                    @endforeach
-                            
-                                    @for ($i = count($item->monitoring_lab_pertanggals); $i < 3; $i++)
-                                        <td></td>
-                                    @endfor
-                                </tr>
-                            
-                                <!-- Baris untuk data_pertanggal_3 -->
-                                <tr>
-                                    @foreach ($item->monitoring_lab_pertanggals as $montang)
-                                        <td>{{ $montang->data_pertanggal_3 ?? 0 }}</td>
-                                    @endforeach
-                            
-                                    @for ($i = count($item->monitoring_lab_pertanggals); $i < 3; $i++)
-                                        <td></td>
-                                    @endfor
-                                </tr>
-                            
-                                <!-- Baris untuk data_pertanggal_4 -->
-                                <tr>
-                                    <td rowspan="3">{{ $item->sub_variabel_2 }}</td>
-                                    @foreach ($item->monitoring_lab_pertanggals as $montang)
-                                        <td>{{ $montang->data_pertanggal_4 ?? 0 }}</td>
-                                    @endforeach
-                            
-                                    @for ($i = count($item->monitoring_lab_pertanggals); $i < 3; $i++)
-                                        <td></td>
-                                    @endfor
-                                    <td rowspan="3">{{ $item->total_2 ?? 0 }}</td>
-                                </tr>
-                            
-                                <!-- Baris untuk data_pertanggal_5 -->
-                                <tr>
-                                    @foreach ($item->monitoring_lab_pertanggals as $montang)
-                                        <td>{{ $montang->data_pertanggal_5 ?? 0 }}</td>
-                                    @endforeach
-                            
-                                    @for ($i = count($item->monitoring_lab_pertanggals); $i < 3; $i++)
-                                        <td></td>
-                                    @endfor
-                                </tr>
-                            
-                                <!-- Baris untuk data_pertanggal_6 -->
-                                <tr>
-                                    @foreach ($item->monitoring_lab_pertanggals as $montang)
-                                        <td>{{ $montang->data_pertanggal_6 ?? 0 }}</td>
-                                    @endforeach
-                            
-                                    @for ($i = count($item->monitoring_lab_pertanggals); $i < 3; $i++)
-                                        <td></td>
-                                    @endfor
-                                </tr>
-                            </tbody>                                                                               
+                                @endforeach
+                            </tbody>
                         </table>
-                        @endforeach
                         <div style="text-align: center">
-                            {{$monitorings->links("vendor.pagination.bootstrap-4")}}
+                            {{$monitoring->links("vendor.pagination.bootstrap-4")}}
                         </div>
                     </div>
                 </div>

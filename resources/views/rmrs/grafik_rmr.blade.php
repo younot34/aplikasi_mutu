@@ -4,18 +4,18 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Rekam Medis - Kepatuhan Kelengkapan Rawat Inap</h1>
+            <h1>Rekam Medis - Kelengkapan Berkas Rawat Jalan</h1>
         </div>
 
         <div class="section-body">
 
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-chart-line"></i> Kelengkapan Rawat Inap</h4>
+                    <h4><i class="fas fa-chart-line"></i> Grafik Kelengkapan Rawat Jalan</h4>
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('rmris.grafik_rmri') }}" method="GET" class="d-inline-block">
+                    <form action="{{ route('rmrs.grafik_rmr') }}" method="GET" class="d-inline-block">
                         <div class="form-group">
                             <label for="tahun">Pilih Tahun:</label>
                             <input type="number" id="tahun" name="tahun" value="{{ $tahun }}" class="form-control" min="2000" max="{{ date('Y') }}">
@@ -42,7 +42,7 @@
                         </button>
                     </form>
 
-                    <canvas id="rmriChart" class="mt-4" style="height: 400px; width: 100%;"></canvas>
+                    <canvas id="rmrChart" class="mt-4" style="height: 400px; width: 100%;"></canvas>
 
                     <!-- Menampilkan jumlah berkas, lengkap, dan tidak lengkap per bulan -->
                     <div class="mt-4">
@@ -76,7 +76,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    var ctx = document.getElementById('rmriChart').getContext('2d');
+    var ctx = document.getElementById('rmrChart').getContext('2d');
     var chart = new Chart(ctx, {
         type: 'line', // Tipe grafik garis
         data: {
@@ -90,7 +90,7 @@
                 fill: true,
                 tension: 0.4 // Membuat grafik garis gelombang
             }, {
-                label: 'Target 80%',
+                label: 'Target 85%',
                 data: @json($chartData['target']),
                 borderColor: 'red',
                 borderWidth: 2,

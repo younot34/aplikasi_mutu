@@ -10,15 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
 class DpjpController extends Controller
 {
     /**
-    * __construct
-    *
-    * @return void
-    */
-   public function __construct()
-   {
-       $this->middleware(['permission:dpjps.index|dpjps.create|dpjps.edit|dpjps.delete']);
-   }
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -204,5 +195,57 @@ class DpjpController extends Controller
             $dpjp = Dpjp::get();
         }
         return view('dpjps.export_dp', compact('dpjp', 'bulan'));
+    }
+
+    public function laporanTahunan(Request $request)
+    {
+        // Ambil tahun dari input, jika tidak ada maka gunakan tahun saat ini
+        $tahun = $request->input('tahun', date('Y'));
+
+        // Inisialisasi data per bulan
+        $dataPerBulan = [];
+        $totalterverifikasiTahun = 0;
+        $totaltidak_terverifikasiTahun = 0;
+
+        // Looping untuk setiap bulan dalam satu tahun
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+            // Ambil data dari database berdasarkan bulan dan tahun
+            $DpjpBulanan = Dpjp::whereYear('tanggal', $tahun)
+                ->whereMonth('tanggal', $bulan)
+                ->get();
+
+            $totalterverifikasiBulan = 0;
+            $totaltidak_terverifikasiBulan = 0;
+
+            // Hitung total jam < 14.00 dan > 14.00 per bulan
+            foreach ($DpjpBulanan as $Dpjp) {
+                if ($Dpjp->terverifikasi) {
+                    $totalterverifikasiBulan++;
+                } else {
+                    $totaltidak_terverifikasiBulan++;
+                }
+            }
+
+            // Simpan data bulanan ke dalam array
+            $dataPerBulan[$bulan] = [
+                'totalterverifikasi' => $totalterverifikasiBulan,
+                'totaltidak_terverifikasi' => $totaltidak_terverifikasiBulan,
+                'persentase' => ($totalterverifikasiBulan + $totaltidak_terverifikasiBulan) > 0
+                    ? ($totalterverifikasiBulan / ($totalterverifikasiBulan + $totaltidak_terverifikasiBulan)) * 100 : 0,
+            ];
+
+            // Akumulasi total tahunan
+            $totalterverifikasiTahun += $totalterverifikasiBulan;
+            $totaltidak_terverifikasiTahun += $totaltidak_terverifikasiBulan;
+        }
+
+        // Siapkan data untuk grafik
+        $chartData = [
+            'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            'persentase' => array_column($dataPerBulan, 'persentase'),
+            'target' => array_fill(0, 12, 100),
+        ];
+
+        return view('dpjps.grafik_dp', compact('tahun', 'chartData', 'dataPerBulan'));
     }
 }

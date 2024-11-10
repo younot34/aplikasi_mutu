@@ -4,18 +4,17 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Rekam Medis - Kepatuhan Kelengkapan Rawat Inap</h1>
+            <h1>Farmasi - Tidak Adanya Kesalahan Pemberian Obat</h1>
         </div>
 
         <div class="section-body">
-
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-chart-line"></i> Kelengkapan Rawat Inap</h4>
+                    <h4><i class="fas fa-chart-line"></i> Tidak Adanya Kesalahan Pemberian Obat</h4>
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('rmris.grafik_rmri') }}" method="GET" class="d-inline-block">
+                    <form action="{{ route('pemberian_obats.grafik_po') }}" method="GET" class="d-inline-block">
                         <div class="form-group">
                             <label for="tahun">Pilih Tahun:</label>
                             <input type="number" id="tahun" name="tahun" value="{{ $tahun }}" class="form-control" min="2000" max="{{ date('Y') }}">
@@ -42,32 +41,30 @@
                         </button>
                     </form>
 
-                    <canvas id="rmriChart" class="mt-4" style="height: 400px; width: 100%;"></canvas>
 
-                    <!-- Menampilkan jumlah berkas, lengkap, dan tidak lengkap per bulan -->
-                    <div class="mt-4">
-                        <h5>Jumlah Berkas per Bulan</h5>
-                        <table class="table">
-                            <thead>
+
+                    <canvas id="orChart" class="mt-4" style="height: 400px; width: 100%;"></canvas>
+
+                    <table class="table table-bordered mt-4">
+                        <thead>
+                            <tr>
+                                <th>Bulan</th>
+                                <th>Jumlah Berkas</th>
+                                <th>Jumlah Kesalahan Yang Terjadi</th>
+                                <th>Jumlah Tidak Adanya Kesalahan Yang Terjadi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($chartData['dataPerBulan'] as $index => $data)
                                 <tr>
-                                    <th>Bulan</th>
-                                    <th>Jumlah Berkas</th>
-                                    <th>Jumlah Lengkap</th>
-                                    <th>Jumlah Tidak Lengkap</th>
+                                    <td>{{ $chartData['labels'][$index - 1] }}</td>
+                                    <td>{{ $data['total_data'] }}</td>
+                                    <td>{{ $data['count_less_than_60'] }}</td>
+                                    <td>{{ $data['total_data'] - $data['count_less_than_60'] }}</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($chartData['labels'] as $index => $label)
-                                    <tr>
-                                        <td>{{ $label }}</td>
-                                        <td>{{ $chartData['total'][$index] }}</td>
-                                        <td>{{ $chartData['lengkap'][$index] }}</td>
-                                        <td>{{ $chartData['tidak'][$index] }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -76,26 +73,26 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    var ctx = document.getElementById('rmriChart').getContext('2d');
+    var ctx = document.getElementById('orChart').getContext('2d');
     var chart = new Chart(ctx, {
-        type: 'line', // Tipe grafik garis
+        type: 'line',
         data: {
-            labels: @json($chartData['labels']), // Nama bulan
+            labels: @json($chartData['labels']),
             datasets: [{
-                label: 'Kelengkapan Berkas (%)',
+                label: 'Persentase Waktu Pelayanan <= 60 Menit (%)',
                 data: @json($chartData['capaian']),
                 borderColor: 'blue',
                 backgroundColor: 'rgba(0, 123, 255, 0.2)',
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4 // Membuat grafik garis gelombang
+                tension: 0.4
             }, {
-                label: 'Target 80%',
+                label: 'Target 100%',
                 data: @json($chartData['target']),
                 borderColor: 'red',
                 borderWidth: 2,
                 fill: false,
-                borderDash: [10, 5] // Garis putus-putus untuk target
+                borderDash: [10, 5]
             }]
         },
         options: {

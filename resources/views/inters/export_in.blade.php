@@ -22,12 +22,6 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Tampilkan</button>
                     </form>
-                    {{-- <form action="{{ route('visites.export_v.export') }}" method="GET" class="d-inline-block ml-2">
-                        <div class="form-group">
-                            <input type="hidden" id="bulan" name="bulan" value="{{ $bulan }}" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-success">Export to Excel</button>
-                    </form> --}}
                     <table class="table table-bordered mt-4">
                         <thead>
                             <tr>

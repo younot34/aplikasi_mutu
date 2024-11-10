@@ -133,6 +133,13 @@
                                     </li>
                                 @endcan
                             </ul>
+                            <ul class="dropdown-menu">
+                                @can('pemberian_obats.index')
+                                <li class="{{ setActive('/pemberian_obat') }}"><a class="nav-link"
+                                        href="{{  route('pemberian_obats.index') }}"><i class="fas fa-book-open"></i>Pemberian Obat</a>
+                                    </li>
+                                @endcan
+                            </ul>
                         </li>
 
                         @if(auth()->user()->can('roles.index') || auth()->user()->can('permission.index') || auth()->user()->can('users.index'))

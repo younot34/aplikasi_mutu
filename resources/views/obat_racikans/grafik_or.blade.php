@@ -4,13 +4,13 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Farmasi - Obat Racikan (Laporan Tahunan)</h1>
+            <h1>Farmasi - Kepatuhan Pelayanan Obat Racikan</h1>
         </div>
 
         <div class="section-body">
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-chart-line"></i> Laporan Tahunan Waktu Pelayanan <= 60 Menit</h4>
+                    <h4><i class="fas fa-chart-line"></i> Grafik Waktu Pelayanan Obat Racikan</h4>
                 </div>
 
                 <div class="card-body">

@@ -192,4 +192,56 @@ class InterController extends Controller
         }
         return view('inters.export_in', compact('inter', 'bulan'));
     }
+
+    public function laporanTahunan(Request $request)
+    {
+        // Ambil tahun dari input, jika tidak ada maka gunakan tahun saat ini
+        $tahun = $request->input('tahun', date('Y'));
+
+        // Inisialisasi data per bulan
+        $dataPerBulan = [];
+        $totalterisiTahun = 0;
+        $totaltidak_terisiTahun = 0;
+
+        // Looping untuk setiap bulan dalam satu tahun
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+            // Ambil data dari database berdasarkan bulan dan tahun
+            $InterBulanan = Inter::whereYear('tanggal', $tahun)
+                ->whereMonth('tanggal', $bulan)
+                ->get();
+
+            $totalterisiBulan = 0;
+            $totaltidak_terisiBulan = 0;
+
+            // Hitung total jam < 14.00 dan > 14.00 per bulan
+            foreach ($InterBulanan as $Inter) {
+                if ($Inter->terisi) {
+                    $totalterisiBulan++;
+                } else {
+                    $totaltidak_terisiBulan++;
+                }
+            }
+
+            // Simpan data bulanan ke dalam array
+            $dataPerBulan[$bulan] = [
+                'totalterisi' => $totalterisiBulan,
+                'totaltidak_terisi' => $totaltidak_terisiBulan,
+                'persentase' => ($totalterisiBulan + $totaltidak_terisiBulan) > 0
+                    ? ($totalterisiBulan / ($totalterisiBulan + $totaltidak_terisiBulan)) * 100 : 0,
+            ];
+
+            // Akumulasi total tahunan
+            $totalterisiTahun += $totalterisiBulan;
+            $totaltidak_terisiTahun += $totaltidak_terisiBulan;
+        }
+
+        // Siapkan data untuk grafik
+        $chartData = [
+            'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            'persentase' => array_column($dataPerBulan, 'persentase'),
+            'target' => array_fill(0, 12, 100),
+        ];
+
+        return view('inters.grafik_in', compact('tahun', 'chartData', 'dataPerBulan'));
+    }
 }

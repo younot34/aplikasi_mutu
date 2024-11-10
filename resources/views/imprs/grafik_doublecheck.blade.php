@@ -4,13 +4,13 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Farmasi</h1>
+            <h1>Farmasi - Kepatuhan Double Check High Alert</h1>
         </div>
 
         <div class="section-body">
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-chart-line"></i> Double Check </h4>
+                    <h4><i class="fas fa-chart-line"></i> Grafik Kepatuhan Double Check High Alert </h4>
                 </div>
 
                 <div class="card-body">

@@ -307,28 +307,28 @@ class RmriController extends Controller
 
         return response()->json(['hasData' => $hasData]);
     }
-    
+
     public function reviewTahunan(Request $request)
     {
         $tahun = $request->input('tahun', date('Y'));
-    
+
         // Ambil data RM RI (rmri) berdasarkan tahun yang dipilih
         $rmriData = Rmri::whereYear('tanggal', $tahun)->get();
-    
+
         // Data per bulan
         $dataPerBulan = array_fill(1, 12, ['lengkap' => 0, 'tidak' => 0]);
-    
+
         foreach ($rmriData as $rmri) {
             $bulan = (int)date('m', strtotime($rmri->tanggal));
             $dataPerBulan[$bulan]['lengkap'] += ($rmri->keterangan_lengkap === '✔️' ? 1 : 0);
             $dataPerBulan[$bulan]['tidak'] += ($rmri->keterangan_lengkap === '❌' ? 1 : 0);
         }
-    
+
         // Hitung total berkas per bulan
         $totalBerkas = array_map(function($data) {
             return $data['lengkap'] + $data['tidak'];
         }, $dataPerBulan);
-    
+
         // Hitung persentase kelengkapan tiap bulan
         $capaian = [];
         foreach ($dataPerBulan as $bulan => $data) {
@@ -338,17 +338,17 @@ class RmriController extends Controller
                 $capaian[$bulan] = 0;
             }
         }
-    
+
         // Data untuk Chart.js
         $chartData = [
             'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
             'capaian' => array_values($capaian),
-            'target' => array_fill(0, 12, 80), // Target 100% kelengkapan
+            'target' => array_fill(0, 12, 85), // Target 100% kelengkapan
             'total' => array_values($totalBerkas), // Total berkas per bulan
             'lengkap' => array_column($dataPerBulan, 'lengkap'), // Jumlah lengkap per bulan
             'tidak' => array_column($dataPerBulan, 'tidak'), // Jumlah tidak lengkap per bulan
         ];
-    
+
         return view('rmris.grafik_rmri', compact('chartData', 'tahun'));
     }
 }

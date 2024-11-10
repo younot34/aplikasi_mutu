@@ -4,14 +4,14 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Rawat Jalan</h1>
+            <h1>Rawat Jalan - Kepatuhan Waktu Tunggu Rawat Jalan</h1>
         </div>
 
         <div class="section-body">
 
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-chart-line"></i> Waktu Tunggu Rawat Jalan</h4>
+                    <h4><i class="fas fa-chart-line"></i> Grafik Kepatuhan Waktu Tunggu Rawat Jalan</h4>
                 </div>
 
                 <div class="card-body">

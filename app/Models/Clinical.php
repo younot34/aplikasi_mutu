@@ -12,11 +12,8 @@ class Clinical extends Model
     protected $fillable=[
         'no_rm',
         'nama_px',
-        'ca_cervik',
-        'tb',
-        'ht',
-        'hiv',
-        'dm',
+        'diagnosa',
+        'patuh',
         'masuk',
         'keluar'
     ];

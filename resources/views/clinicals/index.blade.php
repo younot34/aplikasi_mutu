@@ -46,21 +46,19 @@
                                 <th scope="col" style="text-align: center;width: 6%">NO.</th>
                                 <th scope="col">No.RM</th>
                                 <th scope="col">Nama Pasien</th>
-                                <th scope="col" colspan="5"><center>Diagnosa</center></th>
-                                <th scope="col" colspan="2"><center>Waktu</center></th>
+                                <th scope="col">Diagnosa</th>
+                                <th scope="col" colspan="2"><center>Waktu Rawat Inap</center></th>
+                                <th scope="col" colspan="2"><center>patuh</center></th>
                                 <th scope="col" style="width: 15%;text-align: center">AKSI</th>
                             </tr>
                             <tr>
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th>Ca Cervik</th>
-                                <th>TB</th>
-                                <th>HT</th>
-                                <th>HIV</th>
-                                <th>DM</th>
-                                <th>Masuk Ranap</th>
+                                <th></th>
+                                <th><center>Masuk Ranap</center></th>
                                 <th>Keluar Ranap</th>
+                                <th></th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -70,13 +68,10 @@
                                     <th scope="row" style="text-align: center">{{ ++$no + ($clinical->currentPage()-1) * $clinical->perPage() }}</th>
                                     <td>{{ $clinicals->no_rm }}</td>
                                     <td>{{ $clinicals->nama_px }}</td>
-                                    <td>{{ $clinicals->ca_cervik }}</td>
-                                    <td>{{ $clinicals->tb }}</td>
-                                    <td>{{ $clinicals->ht }}</td>
-                                    <td>{{ $clinicals->hiv }}</td>
-                                    <td>{{ $clinicals->dm }}</td>
+                                    <td>{{ $clinicals->diagnosa }}</td>
                                     <td>{{ $clinicals->masuk }}</td>
                                     <td>{{ $clinicals->keluar }}</td>
+                                    <td>{{ $clinicals->patuh }}</td>
                                     <td class="text-center">
 
                                         @can('clinicals.edit')

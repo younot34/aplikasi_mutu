@@ -4,18 +4,18 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Rekam Medis - Kepatuhan Kelengkapan Rawat Inap</h1>
+            <h1>LABORATORIUM - Monitoring Identifikasi Sample</h1>
         </div>
 
         <div class="section-body">
 
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-chart-line"></i> Kelengkapan Rawat Inap</h4>
+                    <h4><i class="fas fa-exam"></i> Grafik Monitoring Identifikasi Sample </h4>
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('rmris.grafik_rmri') }}" method="GET" class="d-inline-block">
+                    <form action="{{ route('monitorings.grafik_moni') }}" method="GET" class="d-inline-block">
                         <div class="form-group">
                             <label for="tahun">Pilih Tahun:</label>
                             <input type="number" id="tahun" name="tahun" value="{{ $tahun }}" class="form-control" min="2000" max="{{ date('Y') }}">
@@ -42,27 +42,27 @@
                         </button>
                     </form>
 
-                    <canvas id="rmriChart" class="mt-4" style="height: 400px; width: 100%;"></canvas>
-
-                    <!-- Menampilkan jumlah berkas, lengkap, dan tidak lengkap per bulan -->
+                    <!-- Grafik Tahunan -->
                     <div class="mt-4">
-                        <h5>Jumlah Berkas per Bulan</h5>
-                        <table class="table">
+                        <canvas id="moniChart" style="height: 400px; width: 100%;"></canvas>
+                    </div>
+                    <!-- Menampilkan total obat formularium nasional dan total item -->
+                    <div class="mt-4">
+                        <h5>Total Kepatuhan Monitoring Identifikasi Sample per Bulan</h5>
+                        <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>Bulan</th>
-                                    <th>Jumlah Berkas</th>
-                                    <th>Jumlah Lengkap</th>
-                                    <th>Jumlah Tidak Lengkap</th>
+                                    <th>Total Patuh</th>
+                                    <th>Total Tidak Patuh</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($chartData['labels'] as $index => $label)
+                                @foreach ($dataPerBulan as $bulan => $data)
                                     <tr>
-                                        <td>{{ $label }}</td>
-                                        <td>{{ $chartData['total'][$index] }}</td>
-                                        <td>{{ $chartData['lengkap'][$index] }}</td>
-                                        <td>{{ $chartData['tidak'][$index] }}</td>
+                                        <td>{{ $bulan }}</td>
+                                        <td>{{ $data['totalpatuh'] }}</td>
+                                        <td>{{ $data['totaltidak_patuh'] }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -73,29 +73,28 @@
         </div>
     </section>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    var ctx = document.getElementById('rmriChart').getContext('2d');
+    var ctx = document.getElementById('moniChart').getContext('2d');
     var chart = new Chart(ctx, {
-        type: 'line', // Tipe grafik garis
+        type: 'line',
         data: {
-            labels: @json($chartData['labels']), // Nama bulan
+            labels: @json($chartData['labels']),
             datasets: [{
-                label: 'Kelengkapan Berkas (%)',
-                data: @json($chartData['capaian']),
+                label: 'Persentase(%)',
+                data: @json($chartData['persentase']),
                 borderColor: 'blue',
                 backgroundColor: 'rgba(0, 123, 255, 0.2)',
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4 // Membuat grafik garis gelombang
+                tension: 0.4
             }, {
-                label: 'Target 80%',
+                label: 'Target 100%',
                 data: @json($chartData['target']),
                 borderColor: 'red',
                 borderWidth: 2,
                 fill: false,
-                borderDash: [10, 5] // Garis putus-putus untuk target
+                borderDash: [10, 5]
             }]
         },
         options: {

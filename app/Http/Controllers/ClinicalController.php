@@ -10,15 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
 class ClinicalController extends Controller
 {
     /**
-    * __construct
-    *
-    * @return void
-    */
-   public function __construct()
-   {
-       $this->middleware(['permission:clinicals.index|clinicals.create|clinicals.edit|clinicals.delete']);
-   }
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -97,11 +88,8 @@ class ClinicalController extends Controller
         $request->validate([
             'no_rm' => 'required|string',
             'nama_px' => 'required|string',
-            'ca_cervik' => 'nullable|string',
-            'tb' => 'nullable|string',
-            'ht' => 'nullable|string',
-            'hiv' => 'nullable|string',
-            'dm' => 'nullable|string',
+            'diagnosa' => 'nullable|string',
+            'patuh' => 'nullable|string',
             'masuk' => 'nullable|date',
             'keluar' => 'nullable|date',
         ]);
@@ -110,11 +98,8 @@ class ClinicalController extends Controller
             Clinical::create([
                 'no_rm' => $request->no_rm,
                 'nama_px' => $request->nama_px,
-                'ca_cervik' => $request->ca_cervik,
-                'tb' => $request->tb,
-                'ht' => $request->ht,
-                'hiv' => $request->hiv,
-                'dm' => $request->dm,
+                'diagnosa' => $request->diagnosa,
+                'patuh' => $request->patuh,
                 'masuk' => $request->masuk,
                 'keluar' => $request->keluar,
             ]);
@@ -153,11 +138,8 @@ class ClinicalController extends Controller
         $request->validate([
             'no_rm' => 'required|string',
             'nama_px' => 'required|string',
-            'ca_cervik' => 'nullable|string',
-            'tb' => 'nullable|string',
-            'ht' => 'nullable|string',
-            'hiv' => 'nullable|string',
-            'dm' => 'nullable|string',
+            'diagnosa' => 'nullable|string',
+            'patuh' => 'nullable|string',
             'masuk' => 'nullable|date',
             'keluar' => 'nullable|date',
         ]);
@@ -167,11 +149,8 @@ class ClinicalController extends Controller
             $clinical->update([
                 'no_rm' => $request->no_rm,
                 'nama_px' => $request->nama_px,
-                'ca_cervik' => $request->ca_cervik,
-                'tb' => $request->tb,
-                'ht' => $request->ht,
-                'hiv' => $request->hiv,
-                'dm' => $request->dm,
+                'diagnosa' => $request->diagnosa,
+                'patuh' => $request->patuh,
                 'masuk' => $request->masuk,
                 'keluar' => $request->keluar,
             ]);
@@ -210,10 +189,62 @@ class ClinicalController extends Controller
     {
         $bulan = $request->input('bulan' );
         if ($bulan) {
-            $clinical = Clinical::whereMonth('masuk', date('m', strtotime($bulan)))->paginate(10);
+            $clinical = Clinical::whereMonth('masuk', date('m', strtotime($bulan)))->get();
         } else {
-            $clinical = Clinical::paginate(10);
+            $clinical = Clinical::get();
         }
         return view('clinicals.export_c', compact('clinical', 'bulan'));
+    }
+
+    public function laporanTahunan(Request $request)
+    {
+        // Ambil tahun dari input, jika tidak ada maka gunakan tahun saat ini
+        $tahun = $request->input('tahun', date('Y'));
+
+        // Inisialisasi data per bulan
+        $dataPerBulan = [];
+        $totalpatuhTahun = 0;
+        $totaltidak_patuhTahun = 0;
+
+        // Looping untuk setiap bulan dalam satu tahun
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+            // Ambil data dari database berdasarkan bulan dan tahun
+            $ClinicalBulanan = Clinical::whereYear('tanggal', $tahun)
+                ->whereMonth('tanggal', $bulan)
+                ->get();
+
+            $totalpatuhBulan = 0;
+            $totaltidak_patuhBulan = 0;
+
+            // Hitung total jam < 14.00 dan > 14.00 per bulan
+            foreach ($ClinicalBulanan as $Clinical) {
+                if ($Clinical->patuh == '✔️') {
+                    $totalpatuhBulan++;
+                } else {
+                    $totaltidak_patuhBulan++;
+                }
+            }
+
+            // Simpan data bulanan ke dalam array
+            $dataPerBulan[$bulan] = [
+                'totalpatuh' => $totalpatuhBulan,
+                'totaltidak_patuh' => $totaltidak_patuhBulan,
+                'persentase' => ($totalpatuhBulan + $totaltidak_patuhBulan) > 0
+                    ? ($totalpatuhBulan / ($totalpatuhBulan + $totaltidak_patuhBulan)) * 100 : 0,
+            ];
+
+            // Akumulasi total tahunan
+            $totalpatuhTahun += $totalpatuhBulan;
+            $totaltidak_patuhTahun += $totaltidak_patuhBulan;
+        }
+
+        // Siapkan data untuk grafik
+        $chartData = [
+            'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            'persentase' => array_column($dataPerBulan, 'persentase'),
+            'target' => array_fill(0, 12, 80),
+        ];
+
+        return view('Clinicals.grafik_c', compact('tahun', 'chartData', 'dataPerBulan'));
     }
 }

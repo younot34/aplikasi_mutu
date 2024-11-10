@@ -13,7 +13,12 @@ class NavigateController extends Controller
             'asess.grafik_ases',
             'rajals.grafik_rajal',
             'rmris.grafik_rmri',
+            'rmrs.grafik_rmr',
             'oks.grafik_ssc',
+            'ewss.grafik_e',
+            'inters.grafik_in',
+            'dpjps.grafik_dp',
+            'monitorings.grafik_moni',
         ];
 
         $currentPageIndex = $request->session()->get('current_page_index', 0);

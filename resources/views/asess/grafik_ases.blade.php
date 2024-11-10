@@ -4,13 +4,13 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Rawat Jalan</h1>
+            <h1>Rawat Jalan - Kepatuhan Assessment</h1>
         </div>
 
         <div class="section-body">
             <div class="card">
                 <div class="card-header">
-                    <h4><i class="fas fa-chart-line"></i> Assessment </h4>
+                    <h4><i class="fas fa-chart-line"></i> Grafik Kepatuhan Assessment </h4>
                 </div>
 
                 <div class="card-body">

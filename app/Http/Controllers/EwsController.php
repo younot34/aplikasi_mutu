@@ -10,15 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
 class EwsController extends Controller
 {
     /**
-    * __construct
-    *
-    * @return void
-    */
-   public function __construct()
-   {
-       $this->middleware(['permission:ewss.index|ewss.create|ewss.edit|ewss.delete']);
-   }
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -190,7 +181,7 @@ class EwsController extends Controller
             ]);
         }
     }
-    
+
     public function search(Request $request)
     {
         $search = $request->input('search');
@@ -208,5 +199,57 @@ class EwsController extends Controller
             $ews = Ews::get();
         }
         return view('ewss.export_e', compact('ews', 'bulan'));
+    }
+
+    public function laporanTahunan(Request $request)
+    {
+        // Ambil tahun dari input, jika tidak ada maka gunakan tahun saat ini
+        $tahun = $request->input('tahun', date('Y'));
+
+        // Inisialisasi data per bulan
+        $dataPerBulan = [];
+        $totalterisiTahun = 0;
+        $totaltidak_terisiTahun = 0;
+
+        // Looping untuk setiap bulan dalam satu tahun
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+            // Ambil data dari database berdasarkan bulan dan tahun
+            $ewsBulanan = Ews::whereYear('tanggal', $tahun)
+                ->whereMonth('tanggal', $bulan)
+                ->get();
+
+            $totalterisiBulan = 0;
+            $totaltidak_terisiBulan = 0;
+
+            // Hitung total jam < 14.00 dan > 14.00 per bulan
+            foreach ($ewsBulanan as $ews) {
+                if ($ews->terisi) {
+                    $totalterisiBulan++;
+                } else {
+                    $totaltidak_terisiBulan++;
+                }
+            }
+
+            // Simpan data bulanan ke dalam array
+            $dataPerBulan[$bulan] = [
+                'totalterisi' => $totalterisiBulan,
+                'totaltidak_terisi' => $totaltidak_terisiBulan,
+                'persentase' => ($totalterisiBulan + $totaltidak_terisiBulan) > 0
+                    ? ($totalterisiBulan / ($totalterisiBulan + $totaltidak_terisiBulan)) * 100 : 0,
+            ];
+
+            // Akumulasi total tahunan
+            $totalterisiTahun += $totalterisiBulan;
+            $totaltidak_terisiTahun += $totaltidak_terisiBulan;
+        }
+
+        // Siapkan data untuk grafik
+        $chartData = [
+            'labels' => ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            'persentase' => array_column($dataPerBulan, 'persentase'),
+            'target' => array_fill(0, 12, 100),
+        ];
+
+        return view('ewss.grafik_e', compact('tahun', 'chartData', 'dataPerBulan'));
     }
 }

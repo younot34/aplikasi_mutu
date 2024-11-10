@@ -22,12 +22,6 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Tampilkan</button>
                     </form>
-                    {{-- <form action="{{ route('visites.export_v.export') }}" method="GET" class="d-inline-block ml-2">
-                        <div class="form-group">
-                            <input type="hidden" id="bulan" name="bulan" value="{{ $bulan }}" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-success">Export to Excel</button>
-                    </form> --}}
                     <table class="table table-bordered mt-4">
                         <thead>
                             <tr>
@@ -47,6 +41,27 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $totalterisi = 0;
+                                $totaltidak_terisi = 0;
+
+                                foreach ($ews as $no => $ewss) {
+                                    $terisis = 0;
+                                    $tidakterisis = 0;
+                                    
+                                    if(
+                                        $ewss->terisi == '✔️'
+                                    ){
+                                        $totalterisi++;
+                                    }else{
+                                        $totaltidak_terisi++;
+                                    }
+                                    $totalterisi += $terisis;
+                                    $totaltidak_terisi += $tidakterisis;
+                                }
+                                $totalSemua = $totalterisi + $totaltidak_terisi;
+                                $persentase = $totalSemua > 0 ? ($totalterisi / $totalSemua) * 100 : 0;
+                            @endphp
                             @foreach ($ews as $no => $ewss)
                             <tr>
                                 <th scope="row" style="text-align: center">{{ $loop->iteration }}</th>
@@ -61,28 +76,12 @@
                                 <td colspan="4" class="text-right"><center><strong>HASIL AKHIR</strong></center></td>
                                 <td colspan="1">
                                     <strong>
-                                        @php
-                                            $totalterisi = 0;
-
-                                            foreach ($ews as $ewss) {
-                                                $totalterisi += $ewss->terisi === '✔️' ? 1 : 0;
-                                            }
-                                            $result = $totalterisi;
-                                        @endphp
-                                            <center>{{$result}}</center>
+                                            <center>{{$totalterisi}}</center>
                                     </strong>
                                 </td>
                                 <td colspan="1">
                                     <strong>
-                                        @php
-                                            $totaltidak_terisi = 0;
-
-                                            foreach ($ews as $ewss) {
-                                                $totaltidak_terisi += $ewss->tidak_terisi === '✔️' ? 1 : 0;
-                                            }
-                                            $resultt = $totaltidak_terisi
-                                        @endphp
-                                            <center>{{$resultt}}</center>
+                                            <center>{{$totaltidak_terisi}}</center>
                                     </strong>
                                 </td>
                             </tr>
@@ -90,17 +89,11 @@
                                 <td colspan="4" class="text-right"><center><strong>PERSENTASE</strong></center></td>
                                 <td colspan="2">
                                     <strong>
-                                        @php
-                                            $totalTerisi = 0;
-                                            $totalTidak_terisi = 0;
-
-                                            foreach ($ews as $ewss) {
-                                                $totalTerisi += $ewss->terisi === '✔️' ? 1 : 0;
-                                                $totalTidak_terisi += $ewss->tidak_terisi === '✔️' ? 1 : 0;
-                                            }
-                                            $persentase = $totalTerisi / ($totalTerisi + $totalTidak_terisi) * 100;
-                                        @endphp
-                                            <center>{{number_format($persentase, 2)}}</center>
+                                        @if ($persentase > 0)
+                                            <center>{{ number_format($persentase, 2) }}%</center>
+                                        @else
+                                            0%
+                                        @endif
                                     </strong>
                                 </td>
                             </tr>

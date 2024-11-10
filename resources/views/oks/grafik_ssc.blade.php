@@ -19,7 +19,7 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Tampilkan</button>
                     </form>
-                    <form action="{{ route('your.navigatee.route') }}" method="POST" class="d-inline-block ml-2">
+                    <form action="{{ route('your.navigate.route') }}" method="POST" class="d-inline-block ml-2">
                         @csrf
                         <button type="submit" class="btn btn-success" name="back"
                             {{ session('current_page_index', 0) == 0 ? 'disabled' : '' }}>
@@ -27,7 +27,7 @@
                         </button>
                     </form>
 
-                    <form action="{{ route('your.navigatee.route') }}" method="POST" class="d-inline-block ml-2">
+                    <form action="{{ route('your.navigate.route') }}" method="POST" class="d-inline-block ml-2">
                         @csrf
                         @php
                             // Ambil array pages dari Controller atau session

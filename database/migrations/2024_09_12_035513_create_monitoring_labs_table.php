@@ -15,12 +15,10 @@ class CreateMonitoringLabsTable extends Migration
     {
         Schema::create('monitoring_labs', function (Blueprint $table) {
             $table->id();
-            $table->string('variabel');
-            $table->string('sub_variabel_1');
-            $table->string('sub_variabel_2');
-            $table->integer('total_1');
-            $table->integer('total_2');
-            $table->integer('hasil');
+            $table->date('tanggal')->nullable();
+            $table->string('nama_pasien')->nullable();
+            $table->string('no_rm')->nullable();
+            $table->string('patuh')->nullable();
             $table->timestamps();
         });
     }

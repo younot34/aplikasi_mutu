@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClinicalsTable extends Migration
+class CreatePemberianObatsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateClinicalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('clinicals', function (Blueprint $table) {
+        Schema::create('pemberian_obats', function (Blueprint $table) {
             $table->id();
-            $table->string('no_rm');
-            $table->string('nama_px');
-            $table->string('diagnosa')->nullable();
-            $table->string('patuh')->nullable();
-            $table->date('masuk')->nullable();
-            $table->date('keluar')->nullable();
+            $table->date('tanggal')->nullable();
+            $table->string('nama_pasien')->nullable();
+            $table->string('no_rm')->nullable();
+            $table->string('keterangan')->nullable();
+            $table->string('tidakSalah')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreateClinicalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clinicals');
+        Schema::dropIfExists('pemberian_obats');
     }
 }

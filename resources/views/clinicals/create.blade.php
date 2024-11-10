@@ -35,57 +35,16 @@
                             <label>Nama Pasien</label>
                             <input type="text" name="nama_px" class="form-control" placeholder="nama pasien">
                         </div>
-                        <div>
-                            <div class="form-row">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Diagnosa</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="form-group col-md-3">
-                                                    <label>Ca Cervik</label>
-                                                    <input type="text" name="ca_cervik" class="form-control" list="data_list">
-                                                    <datalist id="data_list">
-                                                        <option value="✔️"></option>
-                                                    </datalist>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <label>TB</label>
-                                                    <input type="text" name="tb" class="form-control" list="data_list">
-                                                    <datalist id="data_list">
-                                                        <option value="✔️"></option>
-                                                    </datalist>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <label>HT</label>
-                                                    <input type="text" name="ht" class="form-control" list="data_list">
-                                                    <datalist id="data_list">
-                                                        <option value="✔️"></option>
-                                                    </datalist>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <label>HIV</label>
-                                                    <input type="text" name="hiv" class="form-control" list="data_list">
-                                                    <datalist id="data_list">
-                                                        <option value="✔️"></option>
-                                                    </datalist>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <label>DM</label>
-                                                    <input type="text" name="dm" class="form-control" list="data_list">
-                                                    <datalist id="data_list">
-                                                        <option value="✔️"></option>
-                                                    </datalist>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="form-group col-md-3">
+                            <label>Diagnosa</label>
+                            <input type="text" name="diagnosa" class="form-control" placeholder="diagnosa" list="data_list_diagnosa">
+                            <datalist id="data_list_diagnosa">
+                                <option value="Ca Cervik"></option>
+                                <option value="TB"></option>
+                                <option value="HT"></option>
+                                <option value="HIV"></option>
+                                <option value="DM"></option>
+                            </datalist>
                         </div>
                         <div class="form-group col-md-3">
                             <label>Masuk Ranap</label>
@@ -94,6 +53,14 @@
                         <div class="form-group col-md-3">
                             <label>Keluar Ranap</label>
                             <input type="date" name="keluar"  class="form-control">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Patuh</label>
+                            <input type="text" name="patuh"  class="form-control" list="patuh">
+                            <datalist id="patuh">
+                                <option value="✔️"></option>
+                                <option value="❌"></option>
+                            </datalist>
                         </div>
                         <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>
                         <button class="btn btn-warning btn-reset" type="reset"><i class="fa fa-redo"></i> RESET</button>

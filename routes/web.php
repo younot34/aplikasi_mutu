@@ -29,6 +29,7 @@ use App\Http\Controllers\NilaiKritisLabController;
 use App\Http\Controllers\ObatJadiController;
 use App\Http\Controllers\ObatRacikanController;
 use App\Http\Controllers\OkController;
+use App\Http\Controllers\PemberianObatController;
 use App\Http\Controllers\PlebitiController;
 use App\Http\Controllers\RadioController;
 use App\Http\Controllers\RajalController;
@@ -105,7 +106,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::get('/export', [ImprsController::class, 'laporanBulanan'])->name('imprs.export');
     Route::get('/export/export', [ImprsController::class, 'export'])->name('imprs.export.export');
-    
+
         //farmasi obat_jadi
     Route::resource('obat_jadis', ObatJadiController::class);
 
@@ -115,10 +116,12 @@ Route::group(['middleware' => 'auth'], function(){
 
     //farmasi obat_racikan
     Route::resource('obat_racikans', ObatRacikanController::class);
-
     Route::get('/export_or', [ObatRacikanController::class, 'laporanBulanan'])->name('obat_racikans.export_or');
     // Route::get('/grafik_doublecheck', [ObatRacikanController::class, 'laporanTahunan'])->name('imprs.grafik_doublecheck');
-    // Route::get('/export/export', [ObatRacikanController::class, 'export'])->name('imprs.export.export');
+    //farmasi pemberian_obat
+    Route::resource('pemberian_obats', PemberianObatController::class);
+    Route::get('/export_po', [PemberianObatController::class, 'laporanBulanan'])->name('pemberian_obats.export_po');
+    // Route::get('/grafik_doublecheck', [PemberianObatController::class, 'laporanTahunan'])->name('imprs.grafik_doublecheck');
 
     //ok
     Route::resource('oks', OkController::class);
@@ -243,15 +246,17 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/export_lab', [NilaiKritisLabController::class, 'laporanBulanan'])->name('nilai_kritiss.export_lab');
     //monitoring lab
     Route::resource('monitorings', MonitoringLabController::class);
+    Route::get('/export_moni', [MonitoringLabController::class, 'laporanBulanan'])->name('monitorings.export_moni');
     Route::delete('/monitorings/{id}', [MonitoringLabController::class, 'destroy'])->name('monitorings.destroy');
     // Route::get('nilai_kritis/{id}', [MonitoringLabController::class, 'show'])->name('nilai_kritis.show');
-    
+
         //grafik
     Route::get('/grafik_fornas', [FarmasiController::class, 'laporanTahunan'])->name('farmasis.grafik_fornas');
     Route::get('/grafik_doublecheck', [ImprsController::class, 'laporanTahunan'])->name('imprs.grafik_doublecheck');
     Route::get('/grafik_rajal', [RajalController::class, 'laporanTahunan'])->name('rajals.grafik_rajal');
     Route::get('/grafik_ases', [AsesController::class, 'laporanTahunan'])->name('asess.grafik_ases');
     Route::get('/grafik_rmri', [RmriController::class, 'reviewTahunan'])->name('rmris.grafik_rmri');
+    Route::get('/grafik_rmr', [RmrController::class, 'reviewTahunan'])->name('rmrs.grafik_rmr');
     Route::get('/grafik_or', [ObatRacikanController::class, 'laporanTahunanObatRacikan'])->name('obat_racikans.grafik_or');
     Route::get('/grafik_ppi_tahunan', [PpiController::class, 'laporanTahunanPpi'])->name('ppis.grafik_ppi_tahunan');
     Route::get('/grafik_apd_tahunan', [ApdController::class, 'laporanTahunanApd'])->name('apds.grafik_apd_tahunan');
@@ -259,4 +264,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/grafik_kep', [RiController::class, 'laporanTahunan'])->name('ris.grafik_kep');
     Route::get('/grafik_v', [VisiteController::class, 'laporanTahunan'])->name('visites.grafik_v');
     Route::get('/grafik_j', [JatuhController::class, 'laporanTahunan'])->name('jatuhs.grafik_j');
+    Route::get('/grafik_e', [EwsController::class, 'laporanTahunan'])->name('ewss.grafik_e');
+    Route::get('/grafik_in', [InterController::class, 'laporanTahunan'])->name('inters.grafik_in');
+    Route::get('/grafik_dp', [DpjpController::class, 'laporanTahunan'])->name('dpjps.grafik_dp');
+    Route::get('/grafik_c', [ClinicalController::class, 'laporanTahunan'])->name('clinicals.grafik_c');
+    Route::get('/grafik_moni', [MonitoringLabController::class, 'laporanTahunan'])->name('monitorings.grafik_moni');
 });

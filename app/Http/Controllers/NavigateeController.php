@@ -17,6 +17,7 @@ class NavigateeController extends Controller
             'ris.grafik_kep',
             'jatuhs.grafik_j',
             'visites.grafik_v',
+            'clinicals.grafik_c',
         ];
 
         $currentPageIndex = $request->session()->get('current_page_index', 0);

@@ -4,7 +4,7 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Farmasi</h1>
+            <h1>Farmasi - Kepatuhan</h1>
         </div>
 
         <div class="section-body">
